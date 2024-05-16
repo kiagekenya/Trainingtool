@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LOGO from '../../assets/nock j.png'
 import Profile from '../../assets/vecteezy_happy-young-man-avatar-character_35280231.jpg'
@@ -9,7 +9,19 @@ import Abandonment from '../../assets/well abandonment.jpg'
 import Econ from '../../assets/econ.jpg'
 import '@fortawesome/fontawesome-free/css/all.css';
 
+
+
+
+
 const Courses = () => {
+
+
+   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+   const toggleSidebar = () => {
+      setSidebarOpen(!sidebarOpen);
+    };
+
   return (
     <>
     <header className="header">
@@ -22,7 +34,7 @@ const Courses = () => {
           <button type="submit" className="fas fa-search"></button>
         </form>
         <div className="icons">
-          <div id="menu-btn" className="fas fa-bars"></div>
+        <div id="menu-btn" className="fas fa-bars" onClick={toggleSidebar}></div>
           <div id="search-btn" className="fas fa-search"></div>
           <div id="user-btn" className="fas fa-user"></div>
           <div id="toggle-btn" className="fas fa-sun"></div>
@@ -36,8 +48,8 @@ const Courses = () => {
       </section>
     </header>
 
-    <div className="side-bar">
-      <div id="close-btn">
+    <div className={`side-bar ${sidebarOpen ? 'open' : ''}`}>
+      <div id="close-btn" onClick={toggleSidebar}>
         <i className="fas fa-times"></i>
       </div>
       <div className="profile">

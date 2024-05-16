@@ -782,7 +782,7 @@ section{
 
 .playlist-videos .box-container .box h3{
    margin-top: 1.5rem;
-   font-size: 1.8rem;
+   font-size: 2rem;
    color: var(--black);
 }
 
@@ -1345,6 +1345,95 @@ section{
 }
 
 
+.register {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+ }
+ 
+ .containerrr {
+   width: 350px;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   background-color: #fff;
+ }
+ 
+ .containerrr h2 {
+   margin-bottom: 20px;
+   font-size: 2rem;
+ }
+ 
+ .form-register_form  {
+   display: flex;
+   flex-direction: column;
+ }
+ 
+ .form-register_form input {
+   margin-bottom: 15px;
+   padding: 10px;
+   border: 1px solid #ccc;
+   border-radius: 5px;
+ }
+ 
+ .btnprimary {
+   background-color: #94d500;
+   color: #fff;
+   border: none;
+   padding: 10px 20px;
+   border-radius: 5px;
+   cursor: pointer;
+ }
+ 
+ .btnprimary:hover {
+   background-color: #e74c3c;
+ }
+ 
+ small {
+   margin-top: 10px;
+   display: block;
+   text-align: center;
+   font-size: 1.5rem;
+ }
+ 
+ small a {
+   color: #e74c3c;
+ }
+
+.topic-title{
+   cursor: pointer;
+}
+
+.notes {
+   background-color: #fff;
+}
+ .notes p {
+   font-size: 1.8rem;
+ }
+ .notes ul {
+   font-size: 1.7rem;
+ }
+
+ .sub {
+   font-size: 2rem;
+ }
+ .ptag{
+   font-weight: bold;
+ }
+
+ .question h3{
+   font-size: 2rem;
+ }
+
+ .option {
+   font-size: 1.8rem;
+ }
+ 
+ 
+
+
+
 
 @media (max-width:1200px){
 
@@ -1352,11 +1441,53 @@ section{
       padding-left: 0;
    }
 
-   .side-bar{
-      left: -30rem;
-      transition: .2s linear;
-   }
 
+
+   .side-bar {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 300px;
+      height: 100%;
+      background-color: #333;
+      transition: left 0.3s ease-in-out;
+      z-index: 1000;
+    }
+    
+    .side-bar.open {
+      left: 0; 
+    }
+    
+    .side-bar #close-btn {
+      cursor: pointer;
+      color: #fff;
+      padding: 10px;
+      text-align: right;
+    }
+    
+    .side-bar .profile {
+      padding: 20px;
+      border-bottom: 1px solid #666;
+    }
+    
+    .side-bar .navbar {
+      padding: 20px;
+    }
+    
+    .side-bar .navbar a {
+      display: block;
+      color: #fff;
+      text-decoration: none;
+      margin-bottom: 10px;
+      transition: color 0.3s ease;
+    }
+    
+    .side-bar .navbar a:hover {
+      color: #ff0; /* Change text color on hover */
+    }
+    
+
+  
    .side-bar #close-btn{
       display: block;
    }
@@ -1423,73 +1554,3 @@ section{
 
 }
 
-.register {
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   height: 100vh;
- }
- 
- .containerrr {
-   width: 350px;
-   padding: 20px;
-   border-radius: 10px;
-   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-   background-color: #fff;
- }
- 
- .containerrr h2 {
-   margin-bottom: 20px;
-   font-size: 2rem;
- }
- 
- .form-register_form  {
-   display: flex;
-   flex-direction: column;
- }
- 
- .form-register_form input {
-   margin-bottom: 15px;
-   padding: 10px;
-   border: 1px solid #ccc;
-   border-radius: 5px;
- }
- 
- .btnprimary {
-   background-color: #94d500;
-   color: #fff;
-   border: none;
-   padding: 10px 20px;
-   border-radius: 5px;
-   cursor: pointer;
- }
- 
- .btnprimary:hover {
-   background-color: #e74c3c;
- }
- 
- small {
-   margin-top: 10px;
-   display: block;
-   text-align: center;
-   font-size: 1.5rem;
- }
- 
- small a {
-   color: #e74c3c;
- }
-
-.notes {
-   background-color: #fff;
-}
- .notes p {
-   font-size: 2rem;
- }
-
- .question h3{
-   font-size: 2rem;
- }
-
- .option {
-   font-size: 1.8rem;
- }

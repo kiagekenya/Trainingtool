@@ -16,6 +16,7 @@ const About = () => {
     const [studentCount, setStudentCount] = useState(0);
     const [tutorCount, setTutorCount] = useState(0);
     const [questionCount, setQuestionCount] = useState(0);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
   
     useEffect(() => {
       // Counting animation effect when component mounts
@@ -53,7 +54,9 @@ const About = () => {
       AOS.init();
     }, []);
 
-
+    const toggleSidebar = () => {
+      setSidebarOpen(!sidebarOpen);
+    };
 
     
   
@@ -69,7 +72,7 @@ const About = () => {
             <button type="submit" className="fas fa-search"></button>
           </form>
           <div className="icons">
-            <div id="menu-btn" className="fas fa-bars"></div>
+          <div id="menu-btn" className="fas fa-bars" onClick={toggleSidebar}></div>
             <div id="search-btn" className="fas fa-search"></div>
             <div id="user-btn" className="fas fa-user"></div>
             <div id="toggle-btn" className="fas fa-sun"></div>
@@ -83,8 +86,8 @@ const About = () => {
         </section>
       </header>
 
-      <div className="side-bar">
-        <div id="close-btn">
+      <div className={`side-bar ${sidebarOpen ? 'open' : ''}`}>
+      <div id="close-btn" onClick={toggleSidebar}>
           <i className="fas fa-times"></i>
         </div>
         <div className="profile">

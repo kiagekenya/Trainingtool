@@ -14,6 +14,7 @@ import 'aos/dist/aos.css'
 
 const Home = () => {
    const [darkMode, setDarkMode] = useState(false);
+   const [sidebarOpen, setSidebarOpen] = useState(false);
 
 
   useEffect(() => {
@@ -32,6 +33,10 @@ const Home = () => {
    setDarkMode(!darkMode);
  };
 
+ const toggleSidebar = () => {
+   setSidebarOpen(!sidebarOpen);
+ };
+
   return (
     <>
       <header className="header">
@@ -44,7 +49,7 @@ const Home = () => {
             <button type="submit" className="fas fa-search"></button>
           </form>
           <div className="icons">
-            <div id="menu-btn" className="fas fa-bars"></div>
+          <div id="menu-btn" className="fas fa-bars" onClick={toggleSidebar}></div>
             <div id="search-btn" className="fas fa-search"></div>
             <div id="user-btn" className="fas fa-user"></div>
             <div id="toggle-btn" className={darkMode ? "fas fa-moon" : "fas fa-sun"} onClick={toggleDarkMode}></div>
@@ -58,9 +63,9 @@ const Home = () => {
         </section>
       </header>
 
-      <div className="side-bar">
-        <div id="close-btn">
-          <i className="fas fa-times"></i>
+      <div className={`side-bar ${sidebarOpen ? 'open' : ''}`}>
+      <div id="close-btn" onClick={toggleSidebar}>
+          <i className="fas fa-close"></i>
         </div>
         <div className="profile">
           <img src={Profile} className="image" alt="" />
