@@ -7,7 +7,7 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import AOS from "aos";
 import "../home/home.css";
 import "aos/dist/aos.css";
-import OffcanvasComponent from "../off_canvas/OffCanvas";
+
 import "../home/home.css";
 import QuizPage from "../quizlist/Quizlist";
 
@@ -111,7 +111,7 @@ const Introduction = () => {
   return (
     <>
       <header className="header">
-        <OffcanvasComponent />
+        
         <section className="flex">
           <div className="logo">
             <img src={LOGO} alt="logo" />
