@@ -1,0 +1,14 @@
+.correct {
+  color: green;
+  font-weight: bold;
+}
+
+.incorrect {
+  color: red;
+  font-weight: bold;
+}
+
+.feedback {
+  display: block;
+  margin-top: 5px;
+}
