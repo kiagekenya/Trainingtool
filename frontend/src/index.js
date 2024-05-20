@@ -12,6 +12,7 @@ import Landing from "./components/landing/Landing";
 import Register from "./components/register/Register";
 import Login from "./components/login/Login";
 import QuizList from "./components/quizlist/Quizlist";
+import Under from "./components/underconstruction/Under"
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -36,6 +37,7 @@ export default function App() {
         <Route exact path="/contact" element={<Contact />}></Route>
         <Route exact path="/register" element={<Register />}></Route>
         <Route exact path="/login" element={<Login />}></Route>
+        <Route exact path="/under" element={<Under />}></Route>
       </Routes>
     </BrowserRouter>
   );

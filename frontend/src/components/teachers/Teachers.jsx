@@ -49,7 +49,7 @@ const Teachers = () => {
         <Link to="/home"><i className="fas fa-home"></i><span>home</span></Link>
         <Link to="/about"><i className="fas fa-question"></i><span>about</span></Link>
         <Link to="/courses"><i className="fas fa-graduation-cap"></i><span>courses</span></Link>
-        <Link to="/teachers"><i className="fas fa-chalkboard-user"></i><span>teachers</span></Link>
+        <Link to="/teachers"><i className="fas fa-chalkboard-user"></i><span>tutors</span></Link>
         <Link to="/contact"><i className="fas fa-headset"></i><span>contact us</span></Link>
       </nav>
     </div>

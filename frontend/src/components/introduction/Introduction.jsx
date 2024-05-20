@@ -11,83 +11,7 @@ import "aos/dist/aos.css";
 import "../home/home.css";
 import QuizPage from "../quizlist/Quizlist";
 
-const QuestionsSection = () => {
-  return (
-    <section className="questions-section">
-      <h1 className="heading">Questions</h1>
-      <div className="question">
-        <h3 className="question-title">
-          1.What are oil and gas primarily composed of?
-        </h3>
-        <ul className="options">
-          <li className="option">a) Oxygen and carbon</li>
-          <li className="option">b) Hydrogen and carbon</li>
-          <li className="option">c) Nitrogen and carbon</li>
-          <li className="option">d) Helium and carbon</li>
-        </ul>
-      </div>
-      <br />
-      <div className="question">
-        <h3 className="question-title">2.How is crude oil formed?</h3>
-        <ul className="options">
-          <li className="option">a) Through volcanic activity</li>
-          <li className="option">b) From the compression of air</li>
-          <li className="option">
-            c)Over millions of years from the decomposition of organic matter
-          </li>
-          <li className="option">
-            d) From chemical reactions in the atmosphere
-          </li>
-        </ul>
-      </div>
-      <br />
-      <div className="question">
-        <h3 className="question-title">
-          3. How is natural gas different from crude oil?
-        </h3>
-        <ul className="options">
-          <li className="option">a) It is formed from volcanic eruptions</li>
-          <li className="option">b) From the compression of air</li>
-          <li className="option">c)It is found in solid form underground</li>
-          <li className="option">
-            d)It is a gaseous form and consists primarily of methane
-          </li>
-        </ul>
-      </div>
-      <br />
-      <div className="question">
-        <h3 className="question-title">
-          4. Which of the following is NOT a use of oil and gas in various
-          industries?
-        </h3>
-        <ul className="options">
-          <li className="option">a) Transportation</li>
-          <li className="option">b) Electricity generation</li>
-          <li className="option">c) Agriculture</li>
-          <li className="option">d) Industrial applications</li>
-        </ul>
-      </div>
-      <br />
-      <div className="question">
-        <h3 className="question-title">
-          5. What role do oil and gas play in industrial applications?
-        </h3>
-        <ul className="options">
-          <li className="option">a) They serve as food additives</li>
-          <li className="option">
-            b) They are used in the production of pharmaceuticals
-          </li>
-          <li className="option">
-            c) They are used for agricultural irrigation
-          </li>
-          <li className="option">
-            d) They serve as feedstocks for manufacturing various products
-          </li>
-        </ul>
-      </div>
-    </section>
-  );
-};
+
 
 const Introduction = () => {
   const [showNotes, setShowNotes] = useState(false);
@@ -177,7 +101,7 @@ const Introduction = () => {
           </Link>
           <Link to="/teachers">
             <i className="fas fa-chalkboard-user"></i>
-            <span>teachers</span>
+            <span>tutors</span>
           </Link>
           <Link to="/contact">
             <i className="fas fa-headset"></i>
@@ -186,7 +110,7 @@ const Introduction = () => {
         </nav>
       </div>
 
-      <QuizPage />
+      
 
       <section className="playlist-details">
         <h1 className="heading">Module details</h1>
@@ -226,101 +150,10 @@ const Introduction = () => {
       <section className="playlist-videos">
         <h1 className="heading">Topics...</h1>
         <div className="box-container">
-          <div className="box" onClick={toggleNotes}>
-            <h3>1.What is Oil and Gas?</h3>
-            {showNotes && (
-              <div className="notes">
-                {/* Notes content */}
-                <p>
-                  Oil and gas are natural resources found beneath the Earth's
-                  surface that consist primarily of hydrocarbons, which are
-                  organic compounds composed of hydrogen and carbon atoms. They
-                  are crucial sources of energy and raw materials for various
-                  industries. Here's a breakdown of each:
-                  <ol>
-                    <li>
-                      <strong>Oil (Crude Oil)</strong>:
-                      <ul data-aos="zoom-in">
-                        <li>
-                          Crude oil, often referred to simply as oil, is a
-                          complex mixture of hydrocarbons that exists in liquid
-                          form underground.
-                        </li>
-                        <li>
-                          It is formed over millions of years from the
-                          decomposition and transformation of organic matter,
-                          such as plankton and algae, buried in sedimentary rock
-                          layers.
-                        </li>
-                        <li>
-                          Crude oil is typically extracted from underground
-                          reservoirs through drilling wells and can vary in
-                          composition, viscosity, and quality depending on its
-                          geological origin.
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <strong>Natural Gas</strong>:
-                      <ul data-aos="zoom-in">
-                        <li>
-                          Natural gas primarily consists of methane (CH4) along
-                          with smaller amounts of other hydrocarbons such as
-                          ethane, propane, and butane.
-                        </li>
-                        <li>
-                          Like oil, natural gas is formed from the decomposition
-                          of organic matter but is found in gaseous form
-                          underground or associated with oil deposits.
-                        </li>
-                        <li>
-                          It is extracted alongside crude oil during drilling
-                          operations and can also be found in standalone natural
-                          gas fields.
-                        </li>
-                        <li>
-                          Natural gas is often considered a cleaner-burning
-                          fossil fuel compared to coal and oil, emitting fewer
-                          pollutants and greenhouse gases when combusted for
-                          energy production.
-                        </li>
-                      </ul>
-                    </li>
-                  </ol>
-                  <br />
-                  Both oil and gas are vital sources of energy used for:
-                  <ul data-aos="zoom-in">
-                    <li>
-                      Transportation: They fuel vehicles, airplanes, ships, and
-                      trains, powering global transportation networks.
-                    </li>
-                    <li>
-                      Electricity Generation: They are used in power plants to
-                      generate electricity for residential, commercial, and
-                      industrial use.
-                    </li>
-                    <li>
-                      Heating and Cooling: They provide heat for residential and
-                      commercial heating systems and are used in industrial
-                      processes.
-                    </li>
-                    <li>
-                      Industrial Applications: They serve as feedstocks for
-                      manufacturing various products, including plastics,
-                      fertilizers, pharmaceuticals, and synthetic materials.
-                    </li>
-                  </ul>
-                  The extraction, refining, and distribution of oil and gas form
-                  the backbone of the global energy industry, playing a central
-                  role in driving economic growth and meeting the energy needs
-                  of societies worldwide.
-                </p>
-              </div>
-            )}
-          </div>
+        <QuizPage />
         </div>
       </section>
-      <QuestionsSection />
+      
 
       <footer className="footer">
         &copy; copyright @ 2024| all rights reserved!

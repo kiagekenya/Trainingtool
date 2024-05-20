@@ -77,7 +77,7 @@ const Home = () => {
           <Link to="/home"><i className="fas fa-home"></i><span>home</span></Link>
           <Link to="/about"><i className="fas fa-question"></i><span>about</span></Link>
           <Link to="/courses"><i className="fas fa-graduation-cap"></i><span>courses</span></Link>
-          <Link to="/teachers"><i className="fas fa-chalkboard-user"></i><span>teachers</span></Link>
+          <Link to="/teachers"><i className="fas fa-chalkboard-user"></i><span>tutors</span></Link>
           <Link to="/contact"><i className="fas fa-headset"></i><span>contact us</span></Link>
         </nav>
       </div>
@@ -118,7 +118,7 @@ const Home = () => {
       <span>3 topics</span>
    </div>
    <h3 className="title">Exploration</h3>
-   <Link to="/" className="inline-btn" >View Module</Link>
+   <Link to="/under" className="inline-btn" >View Module</Link>
 </div>
 
 <div className="box">
@@ -133,7 +133,7 @@ const Home = () => {
       <span>7 topics</span>
    </div>
    <h3 className="title">Development & Production</h3>
-   <Link to="/" className="inline-btn" >View Module</Link>
+   <Link to="/under" className="inline-btn" >View Module</Link>
 </div>
 
 <div className="box" data-aos="zoom-in">
@@ -148,7 +148,7 @@ const Home = () => {
       <span>2 topics</span>
    </div>
    <h3 className="title">Well Abandonment</h3>
-   <Link to="/" className="inline-btn" >View Module</Link>
+   <Link to="/under" className="inline-btn" >View Module</Link>
 </div>
 
 <div className="box" data-aos="zoom-in">
@@ -163,7 +163,7 @@ const Home = () => {
       <span>4 topics</span>
    </div>
    <h3 className="title">Petroleum Economics</h3>
-   <Link to="/" className="inline-btn" >View Module</Link>
+   <Link to="/under" className="inline-btn" >View Module</Link>
 </div>
 
 

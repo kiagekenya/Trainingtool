@@ -56,17 +56,17 @@ const QuizPage = () => {
 
   const toggleQuiz = (id) => {
     if (selectedQuiz === id) {
-      setSelectedQuiz(null); // Toggle off if already selected
-      setShowResults(false); // Hide results when toggling off
-      setQuizAnswers({}); // Clear previous answers
-      setIsSubmitted(false); // Reset submission status
+      setSelectedQuiz(null);
+      setShowResults(false);
+      setQuizAnswers({});
+      setIsSubmitted(false);
     } else {
-      setSelectedQuiz(id); // Otherwise, select the clicked quiz
-      setShowResults(false); // Hide results when selecting a new quiz
-      setQuizAnswers({}); // Clear previous answers
-      setIsSubmitted(false); // Reset submission status
+      setSelectedQuiz(id);
+      setShowResults(false);
+      setQuizAnswers({});
+      setIsSubmitted(false);
     }
-    setAnswerFeedback({}); // Clear answer feedback
+    setAnswerFeedback({});
   };
 
   const handleAnswerChange = (questionIndex, optionIndex) => {
@@ -115,12 +115,11 @@ const QuizPage = () => {
   }
 
   return (
-    <div>
-      <h1>Quiz List</h1>
+    <div className="quiz">
       <ul>
         {contents.map((contentItem) => (
           <li key={contentItem._id}>
-            <button onClick={() => toggleQuiz(contentItem._id)}>
+            <button className="quiz-btn" onClick={() => toggleQuiz(contentItem._id)}>
               {contentItem.title}
             </button>
             {contentItem._id === selectedQuiz && (
@@ -131,41 +130,39 @@ const QuizPage = () => {
                   <div>Error: {quizError}</div>
                 ) : (
                   content && (
-                    <div>
-                      <h2>{content.title}</h2>
-                      <p>{content.body}</p>
+                    <div className="notes">
+                      <h2>{content.title}</h2> <br />
+                      <p>{content.body}</p><br /><br />
                       <form id="quizForm">
                         {content.questions &&
                           content.questions.map((question, index) => (
                             <div key={index} className="question-block">
-                              <p>{question.text}</p>
-                              {question.options.map((option, optionIndex) => (
-                                <label key={optionIndex}>
-                                  <input
-                                    type="radio"
-                                    name={`question${index}`}
-                                    value={optionIndex}
-                                    checked={quizAnswers[index] === optionIndex}
-                                    onChange={() =>
-                                      handleAnswerChange(index, optionIndex)
-                                    }
-                                    required
-                                    disabled={isSubmitted}
-                                  />
-                                  {option}
-                                </label>
-                              ))}
+                              <h2>{question.text}</h2>
+                              <div className="options">
+                                {question.options.map((option, optionIndex) => (
+                                  <div key={optionIndex} className="option">
+                                    <label>
+                                      <input
+                                        type="radio"
+                                        name={`question${index}`}
+                                        value={optionIndex}
+                                        checked={quizAnswers[index] === optionIndex}
+                                        onChange={() => handleAnswerChange(index, optionIndex)}
+                                        required
+                                        disabled={isSubmitted}
+                                      />
+                                      {option}
+                                    </label>
+                                  </div>
+                                ))}
+                              </div>
                               {isSubmitted && (
                                 <div
                                   className={`feedback ${
-                                    quizAnswers[index] ===
-                                    question.correctAnswer
-                                      ? "correct"
-                                      : "incorrect"
+                                    quizAnswers[index] === question.correctAnswer ? "correct" : "incorrect"
                                   }`}
                                 >
-                                  {quizAnswers[index] ===
-                                  question.correctAnswer ? (
+                                  {quizAnswers[index] === question.correctAnswer ? (
                                     <>
                                       <span>&#10004;</span> Correct
                                     </>
@@ -178,11 +175,7 @@ const QuizPage = () => {
                               )}
                             </div>
                           ))}
-                        <button
-                          type="button"
-                          onClick={handleSubmitQuiz}
-                          disabled={isSubmitted}
-                        >
+                        <button type="button" onClick={handleSubmitQuiz} disabled={isSubmitted}>
                           {isSubmitted ? "Submitted" : "Submit"}
                         </button>
                       </form>

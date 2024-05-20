@@ -1405,8 +1405,74 @@ section{
    cursor: pointer;
 }
 
-.notes {
-   background-color: #fff;
+
+.quiz ul{
+   
+   background-color: white;
+}
+
+/* QuizPage.css */
+
+.quiz {
+   margin: 20px;
+ }
+ 
+ .quiz-btn {
+   margin: 10px 0;
+   padding: 10px;
+   font-size: 2rem;
+   color: black;
+   font-weight: bold;
+   border: none;
+   cursor: pointer;
+ }
+ 
+ .notes {
+   margin-top: 20px;
+ }
+ 
+ .question-block {
+   margin-bottom: 20px;
+ }
+ 
+ .options {
+   display: flex;
+   flex-direction: column; /* This ensures the options are displayed vertically */
+   margin-bottom: 10px;
+ }
+ 
+ .option {
+   margin-bottom: 5px;
+ }
+ 
+ .feedback {
+   margin-top: 10px;
+ }
+ 
+ .feedback.correct {
+   color: green;
+ }
+ 
+ .feedback.incorrect {
+   color: red;
+ }
+ 
+ button[type="button"] {
+   margin-top: 10px;
+   padding: 10px;
+   background-color: #94d500;
+   color: #fff;
+   border: none;
+   cursor: pointer;
+ }
+ 
+ button[type="button"]:disabled {
+   background-color: #6c757d;
+   cursor: not-allowed;
+ }
+ 
+.notes h2{
+   font-size: 2rem;
 }
  .notes p {
    font-size: 1.8rem;
@@ -1429,7 +1495,98 @@ section{
  .option {
    font-size: 1.8rem;
  }
+
+
+
+
+ .undercontainer {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   padding: 50px;
+   background-color: #f4f4f4;
+   color: #333;
+   border-radius: 10px;
+   max-width: 600px;
+   margin: 0 auto;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ }
  
+ .undertitle {
+   color: #94d500;
+ }
+ 
+ .undermessage {
+   font-size: 18px;
+   margin: 20px 0;
+ }
+ 
+ .spinner {
+   --size: 30px;
+   --first-block-clr: #e74c3c;
+   --second-block-clr: #94d500;
+   --clr: #111;
+   width: 100px;
+   height: 100px;
+   position: relative;
+ }
+ 
+ .spinner::after, .spinner::before {
+   box-sizing: border-box;
+   position: absolute;
+   content: "";
+   width: var(--size);
+   height: var(--size);
+   top: 50%;
+   animation: up 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
+   left: 50%;
+   background: var(--first-block-clr);
+ }
+ 
+ .spinner::after {
+   background: var(--second-block-clr);
+   top: calc(50% - var(--size));
+   left: calc(50% - var(--size));
+   animation: down 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
+ }
+ 
+ @keyframes down {
+   0%, 100% {
+     transform: none;
+   }
+ 
+   25% {
+     transform: translateX(100%);
+   }
+ 
+   50% {
+     transform: translateX(100%) translateY(100%);
+   }
+ 
+   75% {
+     transform: translateY(100%);
+   }
+ }
+ 
+ @keyframes up {
+   0%, 100% {
+     transform: none;
+   }
+ 
+   25% {
+     transform: translateX(-100%);
+   }
+ 
+   50% {
+     transform: translateX(-100%) translateY(-100%);
+   }
+ 
+   75% {
+     transform: translateY(-100%);
+   }
+ }
  
 
 
