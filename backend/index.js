@@ -4,11 +4,11 @@ const bodyParser = require("body-parser");
 const multer = require("multer");
 const nodemailer = require("nodemailer");
 const fs = require("fs");
-// added
 const path = require("path");
 const mongoose = require("mongoose");
-const User = require("./models/User");
 const bcrypt = require("bcryptjs");
+const session = require("express-session");
+const User = require("./models/User");
 const Content = require("./models/Content");
 
 require("dotenv/config");
@@ -92,10 +92,105 @@ app.post("/send-email", (req, res) => {
   });
 });
 
-const port = process.env.PORT || 4000;
-const server = app.listen(port, () => {
-  console.log(`Server is running on ${port}`);
+app.use(
+  session({
+    secret: "your-secret-key",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: "auto", httpOnly: true },
+  })
+);
+
+
+
+function isAuthenticated(req, res, next) {
+  if (req.session && req.session.user) {
+    return next();
+  } else {
+    res.redirect('/login');
+  }
+}
+
+// Protected route example
+app.get('/home', isAuthenticated, (req, res) => {
+  res.send('Home Page');
 });
+
+app.get('/introduction', isAuthenticated, (req, res) => {
+  res.send('Introduction');
+});
+
+
+app.get('/about', isAuthenticated, (req, res) => {
+  res.send('About');
+});
+
+app.get('/courses', isAuthenticated, (req, res) => {
+  res.send('Courses');
+});
+
+
+app.get('/teachers', isAuthenticated, (req, res) => {
+  res.send('Teachers');
+});
+
+app.get('/contact', isAuthenticated, (req, res) => {
+  res.send('Contact');
+});
+
+
+
+
+
+
+
+
+
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ message: "Invalid email or password." });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid email or password." });
+    }
+
+    res.json({
+      status: "success",
+      message: "Logged in successfully",
+      name: user.name, // Include the user's name in the response
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+
+
+
+
+app.post("/register", async (req, res) => {
+  const { name, email, password } = req.body;
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ name, email, password: hashedPassword });
+    await newUser.save();
+    console.log("User saved successfully");
+    res.status(200).json({ message: "Registration successful" });
+  } catch (error) {
+    console.error("Registration failed:", error);
+    res.status(500).send("User registration failed");
+  }
+});
+
+
 
 // Fetch all contents
 app.get("/api/contents", async (req, res) => {
@@ -168,6 +263,13 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
 });
 
+
+
+
+
+
+
+
 // Connect to MongoDB
 mongoose
   .connect(
@@ -180,63 +282,23 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
+
+  const port = process.env.PORT || 4000;
+const server = app.listen(port, () => {
+  console.log(`Server is running on ${port}`);
+});
+
 app.use(express.json()); // This is required to parse JSON bodies
 
-app.post("/register", async (req, res) => {
-  const { name, email, password } = req.body;
 
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ name, email, password: hashedPassword });
-    await newUser.save();
-    console.log("User saved successfully");
-    res.status(200).json({ message: "Registration successful" });
-  } catch (error) {
-    console.error("Registration failed:", error);
-    res.status(500).send("User registration failed");
-  }
-});
 
 // Login route
 // const express = require("express");
 // const bcrypt = require("bcryptjs");
-const session = require("express-session");
+
 
 // Configure session middleware
-app.use(
-  session({
-    secret: "your-secret-key",
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: "auto", httpOnly: true },
-  })
-);
 
-// const User = require("./models/User"); // Assuming this is your user model
-
-app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(401).json({ message: "Invalid email or password." });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ message: "Invalid email or password." });
-    }
-
-    res.json({
-      status: "success",
-      message: "Logged in successfully",
-      name: user.name, // Include the user's name in the response
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
-});
 
 // API endpoint to get user data
 // Example route handler
