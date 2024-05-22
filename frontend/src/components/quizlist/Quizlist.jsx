@@ -132,7 +132,7 @@ const QuizPage = () => {
                   content && (
                     <div className="notes">
                       <h2>{content.title}</h2> <br />
-                      <p>{content.body}</p><br /><br />
+                      <p dangerouslySetInnerHTML={{ __html: content.body.replace(/\n/g, '<br />') }}></p><br /><br />
                       <form id="quizForm">
                         {content.questions &&
                           content.questions.map((question, index) => (
