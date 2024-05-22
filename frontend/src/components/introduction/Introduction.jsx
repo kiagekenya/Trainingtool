@@ -10,8 +10,7 @@ import "aos/dist/aos.css";
 
 import "../home/home.css";
 import QuizPage from "../quizlist/Quizlist";
-
-
+import SideBar from "../sidBar/SideBar";
 
 const Introduction = () => {
   const [showNotes, setShowNotes] = useState(false);
@@ -35,7 +34,6 @@ const Introduction = () => {
   return (
     <>
       <header className="header">
-        
         <section className="flex">
           <div className="logo">
             <img src={LOGO} alt="logo" />
@@ -71,46 +69,7 @@ const Introduction = () => {
         </section>
       </header>
 
-      <div
-        className={`side-bar ${isSidebarVisible ? "show" : "hide"}`}
-        // style={{ width: isSidebarVisible ? "30rem" : "0rem" }}
-      >
-        <div id="close-btn">
-          <i className="fas fa-times" onClick={handleShow}></i>
-        </div>
-        <div className="profile">
-          <img src={Profile} className="image" alt="" />
-          
-          <p className="role">Guest</p>
-          <Link to="/" className="btn">
-            view profile
-          </Link>
-        </div>
-        <nav className="navbar">
-          <Link to="/home">
-            <i className="fas fa-home"></i>
-            <span>home</span>
-          </Link>
-          <Link to="/about">
-            <i className="fas fa-question"></i>
-            <span>about</span>
-          </Link>
-          <Link to="/courses">
-            <i className="fas fa-graduation-cap"></i>
-            <span>courses</span>
-          </Link>
-          <Link to="/teachers">
-            <i className="fas fa-chalkboard-user"></i>
-            <span>tutors</span>
-          </Link>
-          <Link to="/contact">
-            <i className="fas fa-headset"></i>
-            <span>contact us</span>
-          </Link>
-        </nav>
-      </div>
-
-      
+      <SideBar />
 
       <section className="playlist-details">
         <h1 className="heading">Module details</h1>
@@ -150,10 +109,9 @@ const Introduction = () => {
       <section className="playlist-videos">
         <h1 className="heading">Topics...</h1>
         <div className="box-container">
-        <QuizPage />
+          <QuizPage />
         </div>
       </section>
-      
 
       <footer className="footer">
         &copy; copyright @ 2024| all rights reserved!
