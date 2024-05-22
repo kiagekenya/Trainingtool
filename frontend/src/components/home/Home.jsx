@@ -15,7 +15,7 @@ import SideBar from "../sidBar/SideBar";
 
 const Home = () => {
   const [darkMode, setDarkMode] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   useEffect(() => {
     AOS.init({ duration: 2000 });
@@ -33,8 +33,10 @@ const Home = () => {
     setDarkMode(!darkMode);
   };
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
+  const handleSidebarToggle = () => {
+    console.log("clicked");
+    setIsSidebarVisible(!isSidebarVisible);
+    console.log(isSidebarVisible);
   };
 
   return (
@@ -58,7 +60,7 @@ const Home = () => {
             <div
               id="menu-btn"
               className="fas fa-bars"
-              onClick={toggleSidebar}
+              onClick={handleSidebarToggle}
             ></div>
             <div id="search-btn" className="fas fa-search"></div>
             <div id="user-btn" className="fas fa-user"></div>
@@ -79,11 +81,11 @@ const Home = () => {
         </section>
       </header>
 
-      <SideBar />
+      <SideBar isSidebarVisible={isSidebarVisible} />
 
       <section className="courses">
         <h1 className="heading">Our Modules</h1>
-        <div class="box-container">
+        <div className="box-container">
           <div className="box">
             <div className="tutor">
               <div className="info">
