@@ -55,7 +55,41 @@ const Courses = () => {
         </section>
       </header>
 
-      <SideBar />
+      <div className={`side-bar ${sidebarOpen ? "open" : ""}`}>
+        <div id="close-btn" onClick={toggleSidebar}>
+          <i className="fas fa-times"></i>
+        </div>
+        <div className="profile">
+          <img src={Profile} className="image" alt="" />
+          <h3 className="name">Jacob</h3>
+          <p className="role">Guest</p>
+          <Link to="/" className="btn">
+            view profile
+          </Link>
+        </div>
+        <nav className="navbar">
+          <Link to="/home">
+            <i className="fas fa-home"></i>
+            <span>home</span>
+          </Link>
+          <Link to="/about">
+            <i className="fas fa-question"></i>
+            <span>about</span>
+          </Link>
+          <Link to="/courses">
+            <i className="fas fa-graduation-cap"></i>
+            <span>courses</span>
+          </Link>
+          <Link to="/teachers">
+            <i className="fas fa-chalkboard-user"></i>
+            <span>tutors</span>
+          </Link>
+          <Link to="/contact">
+            <i className="fas fa-headset"></i>
+            <span>contact us</span>
+          </Link>
+        </nav>
+      </div>
 
       <section className="courses">
         <h1 className="heading">our courses</h1>

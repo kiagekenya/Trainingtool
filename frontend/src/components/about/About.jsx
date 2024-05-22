@@ -101,7 +101,7 @@ const About = () => {
         </div>
         <div className="profile">
           <img src={Profile} className="image" alt="" />
-          <h3 className="name">Jacob</h3>
+        
           <p className="role">Guest</p>
           <Link to="/" className="btn">
             view profile
