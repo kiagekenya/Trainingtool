@@ -1,31 +1,17 @@
+// src/components/SideBar/SideBar.js
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import Profile from "../../assets/vecteezy_happy-young-man-avatar-character_35280231.jpg";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { UserContext } from "../../contexts/UserContext"; // Import UserContext
 
-const SideBar = ({ userName }) => {
+const SideBar = () => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-  // const [userData, setUserData] = useState(null);
-
-  // useEffect(() => {
-  //   // Fetch user data from the backend
-  //   const fetchUserData = async () => {
-  //     try {
-  //       const response = await axios.get("/api/user");
-  //       console.log("res from backend ", response.data);
-  //       setUserData(response.data);
-  //     } catch (error) {
-  //       console.error("Error fetching user data:", error);
-  //     }
-  //   };
-
-  //   fetchUserData();
-  // }, []);
+  const { user } = useContext(UserContext); // Use context to get user data
 
   const handleShow = () => {
     setIsSidebarVisible(!isSidebarVisible);
-    console.log("toggled");
   };
+
   return (
     <div>
       <div className={`side-bar ${isSidebarVisible ? "show" : "hide"}`}>
@@ -34,9 +20,8 @@ const SideBar = ({ userName }) => {
         </div>
         <div className="profile">
           <img src={Profile} className="image" alt="" />
-          <h3 className="name">{userName}</h3>
-
-          <p className="role">Guest</p>
+          <h3 className="name">{user ? user.name : "Guest"}</h3>
+          <p className="role">{user ? user.email : "Guest"}</p>
           <Link to="/profile" className="btn">
             view profile
           </Link>

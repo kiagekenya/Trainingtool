@@ -1,13 +1,15 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom"; // Import useNavigate instead of useHistory
+// src/components/Login/Login.js
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext"; // Import UserContext
 
 const Login = () => {
   const [userData, setUserData] = useState({
     email: "",
     password: "",
   });
-  const navigate = useNavigate(); // Use useNavigate here
+  const { setUser } = useContext(UserContext); // Get setUser from context
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -25,9 +27,10 @@ const Login = () => {
       });
       const data = await response.json();
       if (data.status === "success") {
-        console.log(data);
-        // Redirect based on the respon
-        navigate("/home", { state: { name: data.name } });
+        // Save user data in context
+        setUser({ name: data.name, email: data.email });
+        // Redirect to home page
+        navigate("/home");
       } else {
         console.error(data.message); // Handle login error
       }

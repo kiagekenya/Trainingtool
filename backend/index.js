@@ -101,51 +101,51 @@ app.use(
   })
 );
 
+// server.js or appropriate backend file
 
+app.get("/api/user", (req, res) => {
+  // Fetch user data from your database
+  const user = {
+    name: "John Doe",
+    email: "john.doe@example.com",
+  };
+  res.json(user);
+});
 
 function isAuthenticated(req, res, next) {
   if (req.session && req.session.user) {
     return next();
   } else {
-    res.redirect('/login');
+    res.redirect("/login");
   }
 }
 
 // Protected route example
-app.get('/home', isAuthenticated, (req, res) => {
-  res.send('Home Page');
+app.get("/home", isAuthenticated, (req, res) => {
+  res.send("Home Page");
 });
 
-app.get('/introduction', isAuthenticated, (req, res) => {
-  res.send('Introduction');
+app.get("/introduction", isAuthenticated, (req, res) => {
+  res.send("Introduction");
 });
 
-
-app.get('/about', isAuthenticated, (req, res) => {
-  res.send('About');
+app.get("/about", isAuthenticated, (req, res) => {
+  res.send("About");
 });
 
-app.get('/courses', isAuthenticated, (req, res) => {
-  res.send('Courses');
+app.get("/courses", isAuthenticated, (req, res) => {
+  res.send("Courses");
 });
 
-
-app.get('/teachers', isAuthenticated, (req, res) => {
-  res.send('Teachers');
+app.get("/teachers", isAuthenticated, (req, res) => {
+  res.send("Teachers");
 });
 
-app.get('/contact', isAuthenticated, (req, res) => {
-  res.send('Contact');
+app.get("/contact", isAuthenticated, (req, res) => {
+  res.send("Contact");
 });
 
-
-
-
-
-
-
-
-
+// server.js or wherever your backend routes are defined
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -163,17 +163,13 @@ app.post("/login", async (req, res) => {
       status: "success",
       message: "Logged in successfully",
       name: user.name, // Include the user's name in the response
+      email: user.email, // Include the user's email in the response
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 });
-
-
-
-
-
 
 app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
@@ -189,8 +185,6 @@ app.post("/register", async (req, res) => {
     res.status(500).send("User registration failed");
   }
 });
-
-
 
 // Fetch all contents
 app.get("/api/contents", async (req, res) => {
@@ -263,13 +257,6 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
 });
 
-
-
-
-
-
-
-
 // Connect to MongoDB
 mongoose
   .connect(
@@ -282,23 +269,18 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
-
-  const port = process.env.PORT || 4000;
+const port = process.env.PORT || 4000;
 const server = app.listen(port, () => {
   console.log(`Server is running on ${port}`);
 });
 
 app.use(express.json()); // This is required to parse JSON bodies
 
-
-
 // Login route
 // const express = require("express");
 // const bcrypt = require("bcryptjs");
 
-
 // Configure session middleware
-
 
 // API endpoint to get user data
 // Example route handler
