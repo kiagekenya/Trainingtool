@@ -16,6 +16,8 @@ const QuizPage = () => {
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [answerFeedback, setAnswerFeedback] = useState({});
+  const [passedQuizzes, setPassedQuizzes] = useState([]); // Track passed quizzes
+  const [showAlertModal, setShowAlertModal] = useState(false); // Control the alert modal visibility
 
   useEffect(() => {
     fetch("/api/contents")
@@ -54,7 +56,13 @@ const QuizPage = () => {
     }
   }, [selectedQuiz]);
 
-  const toggleQuiz = (id) => {
+  const toggleQuiz = (id, index) => {
+    // Check if the previous quiz has been passed
+    if (index > 0 && !passedQuizzes.includes(contents[index - 1]._id)) {
+      setShowAlertModal(true);
+      return;
+    }
+
     if (selectedQuiz === id) {
       setSelectedQuiz(null);
       setShowResults(false);
@@ -95,6 +103,12 @@ const QuizPage = () => {
         setAnswerFeedback(data.feedback);
         setShowResults(true);
         setIsSubmitted(true);
+        if (data.score === totalQuestions) {
+          setPassedQuizzes((prevPassedQuizzes) => [
+            ...prevPassedQuizzes,
+            selectedQuiz,
+          ]);
+        }
       })
       .catch((error) => console.error("Error submitting quiz:", error));
   };
@@ -106,6 +120,10 @@ const QuizPage = () => {
     setAnswerFeedback({});
   };
 
+  const handleCloseAlertModal = () => {
+    setShowAlertModal(false);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -114,13 +132,35 @@ const QuizPage = () => {
     return <div>Error: {error}</div>;
   }
 
+  const progressPercentage = (passedQuizzes.length / contents.length) * 100;
+  const allQuizzesCompleted = passedQuizzes.length === contents.length;
+
   return (
     <div className="quiz">
+      <div className="progress-bar-container">
+        <div
+          className="progress-bar"
+          style={{ width: `${progressPercentage}%` }}
+        >
+          <span>{`${Math.round(progressPercentage)}% Completed`}</span>
+        </div>
+      </div>
       <ul>
-        {contents.map((contentItem) => (
+        {contents.map((contentItem, index) => (
           <li key={contentItem._id}>
-            <button className="quiz-btn" onClick={() => toggleQuiz(contentItem._id)}>
+            <button
+              className="quiz-btn"
+              onClick={() => toggleQuiz(contentItem._id, index)}
+              disabled={
+                index > 0 && !passedQuizzes.includes(contents[index - 1]._id)
+              }
+            >
               {contentItem.title}
+              {passedQuizzes.includes(contentItem._id) && (
+                <span className="quiz-done">
+                  &#10004; <button className="done-button">Done</button>
+                </span>
+              )}
             </button>
             {contentItem._id === selectedQuiz && (
               <div>
@@ -132,7 +172,13 @@ const QuizPage = () => {
                   content && (
                     <div className="notes">
                       <h2>{content.title}</h2> <br />
-                      <p dangerouslySetInnerHTML={{ __html: content.body.replace(/\n/g, '<br />') }}></p><br /><br />
+                      <p
+                        dangerouslySetInnerHTML={{
+                          __html: content.body.replace(/\n/g, "<br />"),
+                        }}
+                      ></p>
+                      <br />
+                      <br />
                       <form id="quizForm">
                         {content.questions &&
                           content.questions.map((question, index) => (
@@ -146,8 +192,12 @@ const QuizPage = () => {
                                         type="radio"
                                         name={`question${index}`}
                                         value={optionIndex}
-                                        checked={quizAnswers[index] === optionIndex}
-                                        onChange={() => handleAnswerChange(index, optionIndex)}
+                                        checked={
+                                          quizAnswers[index] === optionIndex
+                                        }
+                                        onChange={() =>
+                                          handleAnswerChange(index, optionIndex)
+                                        }
                                         required
                                         disabled={isSubmitted}
                                       />
@@ -159,10 +209,14 @@ const QuizPage = () => {
                               {isSubmitted && (
                                 <div
                                   className={`feedback ${
-                                    quizAnswers[index] === question.correctAnswer ? "correct" : "incorrect"
+                                    quizAnswers[index] ===
+                                    question.correctAnswer
+                                      ? "correct"
+                                      : "incorrect"
                                   }`}
                                 >
-                                  {quizAnswers[index] === question.correctAnswer ? (
+                                  {quizAnswers[index] ===
+                                  question.correctAnswer ? (
                                     <>
                                       <span>&#10004;</span> Correct
                                     </>
@@ -175,7 +229,11 @@ const QuizPage = () => {
                               )}
                             </div>
                           ))}
-                        <button type="button" onClick={handleSubmitQuiz} disabled={isSubmitted}>
+                        <button
+                          type="button"
+                          onClick={handleSubmitQuiz}
+                          disabled={isSubmitted}
+                        >
                           {isSubmitted ? "Submitted" : "Submit"}
                         </button>
                       </form>
@@ -185,12 +243,16 @@ const QuizPage = () => {
                           <p>
                             Score: {score} / {totalQuestions}
                           </p>
-                          <button type="button" onClick={handleRetakeQuiz}>
-                            Retake Quiz
-                          </button>
-                          <Link to="/home">
-                            <button type="button">Home</button>
-                          </Link>
+                          {score < totalQuestions && (
+                            <button type="button" onClick={handleRetakeQuiz}>
+                              Retake Quiz
+                            </button>
+                          )}
+                          {score === totalQuestions && (
+                            <Link to="/introduction">
+                              <button type="button">Home</button>
+                            </Link>
+                          )}
                         </div>
                       )}
                     </div>
@@ -201,6 +263,25 @@ const QuizPage = () => {
           </li>
         ))}
       </ul>
+
+      {allQuizzesCompleted && (
+        <div className="completion-message">
+          <h2>Well Done! All Completed</h2>
+          <Link to="/home">
+            <button className="home-button">Home</button>
+          </Link>
+        </div>
+      )}
+
+      {showAlertModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Access Restricted</h2>
+            <p>You need to pass the previous quiz to access this one.</p>
+            <button onClick={handleCloseAlertModal}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
