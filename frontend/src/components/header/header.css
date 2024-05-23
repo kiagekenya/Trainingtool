@@ -44,37 +44,18 @@ color: #94d500;
   }
   
 
-  @media screen and (max-width: 768px) {
-    
-    .navbarr {
-      margin: 0;
-      
-      position: relative;
+  @media (max-width: 768px) {
+    .navbarl {
+      flex-direction: row;
+      align-items: center;
     }
-     ul.navbarr-links {
-      display: none;
+  
+    .navbarr-links ul {
+      flex-direction: row;
+      gap: 10px;
     }
-    .navbarr ul li {
-      margin-bottom: 20px;
-    }
-    .navbarr-links a {
-        color: black;
-      }
-      
-    .toggle {
-      display: block;
-      background: none;
-      color: #fff;
-      font-size: 30px;
-      position: absolute;
-      right: 0;
-      top: -20px;
-    }
-    .mobile-nav {
-      position: absolute;
-      top: 7vh;
-      left: 0;
-      width: 100%;
-      background-color: #1eb2a6;
+  
+    .navbarr-links ul li a {
+      font-size: 14px;
     }
   }

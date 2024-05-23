@@ -13,6 +13,7 @@ import Register from "./components/register/Register";
 import Login from "./components/login/Login";
 import QuizList from "./components/quizlist/Quizlist";
 import Under from "./components/underconstruction/Under";
+import Profile from "./components/profilepage/ProfilePage";
 import { UserProvider } from "./contexts/UserContext";
 
 export default function App() {
@@ -40,6 +41,7 @@ export default function App() {
           <Route exact path="/register" element={<Register />}></Route>
           <Route exact path="/login" element={<Login />}></Route>
           <Route exact path="/under" element={<Under />}></Route>
+          <Route exact path="/profile" element={<Profile />}></Route>
         </Routes>
       </BrowserRouter>
     </UserProvider>

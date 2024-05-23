@@ -15,7 +15,6 @@ const SideBar = ({ isSidebarVisible }) => {
       <div className="profile">
         <img src={Profile} className="image" alt="" />
         <h3 className="name">{user ? user.name : "Guest"}</h3>
-        <p className="role">{user ? user.email : "Guest"}</p>
         <Link to="/profile" className="btn">
           view profile
         </Link>
@@ -35,7 +34,7 @@ const SideBar = ({ isSidebarVisible }) => {
         </Link>
         <Link to="/teachers">
           <i className="fas fa-chalkboard-user"></i>
-          <span>teachers</span>
+          <span>tutors</span>
         </Link>
         <Link to="/contact">
           <i className="fas fa-headset"></i>

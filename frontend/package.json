@@ -16,8 +16,10 @@
     "aos": "^2.3.4",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.1",
+    "clsx": "^2.1.1",
     "express": "^4.18.2",
     "file-saver": "^2.0.5",
+    "framer-motion": "^11.2.6",
     "html-docx-js": "^0.3.1",
     "html2pdf.js": "^0.10.1",
     "jspdf": "^2.5.1",
@@ -28,6 +30,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "tailwind-merge": "^2.3.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -56,6 +59,8 @@
     ]
   },
   "devDependencies": {
+    "@types/classnames": "^2.3.1",
+    "@types/tailwindcss": "^3.1.0",
     "react-router-dom": "^6.15.0"
   }
 }

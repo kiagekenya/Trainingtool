@@ -77,10 +77,22 @@
   .alll-container {
     background-position: right;
     padding-top: 50%;
-    height: 80vh;
+    height: 117vh;
+    
+    
   }
-  .alll-container .row {
-    width: 100%;
+  .roww h1 {
+    font-size: 20px;
+  }
+
+  .roww p {
+    font-size: 14px;
+    margin: 15px 0;
+  }
+
+  .primary-btnn {
+    padding: 8px 16px;
+    font-size: 14px;
   }
 }
 
