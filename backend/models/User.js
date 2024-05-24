@@ -14,6 +14,23 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  quizResults: [
+    {
+      quizId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Content",
+        required: true,
+      },
+      score: {
+        type: Number,
+        required: true,
+      },
+      totalQuestions: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
 });
 
 module.exports = mongoose.model("User", UserSchema);

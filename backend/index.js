@@ -159,11 +159,14 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password." });
     }
 
+    // Set user in session
+    req.session.user = { email: user.email, name: user.name };
+
     res.json({
       status: "success",
       message: "Logged in successfully",
-      name: user.name, // Include the user's name in the response
-      email: user.email, // Include the user's email in the response
+      name: user.name,
+      email: user.email,
     });
   } catch (error) {
     console.error(error);
@@ -185,6 +188,7 @@ app.post("/register", async (req, res) => {
     res.status(500).send("User registration failed");
   }
 });
+
 
 // Fetch all contents
 app.get("/api/contents", async (req, res) => {
@@ -212,7 +216,26 @@ app.get("/api/quiz/:id", async (req, res) => {
   }
 });
 
+app.get('/api/userQuizData', async (req, res) => {
+  const { email } = req.query;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json({ completedQuizIds: user.quizResults.map(result => result.quizId) });
+  } catch (error) {
+    console.error('Error fetching user quiz data:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 // Submit quiz answers
+// server.js or appropriate backend file
+
 app.post("/api/quiz/:id/results", upload.none(), async (req, res) => {
   try {
     // Retrieve content by ID
@@ -220,13 +243,6 @@ app.post("/api/quiz/:id/results", upload.none(), async (req, res) => {
     if (!content) {
       return res.status(404).json({ error: "Content not found" });
     }
-
-    // Logging Inputs
-    console.log("Received answers from user:", req.body);
-    console.log(
-      "Correct answers from database:",
-      content.questions.map((question) => question.correctAnswer)
-    );
 
     // Process quiz results and calculate score
     const userAnswers = Object.values(req.body);
@@ -243,6 +259,27 @@ app.post("/api/quiz/:id/results", upload.none(), async (req, res) => {
 
     // Calculate total questions
     const totalQuestions = correctAnswers.length;
+
+    // Check if user is authenticated
+    if (!req.session.user) {
+      return res.status(401).json({ error: "User not authenticated" });
+    }
+
+    // Find the user by email
+    const user = await User.findOne({ email: req.session.user.email });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Update user's quiz results
+    user.quizResults.push({
+      quizId: content._id,
+      score: score,
+      totalQuestions: totalQuestions,
+    });
+
+    // Save the updated user document
+    await user.save();
 
     // Send back the results
     res.json({ score, totalQuestions });
