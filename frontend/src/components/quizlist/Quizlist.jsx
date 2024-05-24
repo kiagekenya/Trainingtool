@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import "./QuizPage.css"; // Import your CSS file
+import "./QuizPage.css";
+import { UserContext } from "../../contexts/UserContext";
 
 const QuizPage = () => {
   const [contents, setContents] = useState([]);
@@ -16,27 +17,34 @@ const QuizPage = () => {
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [answerFeedback, setAnswerFeedback] = useState({});
-  const [passedQuizzes, setPassedQuizzes] = useState([]); // Track passed quizzes
-  const [showAlertModal, setShowAlertModal] = useState(false); // Control the alert modal visibility
+  const [passedQuizzes, setPassedQuizzes] = useState([]);
+  const [showAlertModal, setShowAlertModal] = useState(false);
+
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
-    fetch("/api/contents")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setContents(data);
+    const fetchContentsAndUserData = async () => {
+      try {
+        const contentsResponse = await fetch("/api/contents");
+        if (!contentsResponse.ok) throw new Error("Network response was not ok");
+        const contentsData = await contentsResponse.json();
+
+        const userDataResponse = await fetch(`/api/userQuizData?email=${user.email}`);
+        if (!userDataResponse.ok) throw new Error("Failed to fetch user quiz data");
+        const userData = await userDataResponse.json();
+
+        setContents(contentsData);
+        setPassedQuizzes(userData.completedQuizIds);
         setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching contents:", error);
+      } catch (error) {
+        console.error("Error fetching data:", error);
         setError(error.message);
         setLoading(false);
-      });
-  }, []);
+      }
+    };
+
+    fetchContentsAndUserData();
+  }, [user.email]);
 
   useEffect(() => {
     if (selectedQuiz) {
@@ -57,7 +65,6 @@ const QuizPage = () => {
   }, [selectedQuiz]);
 
   const toggleQuiz = (id, index) => {
-    // Check if the previous quiz has been passed
     if (index > 0 && !passedQuizzes.includes(contents[index - 1]._id)) {
       setShowAlertModal(true);
       return;
@@ -92,9 +99,7 @@ const QuizPage = () => {
 
     fetch(`/api/quiz/${selectedQuiz}/results`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(quizAnswers),
     })
       .then((response) => response.json())
@@ -104,10 +109,7 @@ const QuizPage = () => {
         setShowResults(true);
         setIsSubmitted(true);
         if (data.score === totalQuestions) {
-          setPassedQuizzes((prevPassedQuizzes) => [
-            ...prevPassedQuizzes,
-            selectedQuiz,
-          ]);
+          setPassedQuizzes((prevPassedQuizzes) => [...prevPassedQuizzes, selectedQuiz]);
         }
       })
       .catch((error) => console.error("Error submitting quiz:", error));
@@ -138,10 +140,7 @@ const QuizPage = () => {
   return (
     <div className="quiz">
       <div className="progress-bar-container">
-        <div
-          className="progress-bar"
-          style={{ width: `${progressPercentage}%` }}
-        >
+        <div className="progress-bar" style={{ width: `${progressPercentage}%` }}>
           <span>{`${Math.round(progressPercentage)}% Completed`}</span>
         </div>
       </div>
@@ -151,9 +150,7 @@ const QuizPage = () => {
             <button
               className="quiz-btn"
               onClick={() => toggleQuiz(contentItem._id, index)}
-              disabled={
-                index > 0 && !passedQuizzes.includes(contents[index - 1]._id)
-              }
+              disabled={index > 0 && !passedQuizzes.includes(contents[index - 1]._id)}
             >
               {contentItem.title}
               {passedQuizzes.includes(contentItem._id) && (
@@ -171,7 +168,8 @@ const QuizPage = () => {
                 ) : (
                   content && (
                     <div className="notes">
-                      <h2>{content.title}</h2> <br />
+                      <h2>{content.title}</h2>
+                      <br />
                       <p
                         dangerouslySetInnerHTML={{
                           __html: content.body.replace(/\n/g, "<br />"),
@@ -192,12 +190,8 @@ const QuizPage = () => {
                                         type="radio"
                                         name={`question${index}`}
                                         value={optionIndex}
-                                        checked={
-                                          quizAnswers[index] === optionIndex
-                                        }
-                                        onChange={() =>
-                                          handleAnswerChange(index, optionIndex)
-                                        }
+                                        checked={quizAnswers[index] === optionIndex}
+                                        onChange={() => handleAnswerChange(index, optionIndex)}
                                         required
                                         disabled={isSubmitted}
                                       />
@@ -209,14 +203,12 @@ const QuizPage = () => {
                               {isSubmitted && (
                                 <div
                                   className={`feedback ${
-                                    quizAnswers[index] ===
-                                    question.correctAnswer
+                                    quizAnswers[index] === question.correctAnswer
                                       ? "correct"
                                       : "incorrect"
                                   }`}
                                 >
-                                  {quizAnswers[index] ===
-                                  question.correctAnswer ? (
+                                  {quizAnswers[index] === question.correctAnswer ? (
                                     <>
                                       <span>&#10004;</span> Correct
                                     </>
@@ -229,11 +221,7 @@ const QuizPage = () => {
                               )}
                             </div>
                           ))}
-                        <button
-                          type="button"
-                          onClick={handleSubmitQuiz}
-                          disabled={isSubmitted}
-                        >
+                        <button type="button" onClick={handleSubmitQuiz} disabled={isSubmitted}>
                           {isSubmitted ? "Submitted" : "Submit"}
                         </button>
                       </form>
