@@ -19,6 +19,7 @@ const QuizPage = () => {
   const [answerFeedback, setAnswerFeedback] = useState({});
   const [passedQuizzes, setPassedQuizzes] = useState([]);
   const [showAlertModal, setShowAlertModal] = useState(false);
+  const [isQuizCompleted, setIsQuizCompleted] = useState(false);
 
   const { user } = useContext(UserContext);
 
@@ -54,6 +55,7 @@ const QuizPage = () => {
         .then((data) => {
           setContent(data);
           setTotalQuestions(data.questions.length);
+          setIsQuizCompleted(passedQuizzes.includes(selectedQuiz));
           setQuizLoading(false);
         })
         .catch((error) => {
@@ -62,7 +64,7 @@ const QuizPage = () => {
           setQuizLoading(false);
         });
     }
-  }, [selectedQuiz]);
+  }, [selectedQuiz, passedQuizzes]);
 
   const toggleQuiz = (id, index) => {
     if (index > 0 && !passedQuizzes.includes(contents[index - 1]._id)) {
@@ -221,8 +223,8 @@ const QuizPage = () => {
                               )}
                             </div>
                           ))}
-                        <button type="button" onClick={handleSubmitQuiz} disabled={isSubmitted}>
-                          {isSubmitted ? "Submitted" : "Submit"}
+                        <button type="button" onClick={handleSubmitQuiz} disabled={isSubmitted || isQuizCompleted}>
+                          {isSubmitted || isQuizCompleted ? "Submitted" : "Submit"}
                         </button>
                       </form>
                       {showResults && (
