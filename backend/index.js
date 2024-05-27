@@ -189,7 +189,6 @@ app.post("/register", async (req, res) => {
   }
 });
 
-
 // Fetch all contents
 app.get("/api/contents", async (req, res) => {
   try {
@@ -216,22 +215,23 @@ app.get("/api/quiz/:id", async (req, res) => {
   }
 });
 
-app.get('/api/userQuizData', async (req, res) => {
+app.get("/api/userQuizData", async (req, res) => {
   const { email } = req.query;
 
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: "User not found" });
     }
 
-    res.json({ completedQuizIds: user.quizResults.map(result => result.quizId) });
+    res.json({
+      completedQuizIds: user.quizResults.map((result) => result.quizId),
+    });
   } catch (error) {
-    console.error('Error fetching user quiz data:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error fetching user quiz data:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
-
 
 // Submit quiz answers
 // server.js or appropriate backend file

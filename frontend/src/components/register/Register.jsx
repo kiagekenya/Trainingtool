@@ -8,7 +8,9 @@ const RegisterForm = () => {
     name: "",
     email: "",
     password: "",
+    confirmPassword: "", // Step 1: Add confirmPassword to state
   });
+  const [error, setError] = useState(""); // Step 4: Add error state
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -20,6 +22,13 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(""); // Clear previous errors
+
+    // Step 3: Check if passwords match
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
 
     try {
       const config = {
@@ -28,14 +37,15 @@ const RegisterForm = () => {
         },
       };
 
-      const body = JSON.stringify(formData);
+      const { confirmPassword, ...data } = formData; // Exclude confirmPassword from the request payload
+      const body = JSON.stringify(data);
       const response = await axios.post("/register", body, config);
 
       console.log("Registration successful", response.data);
       navigate("/login");
     } catch (error) {
-      console.error("Registration failed:", error.response.data);
-      alert("Registration failed");
+      console.error("Registration failed:", error.response?.data || error);
+      setError("Registration failed");
     }
   };
 
@@ -70,12 +80,14 @@ const RegisterForm = () => {
           />
           <input
             type="password"
-            name="password"
-            placeholder=" Confirm Password"
+            name="confirmPassword" // Step 2: Add confirmPassword field
+            placeholder="Confirm Password"
             required
-            value={formData.password}
+            value={formData.confirmPassword}
             onChange={handleChange}
           />
+          {error && <p style={{ color: "red" }}>{error}</p>}{" "}
+          {/* Step 4: Display error */}
           <button type="submit" className="btnprimary">
             Register
           </button>
