@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import GoogleLoginButton from "../buttons/GoogleLoginButton";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    confirmPassword: "", // Step 1: Add confirmPassword to state
+    confirmPassword: "",
   });
-  const [error, setError] = useState(""); // Step 4: Add error state
+  const [error, setError] = useState(""); // Error state
+  const [emailError, setEmailError] = useState(""); // Email validation error state
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -20,15 +22,26 @@ const RegisterForm = () => {
     });
   };
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Clear previous errors
 
-    // Step 3: Check if passwords match
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
       return;
     }
+
+    if (!validateEmail(formData.email)) {
+      setEmailError("Invalid email format");
+      return;
+    }
+
+    setEmailError("");
 
     try {
       const config = {
@@ -37,7 +50,7 @@ const RegisterForm = () => {
         },
       };
 
-      const { confirmPassword, ...data } = formData; // Exclude confirmPassword from the request payload
+      const { confirmPassword, ...data } = formData;
       const body = JSON.stringify(data);
       const response = await axios.post("/register", body, config);
 
@@ -70,6 +83,8 @@ const RegisterForm = () => {
             value={formData.email}
             onChange={handleChange}
           />
+          {emailError && <p style={{ color: "red" }}>{emailError}</p>}{" "}
+          {/* Display email error */}
           <input
             type="password"
             name="password"
@@ -80,18 +95,19 @@ const RegisterForm = () => {
           />
           <input
             type="password"
-            name="confirmPassword" // Step 2: Add confirmPassword field
+            name="confirmPassword"
             placeholder="Confirm Password"
             required
             value={formData.confirmPassword}
             onChange={handleChange}
           />
           {error && <p style={{ color: "red" }}>{error}</p>}{" "}
-          {/* Step 4: Display error */}
+          {/* Display error */}
           <button type="submit" className="btnprimary">
             Register
           </button>
         </form>
+        <GoogleLoginButton />
         <small>
           Already have an account? <Link to="/login">Login here.</Link>
         </small>

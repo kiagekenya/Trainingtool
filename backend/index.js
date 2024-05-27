@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -8,12 +9,51 @@ const path = require("path");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const session = require("express-session");
+const passport = require("passport");
 const User = require("./models/User");
 const Content = require("./models/Content");
+require("./models/passportConfig");
 
-require("dotenv/config");
-
+// console.log("GOOGLE_CLIENT_ID:", process.env.GOOGLE_CLIENT_ID);
+// console.log("GOOGLE_CLIENT_SECRET:", process.env.GOOGLE_CLIENT_SECRET);
 const app = express();
+
+// Middleware setup for google logic
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Google Auth routes
+app.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+  })
+);
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/login",
+    successRedirect: "/", // Change this to where you want to redirect after successful login
+  })
+);
+
+app.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
+
+// app.listen(3000, () => {
+//   console.log("Server started on port 3000");
+// });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
