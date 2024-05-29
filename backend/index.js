@@ -46,9 +46,22 @@ app.get(
   })
 );
 
+// logout
+
+// Logout route
 app.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/");
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    req.session.destroy((err) => {
+      if (err) {
+        return next(err);
+      }
+      res.clearCookie("connect.sid");
+      res.redirect("/login"); // Redirect to login page after logout
+    });
+  });
 });
 
 // app.listen(3000, () => {

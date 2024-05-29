@@ -15,6 +15,7 @@ import QuizList from "./components/quizlist/Quizlist";
 import Under from "./components/underconstruction/Under";
 import Profile from "./components/profilepage/ProfilePage";
 import { UserProvider } from "./contexts/UserContext";
+import { LogoutProvider } from "./contexts/LogoutContext";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -26,25 +27,26 @@ export default function App() {
   }, []);
 
   return (
-    <UserProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/quizlist" element={<QuizList />} />
-
-          <Route exact path="/" element={<Landing />}></Route>
-          <Route exact path="/home" element={<Home />}></Route>
-          <Route exact path="/introduction" element={<Introduction />}></Route>
-          <Route exact path="/about" element={<About />}></Route>
-          <Route exact path="/courses" element={<Courses />}></Route>
-          <Route exact path="/teachers" element={<Teachers />}></Route>
-          <Route exact path="/contact" element={<Contact />}></Route>
-          <Route exact path="/register" element={<Register />}></Route>
-          <Route exact path="/login" element={<Login />}></Route>
-          <Route exact path="/under" element={<Under />}></Route>
-          <Route exact path="/profile" element={<Profile />}></Route>
-        </Routes>
-      </BrowserRouter>
-    </UserProvider>
+    <BrowserRouter>
+      <UserProvider>
+        <LogoutProvider>
+          <Routes>
+            <Route path="/quizlist" element={<QuizList />} />
+            <Route exact path="/" element={<Landing />} />
+            <Route exact path="/home" element={<Home />} />
+            <Route exact path="/introduction" element={<Introduction />} />
+            <Route exact path="/about" element={<About />} />
+            <Route exact path="/courses" element={<Courses />} />
+            <Route exact path="/teachers" element={<Teachers />} />
+            <Route exact path="/contact" element={<Contact />} />
+            <Route exact path="/register" element={<Register />} />
+            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/under" element={<Under />} />
+            <Route exact path="/profile" element={<Profile />} />
+          </Routes>
+        </LogoutProvider>
+      </UserProvider>
+    </BrowserRouter>
   );
 }
 

@@ -12,6 +12,7 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import SideBar from "../sidBar/SideBar";
+import LogoutButton from "../logout/LogoutButton";
 
 const Home = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -69,6 +70,7 @@ const Home = () => {
               className={darkMode ? "fas fa-moon" : "fas fa-sun"}
               onClick={toggleDarkMode}
             ></div>
+            <LogoutButton />
           </div>
           <div className="profile">
             <img src={Profile} className="image" alt="" />
