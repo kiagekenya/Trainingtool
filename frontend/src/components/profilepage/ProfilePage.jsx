@@ -81,7 +81,7 @@ const ProfilePage = () => {
           <header className="header-section">
             <img src="profile_picture_url" alt="Profile" className="profile-picture" />
             <h1>{user ? user.name : "Guest"}</h1>
-            <p className="bio">"Lifelong learner and aspiring data scientist."</p>
+            <p className="bio">"Lifelong learner."</p>
           </header>
 
           {/* Personal Information */}
@@ -98,21 +98,18 @@ const ProfilePage = () => {
             <div className="current-courses">
               <h4>Current Courses</h4>
               <ul>
-                <li>Data Science 101 <progress value="75" max="100"></progress></li>
-                <li>Python Programming <progress value="50" max="100"></progress></li>
+                <li>Sample Quiz on General Knowledge  <progress value="75" max="100"></progress></li>
+                <li>National Oil Corporation <progress value="50" max="100"></progress></li>
               </ul>
             </div><br /><br />
             <div className="completed-courses">
               <h4>Completed Courses</h4>
               <ul>
-                <li>Introduction to Machine Learning - Grade: A</li>
-                <li>Web Development Bootcamp - Certificate Earned</li>
+                <li>What is Oil and Gas</li>
+             
               </ul>
             </div>
-            <div className="skills">
-              <h4>Skills</h4>
-              <p>Python, Machine Learning, Data Visualization, SQL</p>
-            </div>
+           
           </section>
 
           {/* Achievements and Badges */}
@@ -134,18 +131,11 @@ const ProfilePage = () => {
             <h3>Learning Activities</h3>
             <div className="recent-activity">
               <h4>Recent Activity</h4>
-              <ul>
-                <li>Enrolled in "Advanced Python Techniques"</li>
-                <li>Completed quiz on "Data Structures and Algorithms"</li>
-                <li>Posted in the "Data Science Community" forum</li>
-              </ul>
+              
             </div>
             <div className="favorites">
               <h4>Favorites</h4>
-              <ul>
-                <li>Article: "Top 10 Data Science Projects for Beginners"</li>
-                <li>Course: "Deep Learning with TensorFlow"</li>
-              </ul>
+             
             </div>
           </section>
 
@@ -164,17 +154,11 @@ const ProfilePage = () => {
             <h3>Personalized Recommendations</h3>
             <div className="suggested-courses">
               <h4>Suggested Courses</h4>
-              <ul>
-                <li>"Big Data Analytics"</li>
-                <li>"Statistics for Data Science"</li>
-              </ul>
+              
             </div>
             <div className="resources">
               <h4>Resources</h4>
-              <ul>
-                <li>Video: "Data Cleaning Techniques"</li>
-                <li>Blog: "How to Build a Data Science Portfolio"</li>
-              </ul>
+             
             </div>
           </section>
         </div>
