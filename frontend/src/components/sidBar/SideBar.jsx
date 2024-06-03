@@ -1,20 +1,20 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import Profile from '../../assets/vecteezy_happy-young-man-avatar-character_35280231.jpg';
-import { UserContext } from '../../contexts/UserContext';
-import './SideBar.css';
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import Profile from "../../assets/vecteezy_happy-young-man-avatar-character_35280231.jpg";
+import { UserContext } from "../../contexts/UserContext";
+import "./SideBar.css";
 
 const SideBar = ({ isSidebarVisible }) => {
   const { user } = useContext(UserContext);
 
   return (
-    <div className={`sidebar ${isSidebarVisible ? 'visible' : ''}`}>
+    <div className={`sidebar ${isSidebarVisible ? "visible" : ""}`}>
       <div id="close-btn">
         <i className="fas fa-times"></i>
       </div>
       <div className="profile">
         <img src={Profile} className="image" alt="" />
-        <h3 className="name">{user ? user.name : 'Guest'}</h3>
+        <h3 className="name">{user ? user.name : "Guest"}</h3>
         <Link to="/profile" className="btn">
           view profile
         </Link>
