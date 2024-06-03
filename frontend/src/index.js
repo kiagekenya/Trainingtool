@@ -1,3 +1,4 @@
+import Modal from "react-modal";
 import ReactDOM from "react-dom/client";
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -49,6 +50,6 @@ export default function App() {
     </BrowserRouter>
   );
 }
-
+Modal.setAppElement("#root");
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<App />);
