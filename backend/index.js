@@ -80,9 +80,6 @@ app.use(cors(corsOptions));
 // adding the static files
 // app.use(express.static(path.join(__dirname, "frontend/build")));
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
-
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -91,27 +88,27 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-app.post(
-  "/upload-pdf",
-  upload.fields([{ name: "pdf" }, { name: "invoice" }]),
-  (req, res) => {
-    try {
-      const pdfFile = req.files["pdf"][0]; // Retrieve the uploaded PDF file
-      const invoiceFile = req.files["invoice"][0]; // Retrieve the uploaded invoice file
+// app.post(
+//   "/upload-pdf",
+//   upload.fields([{ name: "pdf" }, { name: "invoice" }]),
+//   (req, res) => {
+//     try {
+//       const pdfFile = req.files["pdf"][0]; // Retrieve the uploaded PDF file
+//       const invoiceFile = req.files["invoice"][0]; // Retrieve the uploaded invoice file
 
-      // Save the uploaded PDF file
-      fs.writeFileSync("generated-pdf.pdf", pdfFile.buffer);
+//       // Save the uploaded PDF file
+//       fs.writeFileSync("generated-pdf.pdf", pdfFile.buffer);
 
-      // Save the uploaded invoice file
-      fs.writeFileSync("payment-receipt", invoiceFile.buffer);
+//       // Save the uploaded invoice file
+//       fs.writeFileSync("payment-receipt", invoiceFile.buffer);
 
-      res.status(200).json({ message: "PDF uploaded successfully" });
-    } catch (error) {
-      console.error("Error uploading PDF:", error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  }
-);
+//       res.status(200).json({ message: "PDF uploaded successfully" });
+//     } catch (error) {
+//       console.error("Error uploading PDF:", error);
+//       res.status(500).json({ error: "Internal Server Error" });
+//     }
+//   }
+// );
 
 app.post("/send-email", (req, res) => {
   const name = req.body.name;
@@ -227,12 +224,35 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/register", async (req, res) => {
+// multer
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage: storage });
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+app.use("/uploads", express.static("uploads"));
+
+const upload = multer({ storage: storage });
+
+app.post("/register", upload.single("image"), async (req, res) => {
   const { name, email, password } = req.body;
+  const imageUrl = req.file ? req.file.path : null;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ name, email, password: hashedPassword });
+    const newUser = new User({
+      name,
+      email,
+      password: hashedPassword,
+      imageUrl,
+    });
     await newUser.save();
     console.log("User saved successfully");
     res.status(200).json({ message: "Registration successful" });

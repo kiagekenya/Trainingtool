@@ -10,15 +10,17 @@ const RegisterForm = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    image: null,
   });
-  const [error, setError] = useState(""); // Error state
-  const [emailError, setEmailError] = useState(""); // Email validation error state
+  const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
+    const { name, value, files } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: files ? files[0] : value,
     });
   };
 
@@ -29,7 +31,7 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); // Clear previous errors
+    setError("");
 
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
@@ -44,15 +46,19 @@ const RegisterForm = () => {
     setEmailError("");
 
     try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("name", formData.name);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("password", formData.password);
+      formDataToSend.append("image", formData.image);
+
       const config = {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       };
 
-      const { confirmPassword, ...data } = formData;
-      const body = JSON.stringify(data);
-      const response = await axios.post("/register", body, config);
+      const response = await axios.post("/register", formDataToSend, config);
 
       console.log("Registration successful", response.data);
       navigate("/login");
@@ -67,6 +73,12 @@ const RegisterForm = () => {
       <div className="containerrr">
         <h2>Sign Up</h2>
         <form onSubmit={handleSubmit} className="form-register_form">
+          <input
+            type="file"
+            name="image"
+            accept="image/*"
+            onChange={handleChange}
+          />
           <input
             type="text"
             name="name"
@@ -83,8 +95,7 @@ const RegisterForm = () => {
             value={formData.email}
             onChange={handleChange}
           />
-          {emailError && <p style={{ color: "red" }}>{emailError}</p>}{" "}
-          {/* Display email error */}
+          {emailError && <p style={{ color: "red" }}>{emailError}</p>}
           <input
             type="password"
             name="password"
@@ -101,8 +112,8 @@ const RegisterForm = () => {
             value={formData.confirmPassword}
             onChange={handleChange}
           />
-          {error && <p style={{ color: "red" }}>{error}</p>}{" "}
-          {/* Display error */}
+
+          {error && <p style={{ color: "red" }}>{error}</p>}
           <button type="submit" className="btnprimary">
             Register
           </button>
