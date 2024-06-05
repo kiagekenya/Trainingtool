@@ -210,13 +210,18 @@ app.post("/login", async (req, res) => {
     }
 
     // Set user in session
-    req.session.user = { email: user.email, name: user.name };
+    req.session.user = {
+      email: user.email,
+      name: user.name,
+      imageUrl: user.imageUrl,
+    };
 
     res.json({
       status: "success",
       message: "Logged in successfully",
       name: user.name,
       email: user.email,
+      imageUrl: user.imageUrl, // Include imageUrl in the response
     });
   } catch (error) {
     console.error(error);
@@ -227,7 +232,10 @@ app.post("/login", async (req, res) => {
 // multer
 // const storage = multer.memoryStorage();
 // const upload = multer({ storage: storage });
+// Serve static files from the uploads directory
+app.use("/uploads", express.static("uploads"));
 
+// Multer configuration for file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/");
@@ -237,13 +245,12 @@ const storage = multer.diskStorage({
   },
 });
 
-app.use("/uploads", express.static("uploads"));
-
 const upload = multer({ storage: storage });
 
+// Registration endpoint
 app.post("/register", upload.single("image"), async (req, res) => {
   const { name, email, password } = req.body;
-  const imageUrl = req.file ? req.file.path : null;
+  const imageUrl = req.file ? req.file.path.replace(/\\/g, "/") : null; // Ensure forward slashes
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);

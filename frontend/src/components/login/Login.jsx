@@ -26,13 +26,28 @@ const Login = () => {
         body: JSON.stringify(userData),
       });
       const data = await response.json();
+
+      console.log("Login response data:", data); // Log the data received from the server
+
       if (data.status === "success") {
         // Save user data in context
-        setUser({ name: data.name, email: data.email });
+        setUser({
+          name: data.name,
+          email: data.email,
+          imageUrl: data.imageUrl,
+        });
+
+        // Log the user data set in the context
+        console.log("User set in context:", {
+          name: data.name,
+          email: data.email,
+          imageUrl: data.imageUrl,
+        });
+
         // Redirect to home page
         navigate("/home");
       } else {
-        console.error(data.message); // Handle login error
+        console.error("Login error message:", data.message); // Handle login error
       }
     } catch (error) {
       console.error("Login error:", error);

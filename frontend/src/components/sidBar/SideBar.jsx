@@ -7,13 +7,24 @@ import "./SideBar.css";
 const SideBar = ({ isSidebarVisible }) => {
   const { user } = useContext(UserContext);
 
+  console.log("User data in SideBar:", user);
   return (
     <div className={`sidebar ${isSidebarVisible ? "visible" : ""}`}>
       <div id="close-btn">
         <i className="fas fa-times"></i>
       </div>
       <div className="profile">
-        <img src={Profile} className="image" alt="" />
+        <img
+          src={
+            user?.imageUrl ? (
+              `/${user.imageUrl}`
+            ) : (
+              <img src={Profile} className="image" alt="" />
+            )
+          }
+          className="image"
+          alt=""
+        />
         <h3 className="name">{user ? user.name : "Guest"}</h3>
         <Link to="/profile" className="btn">
           view profile
