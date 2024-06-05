@@ -81,9 +81,15 @@ const ProfilePage = () => {
           {/* Header Section */}
           <header className="header-section">
             <img
-              src="profile_picture_url"
-              alt="Profile"
-              className="profile-picture"
+              src={
+                user?.imageUrl ? (
+                  `/${user.imageUrl}`
+                ) : (
+                  <img src={Profile} className="image" alt="" />
+                )
+              }
+              className="image"
+              alt=""
             />
             <h1>{user ? user.name : "Guest"}</h1>
             <p className="bio">"Lifelong learner."</p>
