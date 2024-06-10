@@ -247,6 +247,32 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+app.post("/upload-profile-image", upload.single("image"), async (req, res) => {
+  const { email } = req.body;
+  const imageUrl = req.file ? req.file.path.replace(/\\/g, "/") : null;
+
+  try {
+    const user = await User.findOneAndUpdate(
+      { email },
+      { imageUrl },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({
+      status: "success",
+      message: "Profile image updated successfully",
+      imageUrl: user.imageUrl,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 // Registration endpoint
 app.post("/register", upload.single("image"), async (req, res) => {
   const { name, email, password } = req.body;
