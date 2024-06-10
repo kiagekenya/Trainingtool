@@ -327,6 +327,62 @@ section {
   flex-direction: column;
   padding: 3rem 2rem;
   text-align: center;
+  position: relative;
+  text-align: center;
+}
+
+.edit-button {
+  background-color: transparent;
+  border: none;
+  color: #94d500;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.edit-button:hover {
+  color: #486603;
+}
+
+.file-upload-widget {
+  margin-top: 10px;
+}
+
+.file-input {
+  display: block;
+  margin: 10px auto;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.upload-button,
+.cancel-button {
+  background-color: #94d500;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.upload-button:hover,
+.cancel-button:hover {
+  background-color: #486603;
+}
+
+.cancel-button {
+  background-color: #dc3545;
+}
+
+.cancel-button:hover {
+  background-color: #c82333;
+}
+
+.name {
+  margin-top: 10px;
 }
 
 .side-bar .profile .image {

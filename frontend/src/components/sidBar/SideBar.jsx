@@ -7,7 +7,6 @@ import axios from "axios";
 import { MdEdit } from "react-icons/md";
 
 const SideBar = ({ isSidebarVisible }) => {
-  // const { user } = useContext(UserContext);
   const [isEditing, setIsEditing] = useState(false);
   const [file, setFile] = useState(null);
   const { user, setUser } = useContext(UserContext);
@@ -48,51 +47,56 @@ const SideBar = ({ isSidebarVisible }) => {
         <i className="fas fa-times"></i>
       </div>
       <div className="profile">
-        <img
-          src={user?.imageUrl ? `/${user.imageUrl}` : Profile}
-          className="image"
-          alt=""
-        />
+        <img src={imageUrl} className="image" alt="Profile" />
         {isEditing ? (
-          <>
-            <input type="file" onChange={handleFileChange} />
-            <button onClick={handleFileUpload}>Upload</button>
-            <button onClick={() => setIsEditing(false)}>Cancel</button>
-          </>
+          <div className="file-upload-widget">
+            <input
+              type="file"
+              onChange={handleFileChange}
+              className="file-input"
+            />
+            <div className="button-group">
+              <button onClick={handleFileUpload} className="upload-button">
+                Upload
+              </button>
+              <button
+                onClick={() => setIsEditing(false)}
+                className="cancel-button"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
         ) : (
-          <button onClick={() => setIsEditing(true)}>
+          <button onClick={() => setIsEditing(true)} className="edit-button">
             <MdEdit />
           </button>
         )}
-        {/* <Link to="/edit-profile" className="btn">
-          Edit Profile
-        </Link>{" "} */}
-        {/* Edit Button */}
         <h3 className="name">{user ? user.name : "Guest"}</h3>
         <Link to="/profile" className="btn">
-          view profile
+          View Profile
         </Link>
       </div>
       <nav className="navbar">
         <Link to="/home">
           <i className="fas fa-home"></i>
-          <span>home</span>
+          <span>Home</span>
         </Link>
         <Link to="/about">
           <i className="fas fa-question"></i>
-          <span>about</span>
+          <span>About</span>
         </Link>
         <Link to="/courses">
           <i className="fas fa-graduation-cap"></i>
-          <span>courses</span>
+          <span>Courses</span>
         </Link>
         <Link to="/teachers">
           <i className="fas fa-chalkboard-user"></i>
-          <span>tutors</span>
+          <span>Tutors</span>
         </Link>
         <Link to="/contact">
           <i className="fas fa-headset"></i>
-          <span>contact us</span>
+          <span>Contact Us</span>
         </Link>
       </nav>
     </div>
