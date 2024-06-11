@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import ReactDOM from "react-dom/client";
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./components/home/Home";
 import Introduction from "./components/introduction/Introduction";
@@ -17,6 +17,7 @@ import Under from "./components/underconstruction/Under";
 import Profile from "./components/profilepage/ProfilePage";
 import { UserProvider } from "./contexts/UserContext";
 import { LogoutProvider } from "./contexts/LogoutContext";
+import PrivateRoute from "./components/PrivateRoute"; // Import PrivateRoute
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -32,18 +33,82 @@ export default function App() {
       <UserProvider>
         <LogoutProvider>
           <Routes>
-            <Route path="/quizlist" element={<QuizList />} />
+            <Route
+              path="/quizlist"
+              element={
+                <PrivateRoute>
+                  <QuizList />
+                </PrivateRoute>
+              }
+            />
             <Route exact path="/" element={<Landing />} />
-            <Route exact path="/home" element={<Home />} />
-            <Route exact path="/introduction" element={<Introduction />} />
-            <Route exact path="/about" element={<About />} />
-            <Route exact path="/courses" element={<Courses />} />
-            <Route exact path="/teachers" element={<Teachers />} />
-            <Route exact path="/contact" element={<Contact />} />
+            <Route
+              exact
+              path="/home"
+              element={
+                <PrivateRoute>
+                  <Home />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              exact
+              path="/introduction"
+              element={
+                <PrivateRoute>
+                  <Introduction />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              exact
+              path="/about"
+              element={
+                <PrivateRoute>
+                  <About />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              exact
+              path="/courses"
+              element={
+                <PrivateRoute>
+                  <Courses />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              exact
+              path="/teachers"
+              element={
+                <PrivateRoute>
+                  <Teachers />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              exact
+              path="/contact"
+              element={
+                <PrivateRoute>
+                  <Contact />
+                </PrivateRoute>
+              }
+            />
             <Route exact path="/register" element={<Register />} />
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/under" element={<Under />} />
-            <Route exact path="/profile" element={<Profile />} />
+            <Route
+              exact
+              path="/profile"
+              element={
+                <PrivateRoute>
+                  <Profile />
+                </PrivateRoute>
+              }
+            />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </LogoutProvider>
       </UserProvider>
