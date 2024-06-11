@@ -1,14 +1,13 @@
-// src/components/Login/Login.js
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../../contexts/UserContext"; // Import UserContext
+import { UserContext } from "../../contexts/UserContext";
 
 const Login = () => {
   const [userData, setUserData] = useState({
     email: "",
     password: "",
   });
-  const { setUser } = useContext(UserContext); // Get setUser from context
+  const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -27,27 +26,15 @@ const Login = () => {
       });
       const data = await response.json();
 
-      console.log("Login response data:", data); // Log the data received from the server
-
       if (data.status === "success") {
-        // Save user data in context
         setUser({
           name: data.name,
           email: data.email,
           imageUrl: data.imageUrl,
         });
-
-        // Log the user data set in the context
-        console.log("User set in context:", {
-          name: data.name,
-          email: data.email,
-          imageUrl: data.imageUrl,
-        });
-
-        // Redirect to home page
         navigate("/home");
       } else {
-        console.error("Login error message:", data.message); // Handle login error
+        console.error("Login error message:", data.message);
       }
     } catch (error) {
       console.error("Login error:", error);

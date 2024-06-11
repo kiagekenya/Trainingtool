@@ -71,22 +71,22 @@ app.get("/logout", (req, res) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const corsOptions = {
-  origin: "*",
-  credentials: true,
-  optionSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: "*",
+//   credentials: true,
+//   optionSuccessStatus: 200,
+// };
+// app.use(cors(corsOptions));
 // adding the static files
 // app.use(express.static(path.join(__dirname, "frontend/build")));
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "kiagejay@gmail.com",
-    pass: "ynsd mdzk apft ernd",
-  },
-});
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: "kiagejay@gmail.com",
+//     pass: "ynsd mdzk apft ernd",
+//   },
+// });
 
 // app.post(
 //   "/upload-pdf",
@@ -110,56 +110,46 @@ const transporter = nodemailer.createTransport({
 //   }
 // );
 
-app.post("/send-email", (req, res) => {
-  const name = req.body.name;
+// app.post("/send-email", (req, res) => {
+//   const name = req.body.name;
 
-  const mailOptions = {
-    from: "kiagejay@gmail.com",
-    to: "jacobkiage4@gmail.com",
-    subject: `New Order for ${name}`,
+//   const mailOptions = {
+//     from: "kiagejay@gmail.com",
+//     to: "jacobkiage4@gmail.com",
+//     subject: `New Order for ${name}`,
 
-    text: "New order received. Please find the attached  LPO and Payment receipt.",
-    attachments: [
-      {
-        filename: "onlinelpo.pdf",
-        content: fs.createReadStream("generated-pdf.pdf"),
-      },
-      {
-        filename: "paymentreceipt.pdf",
-        content: fs.createReadStream("payment-receipt"),
-      },
-    ],
-  };
+//     text: "New order received. Please find the attached  LPO and Payment receipt.",
+//     attachments: [
+//       {
+//         filename: "onlinelpo.pdf",
+//         content: fs.createReadStream("generated-pdf.pdf"),
+//       },
+//       {
+//         filename: "paymentreceipt.pdf",
+//         content: fs.createReadStream("payment-receipt"),
+//       },
+//     ],
+//   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error("Error sending email:", error);
-      res.status(500).json({ error: "Failed to send email" });
-    } else {
-      console.log("Email sent:", info.response);
-      res.status(200).json({ message: "Email sent successfully" });
-    }
-  });
-});
-
-app.use(
-  session({
-    secret: "your-secret-key",
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: "auto", httpOnly: true },
-  })
-);
+//   transporter.sendMail(mailOptions, (error, info) => {
+//     if (error) {
+//       console.error("Error sending email:", error);
+//       res.status(500).json({ error: "Failed to send email" });
+//     } else {
+//       console.log("Email sent:", info.response);
+//       res.status(200).json({ message: "Email sent successfully" });
+//     }
+//   });
+// });
 
 // server.js or appropriate backend file
 
 app.get("/api/user", (req, res) => {
-  // Fetch user data from your database
-  const user = {
-    name: "John Doe",
-    email: "john.doe@example.com",
-  };
-  res.json(user);
+  if (req.session.user) {
+    res.json(req.session.user);
+  } else {
+    res.status(401).json({ message: "Not authenticated" });
+  }
 });
 
 function isAuthenticated(req, res, next) {
@@ -171,29 +161,29 @@ function isAuthenticated(req, res, next) {
 }
 
 // Protected route example
-app.get("/home", isAuthenticated, (req, res) => {
-  res.send("Home Page");
-});
+// app.get("/home", isAuthenticated, (req, res) => {
+//   res.send("Home Page");
+// });
 
-app.get("/introduction", isAuthenticated, (req, res) => {
-  res.send("Introduction");
-});
+// app.get("/introduction", isAuthenticated, (req, res) => {
+//   res.send("Introduction");
+// });
 
-app.get("/about", isAuthenticated, (req, res) => {
-  res.send("About");
-});
+// app.get("/about", isAuthenticated, (req, res) => {
+//   res.send("About");
+// });
 
-app.get("/courses", isAuthenticated, (req, res) => {
-  res.send("Courses");
-});
+// app.get("/courses", isAuthenticated, (req, res) => {
+//   res.send("Courses");
+// });
 
-app.get("/teachers", isAuthenticated, (req, res) => {
-  res.send("Teachers");
-});
+// app.get("/teachers", isAuthenticated, (req, res) => {
+//   res.send("Teachers");
+// });
 
-app.get("/contact", isAuthenticated, (req, res) => {
-  res.send("Contact");
-});
+// app.get("/contact", isAuthenticated, (req, res) => {
+//   res.send("Contact");
+// });
 
 // server.js or wherever your backend routes are defined
 app.post("/login", async (req, res) => {
@@ -209,7 +199,6 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password." });
     }
 
-    // Set user in session
     req.session.user = {
       email: user.email,
       name: user.name,
@@ -221,7 +210,7 @@ app.post("/login", async (req, res) => {
       message: "Logged in successfully",
       name: user.name,
       email: user.email,
-      imageUrl: user.imageUrl, // Include imageUrl in the response
+      imageUrl: user.imageUrl,
     });
   } catch (error) {
     console.error(error);
