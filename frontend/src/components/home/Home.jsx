@@ -17,6 +17,51 @@ import SideBar from "../sidBar/SideBar";
 const Home = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  const courses = [
+    {
+      title: "Introduction to The Oil and Gas Industry",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 1,
+      image: Intro,
+      link: "/introduction",
+    },
+    {
+      title: "Exploration",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 3,
+      image: Exploration,
+      link: "/under",
+    },
+    {
+      title: "Development & Production",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 7,
+      image: Development,
+      link: "/under",
+    },
+    {
+      title: "Well Abandonment",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 2,
+      image: Abandonment,
+      link: "/under",
+    },
+    {
+      title: "Petroleum Economics",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 4,
+      image: Econ,
+      link: "/under",
+    },
+  ];
 
   useEffect(() => {
     AOS.init({ duration: 2000 });
@@ -40,6 +85,20 @@ const Home = () => {
     console.log(isSidebarVisible);
   };
 
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    const filteredCourses = courses.filter((course) =>
+      course.title.toLowerCase().includes(query.toLowerCase())
+    );
+    setSearchResults(filteredCourses);
+  };
+
+  const preventDefault = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       <header className="header">
@@ -47,15 +106,17 @@ const Home = () => {
           <div className="logo">
             <img src={LOGO} alt="logo" />
           </div>
-          <form action="search.html" method="post" className="search-form">
+          <form className="search-form">
             <input
               type="text"
               name="search_box"
               required
               placeholder="search courses..."
               maxLength="100"
+              value={searchQuery}
+              onChange={handleSearchChange}
             />
-            <button type="submit" className="fas fa-search"></button>
+            <button type="button" className="fas fa-search"></button>
           </form>
           <div className="icons">
             <div
@@ -64,7 +125,10 @@ const Home = () => {
               onClick={handleSidebarToggle}
             ></div>
             <div id="search-btn" className="fas fa-search"></div>
-            <div id="user-btn" className="fas fa-user"></div>
+
+            <Link to="/profile">
+              <div id="user-btn" className="fas fa-user"></div>
+            </Link>
             <div
               id="toggle-btn"
               className={darkMode ? "fas fa-moon" : "fas fa-sun"}
@@ -87,92 +151,31 @@ const Home = () => {
 
       <section className="courses">
         <h1 className="heading">Our Modules</h1>
+        {searchResults.length === 0 && searchQuery && (
+          <p className="searchQuery">No results found for "{searchQuery}"</p>
+        )}
+
         <div className="box-container">
-          <div className="box">
-            <div className="tutor">
-              <div className="info">
-                <h3>Jacob Kiage</h3>
-                <span>21-3-2024</span>
+          {(searchResults.length > 0 ? searchResults : courses).map(
+            (course, index) => (
+              <div className="box" key={index} data-aos="zoom-in">
+                <div className="tutor">
+                  <div className="info">
+                    <h3>{course.tutor}</h3>
+                    <span>{course.date}</span>
+                  </div>
+                </div>
+                <div className="thumb">
+                  <img src={course.image} alt="" />
+                  <span>{course.topics} topics</span>
+                </div>
+                <h3 className="title">{course.title}</h3>
+                <Link to={course.link} className="inline-btn">
+                  View Module
+                </Link>
               </div>
-            </div>
-            <div className="thumb">
-              <img src={Intro} alt="" />
-              <span>1 topic</span>
-            </div>
-            <h3 className="title">Introduction to The Oil and Gas Industry </h3>
-
-            <Link to="/introduction" className="inline-btn">
-              View Module
-            </Link>
-          </div>
-
-          <div className="box">
-            <div className="tutor">
-              <div className="info">
-                <h3>Jacob Kiage</h3>
-                <span>21-3-2024</span>
-              </div>
-            </div>
-            <div className="thumb">
-              <img src={Exploration} alt="" />
-              <span>3 topics</span>
-            </div>
-            <h3 className="title">Exploration</h3>
-            <Link to="/under" className="inline-btn">
-              View Module
-            </Link>
-          </div>
-
-          <div className="box">
-            <div className="tutor">
-              <div className="info">
-                <h3>Jacob Kiage</h3>
-                <span>21-3-2024</span>
-              </div>
-            </div>
-            <div className="thumb">
-              <img src={Development} alt="" />
-              <span>7 topics</span>
-            </div>
-            <h3 className="title">Development & Production</h3>
-            <Link to="/under" className="inline-btn">
-              View Module
-            </Link>
-          </div>
-
-          <div className="box" data-aos="zoom-in">
-            <div className="tutor">
-              <div className="info">
-                <h3>Jacob Kiage</h3>
-                <span>21-3-2024</span>
-              </div>
-            </div>
-            <div className="thumb">
-              <img src={Abandonment} alt="" />
-              <span>2 topics</span>
-            </div>
-            <h3 className="title">Well Abandonment</h3>
-            <Link to="/under" className="inline-btn">
-              View Module
-            </Link>
-          </div>
-
-          <div className="box" data-aos="zoom-in">
-            <div className="tutor">
-              <div className="info">
-                <h3>Jacob Kiage</h3>
-                <span>21-3-2024</span>
-              </div>
-            </div>
-            <div className="thumb">
-              <img src={Econ} alt="" />
-              <span>4 topics</span>
-            </div>
-            <h3 className="title">Petroleum Economics</h3>
-            <Link to="/under" className="inline-btn">
-              View Module
-            </Link>
-          </div>
+            )
+          )}
         </div>
         <div className="more-btn" data-aos="fade-left">
           <Link to="/courses" className="inline-option-btn">
@@ -191,19 +194,19 @@ const Home = () => {
             <p className="likes">
               total likes : <span>25</span>
             </p>
-            <Link to="/" className="inline-btn">
+            <Link to="/" className="inline-btn" onClick={preventDefault}>
               view likes
             </Link>
             <p className="likes">
               total comments : <span>12</span>
             </p>
-            <Link to="/" className="inline-btn">
+            <Link to="/" className="inline-btn" onClick={preventDefault}>
               view comments
             </Link>
             <p className="likes">
               saved courses: <span>4</span>
             </p>
-            <Link to="/" className="inline-btn">
+            <Link to="/" className="inline-btn" onClick={preventDefault}>
               view courses
             </Link>
           </div>
@@ -211,28 +214,28 @@ const Home = () => {
           <div className="box" data-aos="fade-up">
             <h3 className="title">top categories</h3>
             <div className="flex">
-              <Link to="/">
+              <Link to="/" onClick={preventDefault}>
                 <span>drilling engineering</span>
               </Link>
-              <Link to="/">
+              <Link to="/" onClick={preventDefault}>
                 <span>exploratory drilling</span>
               </Link>
-              <Link to="/">
+              <Link to="/" onClick={preventDefault}>
                 <span>reservoir simulation</span>
               </Link>
-              <Link to="/">
+              <Link to="/" onClick={preventDefault}>
                 <span>marketing</span>
               </Link>
-              <Link to="/">
+              <Link to="/" onClick={preventDefault}>
                 <span>petroleum geology</span>
               </Link>
-              <Link to="/">
+              <Link to="/" onClick={preventDefault}>
                 <span>production engineering</span>
               </Link>
-              <Link to="/">
+              <Link to="/" onClick={preventDefault}>
                 <span>petrophysics</span>
               </Link>
-              <Link to="/">
+              <Link to="/" onClick={preventDefault}>
                 <span>Gas</span>
               </Link>
             </div>
@@ -241,22 +244,22 @@ const Home = () => {
           <div className="box" data-aos="fade-down">
             <h3 className="title">popular topics</h3>
             <div className="flex">
-              <Link to="/">
+              <Link to="/" onClick={preventDefault}>
                 <span>Safety and training</span>
               </Link>
-              <Link to="/">
+              <Link to="/" onClick={preventDefault}>
                 <span>Natural Environment</span>
               </Link>
-              <Link to="/">
+              <Link to="/" onClick={preventDefault}>
                 <span>Artificial lift systems</span>
               </Link>
-              <Link to="/">
+              <Link to="/" onClick={preventDefault}>
                 <span>Effects on climate</span>
               </Link>
-              <Link to="/">
+              <Link to="/" onClick={preventDefault}>
                 <span>Petroleum</span>
               </Link>
-              <Link to="/">
+              <Link to="/" onClick={preventDefault}>
                 <span>Drilling technology</span>
               </Link>
             </div>
@@ -271,7 +274,7 @@ const Home = () => {
               difference in someone's journey.
             </p>
 
-            <Link to="/" class="inline-btn">
+            <Link to="/" className="inline-btn">
               Get started
             </Link>
           </div>
