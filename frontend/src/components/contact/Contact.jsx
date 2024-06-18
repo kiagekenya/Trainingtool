@@ -1,12 +1,102 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import LOGO from "../../assets/nock j.png";
 import { Link } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.css";
 import Profile from "../../assets/vecteezy_happy-young-man-avatar-character_35280231.jpg";
 import ContactImage from "../../assets/contact-img.svg";
 import SideBar from "../sidBar/SideBar";
+import "aos/dist/aos.css";
+import Intro from "../../assets/intro2.jpg";
+import Exploration from "../../assets/exploration.jpg";
+import Development from "../../assets/development.jpg";
+import Abandonment from "../../assets/well abandonment.jpg";
+import Econ from "../../assets/econ.jpg";
+import AOS from "aos";
 
 const Contact = () => {
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const courses = [
+    {
+      title: "Introduction to The Oil and Gas Industry",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 1,
+      image: Intro,
+      link: "/introduction",
+    },
+    {
+      title: "Exploration",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 3,
+      image: Exploration,
+      link: "/under",
+    },
+    {
+      title: "Development & Production",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 7,
+      image: Development,
+      link: "/under",
+    },
+    {
+      title: "Well Abandonment",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 2,
+      image: Abandonment,
+      link: "/under",
+    },
+    {
+      title: "Petroleum Economics",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 4,
+      image: Econ,
+      link: "/under",
+    },
+  ];
+
+  useEffect(() => {
+    AOS.init({ duration: 2000 });
+  }, []);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+  }, [darkMode]);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
+  const handleSidebarToggle = () => {
+    console.log("clicked");
+    setIsSidebarVisible(!isSidebarVisible);
+    console.log(isSidebarVisible);
+  };
+
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    const filteredCourses = courses.filter((course) =>
+      course.title.toLowerCase().includes(query.toLowerCase())
+    );
+    setSearchResults(filteredCourses);
+  };
+
+  const preventDefault = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       <header className="header">
@@ -14,34 +104,48 @@ const Contact = () => {
           <div className="logo">
             <img src={LOGO} alt="logo" />
           </div>
-          <form action="search.html" method="post" className="search-form">
+          <form className="search-form">
             <input
               type="text"
               name="search_box"
               required
               placeholder="search courses..."
               maxLength="100"
+              value={searchQuery}
+              onChange={handleSearchChange}
             />
-            <button type="submit" className="fas fa-search"></button>
+            <button type="button" className="fas fa-search"></button>
           </form>
           <div className="icons">
-            <div id="menu-btn" className="fas fa-bars"></div>
+            <div
+              id="menu-btn"
+              className="fas fa-bars"
+              onClick={handleSidebarToggle}
+            ></div>
             <div id="search-btn" className="fas fa-search"></div>
-            <div id="user-btn" className="fas fa-user"></div>
-            <div id="toggle-btn" className="fas fa-sun"></div>
+
+            <Link to="/profile">
+              <div id="user-btn" className="fas fa-user"></div>
+            </Link>
+            <div
+              id="toggle-btn"
+              className={darkMode ? "fas fa-moon" : "fas fa-sun"}
+              onClick={toggleDarkMode}
+            ></div>
+            {/* <LogoutButton /> */}
           </div>
           <div className="profile">
             <img src={Profile} className="image" alt="" />
             <h3 className="name">Jacob</h3>
             <p className="role">Guest</p>
-            <Link to="/" className="btn">
+            <Link to="/profile" className="btn">
               view profile
             </Link>
           </div>
         </section>
       </header>
 
-      <SideBar />
+      <SideBar isSidebarVisible={isSidebarVisible} />
 
       <section className="contact">
         <div className="row">

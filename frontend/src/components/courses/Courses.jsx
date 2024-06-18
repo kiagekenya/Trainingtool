@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import LOGO from "../../assets/nock j.png";
 import Profile from "../../assets/vecteezy_happy-young-man-avatar-character_35280231.jpg";
@@ -14,7 +14,12 @@ const Courses = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const handleSidebarToggle = () => {
+    console.log("clicked");
+    setIsSidebarVisible(!isSidebarVisible);
+    console.log(isSidebarVisible);
+  };
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -63,7 +68,6 @@ const Courses = () => {
     },
   ];
 
-
   const handleSearchChange = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
@@ -73,8 +77,6 @@ const Courses = () => {
     );
     setSearchResults(filteredCourses);
   };
-
-
 
   return (
     <>
@@ -99,7 +101,7 @@ const Courses = () => {
             <div
               id="menu-btn"
               className="fas fa-bars"
-              onClick={toggleSidebar}
+              onClick={handleSidebarToggle}
             ></div>
             <div id="search-btn" className="fas fa-search"></div>
             <div id="user-btn" className="fas fa-user"></div>
@@ -116,16 +118,15 @@ const Courses = () => {
         </section>
       </header>
 
-      <SideBar />
+      <SideBar isSidebarVisible={isSidebarVisible} />
 
       <section className="courses">
-      <h1 className="heading">Our Modules</h1>
+        <h1 className="heading">Our Modules</h1>
         {searchResults.length === 0 && searchQuery && (
           <p className="searchQuery">No results found for "{searchQuery}"</p>
         )}
 
-
-<div className="box-container">
+        <div className="box-container">
           {(searchResults.length > 0 ? searchResults : courses).map(
             (course, index) => (
               <div className="box" key={index} data-aos="zoom-in">
@@ -147,7 +148,6 @@ const Courses = () => {
             )
           )}
         </div>
-
       </section>
 
       <footer className="footer">

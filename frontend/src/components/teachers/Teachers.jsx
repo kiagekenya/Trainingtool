@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import LOGO from "../../assets/nock j.png";
 import "@fortawesome/fontawesome-free/css/all.css";
@@ -6,6 +6,13 @@ import Profile from "../../assets/vecteezy_happy-young-man-avatar-character_3528
 import SideBar from "../sidBar/SideBar";
 
 const Teachers = () => {
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const handleSidebarToggle = () => {
+    console.log("clicked");
+    setIsSidebarVisible(!isSidebarVisible);
+    console.log(isSidebarVisible);
+  };
+
   return (
     <>
       <header className="header">
@@ -24,7 +31,11 @@ const Teachers = () => {
             <button type="submit" className="fas fa-search"></button>
           </form>
           <div className="icons">
-            <div id="menu-btn" className="fas fa-bars"></div>
+            <div
+              id="menu-btn"
+              className="fas fa-bars"
+              onClick={handleSidebarToggle}
+            ></div>
             <div id="search-btn" className="fas fa-search"></div>
             <div id="user-btn" className="fas fa-user"></div>
             <div id="toggle-btn" className="fas fa-sun"></div>
@@ -40,11 +51,11 @@ const Teachers = () => {
         </section>
       </header>
 
-      <SideBar />
+      <SideBar isSidebarVisible={isSidebarVisible} />
 
       <section className="teachers">
         <h1 className="heading">expert teachers</h1>
-        
+
         <div className="box-container">
           <div className="box offer">
             <h3>become a tutor</h3>
