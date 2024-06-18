@@ -12,10 +12,69 @@ import SideBar from "../sidBar/SideBar";
 
 const Courses = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
+
+  const courses = [
+    {
+      title: "Introduction to The Oil and Gas Industry",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 1,
+      image: Intro,
+      link: "/introduction",
+    },
+    {
+      title: "Exploration",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 3,
+      image: Exploration,
+      link: "/under",
+    },
+    {
+      title: "Development & Production",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 7,
+      image: Development,
+      link: "/under",
+    },
+    {
+      title: "Well Abandonment",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 2,
+      image: Abandonment,
+      link: "/under",
+    },
+    {
+      title: "Petroleum Economics",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 4,
+      image: Econ,
+      link: "/under",
+    },
+  ];
+
+
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    const filteredCourses = courses.filter((course) =>
+      course.title.toLowerCase().includes(query.toLowerCase())
+    );
+    setSearchResults(filteredCourses);
+  };
+
+
 
   return (
     <>
@@ -24,15 +83,17 @@ const Courses = () => {
           <div className="logo">
             <img src={LOGO} alt="logo" />
           </div>
-          <form action="search.html" method="post" className="search-form">
+          <form className="search-form">
             <input
               type="text"
               name="search_box"
               required
               placeholder="search courses..."
               maxLength="100"
+              value={searchQuery}
+              onChange={handleSearchChange}
             />
-            <button type="submit" className="fas fa-search"></button>
+            <button type="button" className="fas fa-search"></button>
           </form>
           <div className="icons">
             <div
@@ -58,93 +119,35 @@ const Courses = () => {
       <SideBar />
 
       <section className="courses">
-        <h1 className="heading">our courses</h1>
-        <div className="box-container">
-          <div className="box">
-            <div className="tutor">
-              <div className="info">
-                <h3>Jacob Kiage</h3>
-                <span>21-3-2024</span>
-              </div>
-            </div>
-            <div className="thumb">
-              <img src={Intro} alt="" />
-              <span>1 topic</span>
-            </div>
-            <h3 className="title">Introduction to Petroleum Engineering</h3>
+      <h1 className="heading">Our Modules</h1>
+        {searchResults.length === 0 && searchQuery && (
+          <p className="searchQuery">No results found for "{searchQuery}"</p>
+        )}
 
-            <Link to="/introduction" className="inline-btn">
-              View Module
-            </Link>
-          </div>
-          <div className="box">
-            <div className="tutor">
-              <div className="info">
-                <h3>Jacob Kiage</h3>
-                <span>21-3-2024</span>
-              </div>
-            </div>
-            <div className="thumb">
-              <img src={Exploration} alt="" />
-              <span>3 topics</span>
-            </div>
-            <h3 className="title">Exploration</h3>
-            <Link to="/" className="inline-btn">
-              View Module
-            </Link>
-          </div>
 
-          <div className="box">
-            <div className="tutor">
-              <div className="info">
-                <h3>Jacob Kiage</h3>
-                <span>21-3-2024</span>
+<div className="box-container">
+          {(searchResults.length > 0 ? searchResults : courses).map(
+            (course, index) => (
+              <div className="box" key={index} data-aos="zoom-in">
+                <div className="tutor">
+                  <div className="info">
+                    <h3>{course.tutor}</h3>
+                    <span>{course.date}</span>
+                  </div>
+                </div>
+                <div className="thumb">
+                  <img src={course.image} alt="" />
+                  <span>{course.topics} topics</span>
+                </div>
+                <h3 className="title">{course.title}</h3>
+                <Link to={course.link} className="inline-btn">
+                  View Module
+                </Link>
               </div>
-            </div>
-            <div className="thumb">
-              <img src={Development} alt="" />
-              <span>7 topics</span>
-            </div>
-            <h3 className="title">Development & Production</h3>
-            <Link to="/" className="inline-btn">
-              View Module
-            </Link>
-          </div>
-
-          <div className="box" data-aos="zoom-in">
-            <div className="tutor">
-              <div className="info">
-                <h3>Jacob Kiage</h3>
-                <span>21-3-2024</span>
-              </div>
-            </div>
-            <div className="thumb">
-              <img src={Abandonment} alt="" />
-              <span>2 topics</span>
-            </div>
-            <h3 className="title">Well Abandonment</h3>
-            <Link to="/" className="inline-btn">
-              View Module
-            </Link>
-          </div>
-
-          <div className="box" data-aos="zoom-in">
-            <div className="tutor">
-              <div className="info">
-                <h3>Jacob Kiage</h3>
-                <span>21-3-2024</span>
-              </div>
-            </div>
-            <div className="thumb">
-              <img src={Econ} alt="" />
-              <span>4 topics</span>
-            </div>
-            <h3 className="title">Petroleum Economics</h3>
-            <Link to="/" className="inline-btn">
-              View Module
-            </Link>
-          </div>
+            )
+          )}
         </div>
+
       </section>
 
       <footer className="footer">

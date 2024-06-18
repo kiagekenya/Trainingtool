@@ -4,9 +4,15 @@ import LOGO from "../../assets/nock j.png";
 import "@fortawesome/fontawesome-free/css/all.css";
 import Profile from "../../assets/vecteezy_happy-young-man-avatar-character_35280231.jpg";
 import AboutImage from "../../assets/about-img.svg";
+import Intro from "../../assets/intro2.jpg";
+import Exploration from "../../assets/exploration.jpg";
+import Development from "../../assets/development.jpg";
+import Abandonment from "../../assets/well abandonment.jpg";
+import Econ from "../../assets/econ.jpg";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import SideBar from "../sidBar/SideBar";
+import Search from "../search/Search";
 
 const About = () => {
   const [courseCount, setCourseCount] = useState(0);
@@ -14,6 +20,54 @@ const About = () => {
   const [tutorCount, setTutorCount] = useState(0);
   const [questionCount, setQuestionCount] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+
+
+  const courses = [
+    {
+      title: "Introduction to The Oil and Gas Industry",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 1,
+      image: Intro,
+      link: "/introduction",
+    },
+    {
+      title: "Exploration",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 3,
+      image: Exploration,
+      link: "/under",
+    },
+    {
+      title: "Development & Production",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 7,
+      image: Development,
+      link: "/under",
+    },
+    {
+      title: "Well Abandonment",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 2,
+      image: Abandonment,
+      link: "/under",
+    },
+    {
+      title: "Petroleum Economics",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 4,
+      image: Econ,
+      link: "/under",
+    },
+  ];
+
+
+
 
   useEffect(() => {
     // Counting animation effect when component mounts
@@ -64,16 +118,7 @@ const About = () => {
           <div className="logo">
             <img src={LOGO} alt="logo" />
           </div>
-          <form action="search.html" method="post" className="search-form">
-            <input
-              type="text"
-              name="search_box"
-              required
-              placeholder="search courses..."
-              maxLength="100"
-            />
-            <button type="submit" className="fas fa-search"></button>
-          </form>
+          <Search courses={courses} />
           <div className="icons">
             <div
               id="menu-btn"
@@ -113,8 +158,8 @@ const About = () => {
               curated content ensures that non subjects receive top-quality
               education tailored to their needs.
             </p>
-            <Link to="/" className="inline-btn">
-              our courses
+            <Link to="/courses" className="inline-btn">
+              our modules
             </Link>
           </div>
         </div>
