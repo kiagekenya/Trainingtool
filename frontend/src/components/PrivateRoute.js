@@ -1,18 +1,15 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 
 const PrivateRoute = ({ children }) => {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser && !user) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, [user, setUser]);
+  if (user === null) {
+    return <Navigate to="/login" />;
+  }
 
-  return user ? children : <Navigate to="/login" />;
+  return children;
 };
 
 export default PrivateRoute;

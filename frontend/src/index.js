@@ -1,6 +1,6 @@
 import Modal from "react-modal";
-import ReactDOM from "react-dom/client";
 import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./components/home/Home";
@@ -17,7 +17,7 @@ import Under from "./components/underconstruction/Under";
 import Profile from "./components/profilepage/ProfilePage";
 import { UserProvider } from "./contexts/UserContext";
 import { LogoutProvider } from "./contexts/LogoutContext";
-import PrivateRoute from "./components/PrivateRoute"; // Import PrivateRoute
+import PrivateRoute from "./components/PrivateRoute";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -33,17 +33,10 @@ export default function App() {
       <UserProvider>
         <LogoutProvider>
           <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/" element={<Landing />} />
             <Route
-              path="/quizlist"
-              element={
-                <PrivateRoute>
-                  <QuizList />
-                </PrivateRoute>
-              }
-            />
-            <Route exact path="/" element={<Landing />} />
-            <Route
-              exact
               path="/home"
               element={
                 <PrivateRoute>
@@ -52,7 +45,6 @@ export default function App() {
               }
             />
             <Route
-              exact
               path="/introduction"
               element={
                 <PrivateRoute>
@@ -61,7 +53,6 @@ export default function App() {
               }
             />
             <Route
-              exact
               path="/about"
               element={
                 <PrivateRoute>
@@ -70,7 +61,6 @@ export default function App() {
               }
             />
             <Route
-              exact
               path="/courses"
               element={
                 <PrivateRoute>
@@ -79,7 +69,6 @@ export default function App() {
               }
             />
             <Route
-              exact
               path="/teachers"
               element={
                 <PrivateRoute>
@@ -88,7 +77,6 @@ export default function App() {
               }
             />
             <Route
-              exact
               path="/contact"
               element={
                 <PrivateRoute>
@@ -96,11 +84,16 @@ export default function App() {
                 </PrivateRoute>
               }
             />
-            <Route exact path="/register" element={<Register />} />
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/under" element={<Under />} />
             <Route
-              exact
+              path="/quizlist"
+              element={
+                <PrivateRoute>
+                  <QuizList />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/under" element={<Under />} />
+            <Route
               path="/profile"
               element={
                 <PrivateRoute>
@@ -115,6 +108,7 @@ export default function App() {
     </BrowserRouter>
   );
 }
+
 Modal.setAppElement("#root");
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<App />);
