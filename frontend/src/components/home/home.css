@@ -1753,10 +1753,6 @@ button[type="button"]:disabled {
   }
 }
 
-
-
-
-
 /* modal.css */
 /* styles.css */
 .modal {
@@ -1813,15 +1809,10 @@ button[type="button"]:disabled {
   font-size: 14px;
 }
 
-
-.searchQuery{
+.searchQuery {
   padding: 10px 20px;
   font-size: 1.5rem;
 }
-
-
-
-
 
 .search-form {
   display: flex;

@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
+import "./loginstyles.scss";
 
 const Login = () => {
   const [userData, setUserData] = useState({
@@ -62,8 +63,16 @@ const Login = () => {
             placeholder="Password"
             required
           />
-          <button type="submit" className="btnprimary">
+          <button type="submit" className=" blob-btn">
             Login
+            <span class="blob-btn__inner">
+              <span class="blob-btn__blobs">
+                <span class="blob-btn__blob"></span>
+                <span class="blob-btn__blob"></span>
+                <span class="blob-btn__blob"></span>
+                <span class="blob-btn__blob"></span>
+              </span>
+            </span>
           </button>
         </form>
         <small>
