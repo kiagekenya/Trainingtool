@@ -157,7 +157,7 @@ function isAuthenticated(req, res, next) {
   if (req.session && req.session.user) {
     return next();
   } else {
-    res.redirect("/login");
+    res.status(401).json({ message: "Not authenticated" });
   }
 }
 
@@ -408,12 +408,3 @@ const server = app.listen(port, () => {
 });
 
 app.use(express.json()); // This is required to parse JSON bodies
-
-// Login route
-// const express = require("express");
-// const bcrypt = require("bcryptjs");
-
-// Configure session middleware
-
-// API endpoint to get user data
-// Example route handler
