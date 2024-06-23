@@ -6,65 +6,43 @@ import GoogleLoginButton from "../buttons/GoogleLoginButton";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
+    image: null,
     name: "",
     email: "",
-    password: "",
-    confirmPassword: "",
-    image: null,
+    organisation: "",
+    occupation: "",
   });
-  const [error, setError] = useState("");
   const [emailError, setEmailError] = useState("");
-  const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false); // State for pop-up visibility
+  const [loading, setLoading] = useState(false); // State for loading
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: files ? files[0] : value,
-    });
-  };
-
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    if (!validateEmail(formData.email)) {
-      setEmailError("Invalid email format");
-      return;
-    }
-
-    setEmailError("");
+    setLoading(true); // Start loading
+    const form = new FormData();
+    Object.keys(formData).forEach((key) => {
+      form.append(key, formData[key]);
+    });
 
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append("name", formData.name);
-      formDataToSend.append("email", formData.email);
-      formDataToSend.append("password", formData.password);
-      formDataToSend.append("image", formData.image);
-
-      const config = {
+      await axios.post("/send-email", form, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      };
-
-      const response = await axios.post("/register", formDataToSend, config);
-
-      console.log("Registration successful", response.data);
-      navigate("/login");
+      });
+      setShowPopup(true); // Show pop-up on success
+      setLoading(false); // Stop loading
     } catch (error) {
-      console.error("Registration failed:", error.response?.data || error);
-      setError("Registration failed");
+      console.error("There was an error sending the email", error);
+      setLoading(false); // Stop loading
     }
   };
 
@@ -97,33 +75,59 @@ const RegisterForm = () => {
           />
           {emailError && <p style={{ color: "red" }}>{emailError}</p>}
           <input
-            type="password"
-            name="password"
-            placeholder="Password"
+            type="text"
+            name="organisation"
+            placeholder="Organisation"
             required
-            value={formData.password}
+            value={formData.organisation}
             onChange={handleChange}
           />
           <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm Password"
+            type="text"
+            name="occupation"
+            placeholder="Occupation"
             required
-            value={formData.confirmPassword}
+            value={formData.occupation}
             onChange={handleChange}
           />
-
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          <button type="submit" className="btnprimary">
-            Register
+          <button type="submit" className="btnprimary" disabled={loading}>
+            {loading ? "Loading..." : "Register"}
           </button>
         </form>
-        <GoogleLoginButton />
         <small>
           Already have an account? <Link to="/login">Login here.</Link>
         </small>
       </div>
+      {showPopup && <SuccessPopup setShowPopup={setShowPopup} />}
     </section>
+  );
+};
+
+const SuccessPopup = ({ setShowPopup }) => {
+  return (
+    <div className="card">
+      <button type="button" className="dismiss" onClick={() => setShowPopup(false)}>×</button>
+      <div className="header">
+        <div className="image">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
+            <g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g>
+            <g id="SVGRepo_iconCarrier">
+              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#000000" d="M20 7L9.00004 18L3.99994 13"></path>
+            </g>
+          </svg>
+        </div>
+        <div className="content">
+          <span className="title">Registration Successful</span>
+          <p className="message">Thank you for registering. Your account will be activated shortly. Check your Email</p>
+        </div>
+        <div className="actions">
+        <Link to="/">
+        <button type="button" className="history" onClick={() => setShowPopup(false)}>Home</button>
+            </Link>
+        </div>
+      </div>
+    </div>
   );
 };
 

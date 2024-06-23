@@ -23,21 +23,30 @@ const ProfilePage = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          // Use a geocoding API to convert latitude and longitude to a readable address
+          console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+
           fetch(`https://geocode.xyz/${latitude},${longitude}?geoit=json`)
-            .then((response) => response.json())
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              return response.json();
+            })
             .then((data) => {
+              console.log("Geocoding data:", data);
               if (data.city && data.country) {
                 setLocation(`${data.city}, ${data.country}`);
               } else {
                 setLocation("Location not available");
               }
             })
-            .catch(() => {
+            .catch((error) => {
+              console.error("Error fetching location:", error);
               setLocation("Unable to fetch location");
             });
         },
-        () => {
+        (error) => {
+          console.error("Geolocation error:", error);
           setLocation("Location access denied");
         }
       );
@@ -169,9 +178,6 @@ const ProfilePage = () => {
               <button>Edit Profile</button>
               <button>Change Password</button>
             </div>
-            {/* <div className=" mt-5  flex ml-10 h-5 w-10 ">
-              <LogoutButton className="  "></LogoutButton>
-            </div> */}
             <LogoutButton />
           </section>
 

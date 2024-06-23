@@ -65,84 +65,51 @@ app.get("/logout", (req, res) => {
   });
 });
 
-// app.listen(3000, () => {
-//   console.log("Server started on port 3000");
-// });
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// const corsOptions = {
-//   origin: "*",
-//   credentials: true,
-//   optionSuccessStatus: 200,
-// };
-// app.use(cors(corsOptions));
-// adding the static files
-// app.use(express.static(path.join(__dirname, "frontend/build")));
 
-// const transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: "kiagejay@gmail.com",
-//     pass: "ynsd mdzk apft ernd",
-//   },
-// });
 
-// app.post(
-//   "/upload-pdf",
-//   upload.fields([{ name: "pdf" }, { name: "invoice" }]),
-//   (req, res) => {
-//     try {
-//       const pdfFile = req.files["pdf"][0]; // Retrieve the uploaded PDF file
-//       const invoiceFile = req.files["invoice"][0]; // Retrieve the uploaded invoice file
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "kiagejay@gmail.com",
+    pass: "ynsd mdzk apft ernd",
+  },
+});
 
-//       // Save the uploaded PDF file
-//       fs.writeFileSync("generated-pdf.pdf", pdfFile.buffer);
+const storages = multer.memoryStorage();
+const uploads = multer({ storage: storages });
 
-//       // Save the uploaded invoice file
-//       fs.writeFileSync("payment-receipt", invoiceFile.buffer);
+app.post("/send-email", uploads.single("image"), (req, res) => {
+  const { name, email, organisation, occupation } = req.body;
+  const mailOptions = {
+    from: "kiagejay@gmail.com",
+    to: "jacobkiage4@gmail.com",
+    subject: `New Registration from ${name}`,
+    text: `Name: ${name}\nEmail: ${email}\nOrganisation: ${organisation}\nOccupation: ${occupation}`,
+    attachments: req.file
+      ? [
+          {
+            filename: req.file.originalname,
+            content: req.file.buffer,
+          },
+        ]
+      : [],
+  };
 
-//       res.status(200).json({ message: "PDF uploaded successfully" });
-//     } catch (error) {
-//       console.error("Error uploading PDF:", error);
-//       res.status(500).json({ error: "Internal Server Error" });
-//     }
-//   }
-// );
-
-// app.post("/send-email", (req, res) => {
-//   const name = req.body.name;
-
-//   const mailOptions = {
-//     from: "kiagejay@gmail.com",
-//     to: "jacobkiage4@gmail.com",
-//     subject: `New Order for ${name}`,
-
-//     text: "New order received. Please find the attached  LPO and Payment receipt.",
-//     attachments: [
-//       {
-//         filename: "onlinelpo.pdf",
-//         content: fs.createReadStream("generated-pdf.pdf"),
-//       },
-//       {
-//         filename: "paymentreceipt.pdf",
-//         content: fs.createReadStream("payment-receipt"),
-//       },
-//     ],
-//   };
-
-//   transporter.sendMail(mailOptions, (error, info) => {
-//     if (error) {
-//       console.error("Error sending email:", error);
-//       res.status(500).json({ error: "Failed to send email" });
-//     } else {
-//       console.log("Email sent:", info.response);
-//       res.status(200).json({ message: "Email sent successfully" });
-//     }
-//   });
-// });
-
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Error sending email:", error);
+      res.status(500).json({ error: "Failed to send email" });
+    } else {
+      console.log("Email sent:", info.response);
+      res.status(200).json({ message: "Email sent successfully" });
+    }
+  });
+});
 // server.js or appropriate backend file
 
 app.get("/api/user", (req, res) => {
@@ -161,30 +128,7 @@ function isAuthenticated(req, res, next) {
   }
 }
 
-// Protected route example
-// app.get("/home", isAuthenticated, (req, res) => {
-//   res.send("Home Page");
-// });
 
-// app.get("/introduction", isAuthenticated, (req, res) => {
-//   res.send("Introduction");
-// });
-
-// app.get("/about", isAuthenticated, (req, res) => {
-//   res.send("About");
-// });
-
-// app.get("/courses", isAuthenticated, (req, res) => {
-//   res.send("Courses");
-// });
-
-// app.get("/teachers", isAuthenticated, (req, res) => {
-//   res.send("Teachers");
-// });
-
-// app.get("/contact", isAuthenticated, (req, res) => {
-//   res.send("Contact");
-// });
 
 // server.js or wherever your backend routes are defined
 app.post("/login", async (req, res) => {
