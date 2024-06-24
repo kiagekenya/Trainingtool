@@ -12,6 +12,11 @@ const ProfilePage = () => {
   const [location, setLocation] = useState("Fetching location...");
   const { user } = useContext(UserContext);
 
+  const [quizzes, setQuizzes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [userProgress, setUserProgress] = useState([]);
+
   const handleSidebarToggle = () => {
     console.log("clicked");
     setIsSidebarVisible(!isSidebarVisible);
@@ -54,6 +59,33 @@ const ProfilePage = () => {
       setLocation("Geolocation not supported by this browser");
     }
   }, []);
+
+  useEffect(() => {
+    const fetchQuizzesAndProgress = async () => {
+      try {
+        const quizzesResponse = await fetch("/api/contents");
+        if (!quizzesResponse.ok) throw new Error("Network response was not ok");
+        const quizzesData = await quizzesResponse.json();
+
+        const userDataResponse = await fetch(
+          `/api/userQuizData?email=${user.email}`
+        );
+        if (!userDataResponse.ok)
+          throw new Error("Failed to fetch user quiz data");
+        const userData = await userDataResponse.json();
+
+        setQuizzes(quizzesData);
+        setUserProgress(userData.completedQuizIds);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    fetchQuizzesAndProgress();
+  }, [user.email]);
 
   return (
     <>
@@ -125,22 +157,21 @@ const ProfilePage = () => {
             <div className="current-courses">
               <h4>Current Courses</h4>
               <ul>
-                <li>
-                  Sample Quiz on General Knowledge{" "}
-                  <progress value="75" max="100"></progress>
-                </li>
-                <li>
-                  National Oil Corporation{" "}
-                  <progress value="50" max="100"></progress>
-                </li>
-              </ul>
-            </div>
-            <br />
-            <br />
-            <div className="completed-courses">
-              <h4>Completed Courses</h4>
-              <ul>
-                <li>What is Oil and Gas</li>
+                {loading ? (
+                  <li>Loading...</li>
+                ) : error ? (
+                  <li>Error: {error}</li>
+                ) : (
+                  quizzes.map((quiz, index) => (
+                    <li key={quiz._id}>
+                      {quiz.title}
+                      <progress
+                        value={userProgress.includes(quiz._id) ? 100 : 0}
+                        max="100"
+                      ></progress>
+                    </li>
+                  ))
+                )}
               </ul>
             </div>
           </section>
