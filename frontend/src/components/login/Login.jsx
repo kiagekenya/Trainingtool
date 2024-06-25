@@ -8,8 +8,10 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [error, setError] = useState(null);
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -17,6 +19,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await fetch("/login", {
         method: "POST",
@@ -26,6 +29,7 @@ const Login = () => {
         body: JSON.stringify(userData),
       });
       const data = await response.json();
+      setLoading(false);
 
       if (data.status === "success") {
         setUser({
@@ -35,10 +39,11 @@ const Login = () => {
         });
         navigate("/home");
       } else {
-        console.error("Login error message:", data.message);
+        setError(data.message);
       }
     } catch (error) {
-      console.error("Login error:", error);
+      setLoading(false);
+      setError("An error occurred. Please try again.");
     }
   };
 
@@ -63,17 +68,18 @@ const Login = () => {
             placeholder="Password"
             required
           />
-          <button type="submit" className=" blob-btn">
-            Login
-            <span class="blob-btn__inner">
-              <span class="blob-btn__blobs">
-                <span class="blob-btn__blob"></span>
-                <span class="blob-btn__blob"></span>
-                <span class="blob-btn__blob"></span>
-                <span class="blob-btn__blob"></span>
+          <button type="submit" className="blob-btn" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
+            <span className="blob-btn__inner">
+              <span className="blob-btn__blobs">
+                <span className="blob-btn__blob"></span>
+                <span className="blob-btn__blob"></span>
+                <span className="blob-btn__blob"></span>
+                <span className="blob-btn__blob"></span>
               </span>
             </span>
           </button>
+          {error && <p className="error-message">{error}</p>}
         </form>
         <small>
           Don't have an account? <Link to="/register">Register here.</Link>

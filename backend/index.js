@@ -65,12 +65,8 @@ app.get("/logout", (req, res) => {
   });
 });
 
-
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -88,7 +84,7 @@ app.post("/send-email", uploads.single("image"), (req, res) => {
   const mailOptions = {
     from: "kiagejay@gmail.com",
     to: "jacobkiage4@gmail.com",
-    cc: "reubenmoses91@gmail.com", 
+    cc: "reubenmoses91@gmail.com",
     subject: `New Registration from ${name}`,
     text: `Name: ${name}\nEmail: ${email}\nOrganisation: ${organisation}\nOccupation: ${occupation}`,
     attachments: req.file
@@ -129,20 +125,18 @@ function isAuthenticated(req, res, next) {
   }
 }
 
-
-
 // server.js or wherever your backend routes are defined
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ message: "Invalid email or password." });
+      return res.status(401).json({ message: "Invalid email." });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid email or password." });
+      return res.status(401).json({ message: "Invalid password." });
     }
 
     req.session.user = {
