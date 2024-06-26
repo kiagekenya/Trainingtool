@@ -64,7 +64,7 @@ body.active {
 }
 
 section {
-  padding: 2rem;
+  padding: 2rem 0rem 2rem 2rem;
   margin: 0 auto;
   max-width: 1200px;
 }
@@ -138,7 +138,7 @@ section {
   display: flex;
   gap: 1rem;
 }
-
+/* 
 .header {
   position: sticky;
   top: 0;
@@ -191,7 +191,7 @@ section {
   font-size: 2rem;
   cursor: pointer;
   color: var(--black);
-}
+} */
 
 .dark-mode {
   background-color: #121212; /* Dark background color */
@@ -222,7 +222,7 @@ section {
 .header .flex .search-form button:hover {
   color: var(--main-color);
 }
-
+/* 
 .header .flex .icons div {
   font-size: 2rem;
   color: var(--black);
@@ -234,7 +234,7 @@ section {
   cursor: pointer;
   text-align: center;
   margin-left: 0.7rem;
-}
+} */
 
 .header .flex .icons div:hover {
   background-color: #94d500;
@@ -1452,7 +1452,7 @@ small a {
 }
 
 button[type="button"] {
-  margin-top: 10px;
+  /* margin-top: 10px; */
   padding: 10px;
   background-color: #94d500;
   color: #fff;
