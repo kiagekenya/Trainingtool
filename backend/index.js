@@ -108,7 +108,7 @@ app.post("/send-email", uploads.single("image"), (req, res) => {
   });
 });
 
-//contact us logic 
+//contact us logic
 
 const transporters = nodemailer.createTransport({
   service: "gmail",
@@ -150,12 +150,6 @@ app.post("/send-emaiil", uploadss.single("image"), (req, res) => {
   });
 });
 
-
-
-
-
-
-
 // server.js or appropriate backend file
 
 app.get("/api/user", (req, res) => {
@@ -183,7 +177,7 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid email." });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = password == user.password;
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid password." });
     }
