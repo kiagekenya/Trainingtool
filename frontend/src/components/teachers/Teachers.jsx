@@ -13,6 +13,11 @@ const Teachers = () => {
     console.log(isSidebarVisible);
   };
 
+  const preventDefault = (e) => {
+    e.preventDefault();
+  };
+
+
   return (
     <>
       <header className="header">
@@ -65,7 +70,7 @@ const Teachers = () => {
               world!, we welcome you to share your expertise and make a
               difference in someone's journey.
             </p>
-            <Link to="/" className="inline-btn">
+            <Link to="/"  onClick={preventDefault} className="inline-btn">
               get started
             </Link>
           </div>
@@ -83,7 +88,7 @@ const Teachers = () => {
             <p>
               total likes : <span>1208</span>
             </p>
-            <Link to="/" className="inline-btn">
+            <Link to="/"   onClick={preventDefault} className="inline-btn">
               view profile
             </Link>
           </div>
@@ -101,7 +106,7 @@ const Teachers = () => {
             <p>
               total likes : <span>1208</span>
             </p>
-            <Link to="/" className="inline-btn">
+            <Link to="/"   onClick={preventDefault} className="inline-btn">
               view profile
             </Link>
           </div>
@@ -119,7 +124,7 @@ const Teachers = () => {
             <p>
               total likes : <span>1208</span>
             </p>
-            <Link to="/" className="inline-btn">
+            <Link to="/"   onClick={preventDefault} className="inline-btn">
               view profile
             </Link>
           </div>
@@ -137,7 +142,7 @@ const Teachers = () => {
             <p>
               total likes : <span>1208</span>
             </p>
-            <Link to="/" className="inline-btn">
+            <Link to="/"   onClick={preventDefault} className="inline-btn">
               view profile
             </Link>
           </div>
@@ -155,7 +160,7 @@ const Teachers = () => {
             <p>
               total likes : <span>1208</span>
             </p>
-            <Link to="/" className="inline-btn">
+            <Link to="/"  onClick={preventDefault} className="inline-btn">
               view profile
             </Link>
           </div>
@@ -173,7 +178,7 @@ const Teachers = () => {
             <p>
               total likes : <span>1208</span>
             </p>
-            <Link to="/" className="inline-btn">
+            <Link to="/"   onClick={preventDefault} className="inline-btn">
               view profile
             </Link>
           </div>
@@ -191,7 +196,7 @@ const Teachers = () => {
             <p>
               total likes : <span>1208</span>
             </p>
-            <Link to="/" className="inline-btn">
+            <Link to="/"   onClick={preventDefault} className="inline-btn">
               view profile
             </Link>
           </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import LOGO from "../../assets/nock j.png";
 import { Link } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.css";
@@ -18,6 +19,17 @@ const Contact = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [showPopup, setShowPopup] = useState(false); // State for pop-up visibility
+  const [loading, setLoading] = useState(false); 
+
+
+
+
+
+
+
+
+
   const courses = [
     {
       title: "Introduction to The Oil and Gas Industry",
@@ -60,6 +72,50 @@ const Contact = () => {
       link: "/under",
     },
   ];
+
+  const [formDaata, setFormDaata] = useState({
+    name: "",
+    email: "",
+    number: "",
+    message: "",
+  });
+
+  const handleChaange = (e) => {
+    const { name, value,} = e.target;
+    setFormDaata((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSuubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true); // Start loading
+    const form = new FormData();
+    Object.keys(formDaata).forEach((key) => {
+      form.append(key, formDaata[key]);
+    });
+
+    try {
+      await axios.post("/send-emaiil", form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setShowPopup(true); // Show pop-up on success
+      setLoading(false); // Stop loading
+    } catch (error) {
+      console.error("There was an error sending the email", error);
+      setLoading(false); // Stop loading
+    }
+  };
+
+
+
+
+
+
+
 
   useEffect(() => {
     AOS.init({ duration: 2000 });
@@ -152,7 +208,7 @@ const Contact = () => {
           <div className="image">
             <img src={ContactImage} alt="" />
           </div>
-          <form action="" method="post">
+          <form action="" method="post" onSubmit={handleSuubmit}>
             <h3>get in touch</h3>
             <input
               type="text"
@@ -161,6 +217,8 @@ const Contact = () => {
               required
               maxLength="50"
               className="box"
+              value={formDaata.name}
+              onChange={handleChaange}
             />
             <input
               type="email"
@@ -169,6 +227,8 @@ const Contact = () => {
               required
               maxLength="50"
               className="box"
+              value={formDaata.email}
+              onChange={handleChaange}
             />
             <input
               type="number"
@@ -177,6 +237,8 @@ const Contact = () => {
               required
               maxLength="50"
               className="box"
+              value={formDaata.number}
+              onChange={handleChaange}
             />
             <textarea
               name="msg"
@@ -186,15 +248,15 @@ const Contact = () => {
               maxLength="1000"
               cols="30"
               rows="10"
+              value={formDaata.msg}
+              onChange={handleChaange}
             ></textarea>
-            <input
-              type="submit"
-              value="send message"
-              className="inline-btn"
-              name="submit"
-            />
+            <button type="submit" className="btnprimary" disabled={loading}>
+            {loading ? "Loading..." : "Send message"}
+          </button>
           </form>
         </div>
+        {showPopup && <SuccessPopup setShowPopup={setShowPopup} />}
         <div className="box-container">
           <div className="box">
             <i className="fas fa-phone"></i>
@@ -226,4 +288,32 @@ const Contact = () => {
   );
 };
 
+
+const SuccessPopup = ({ setShowPopup }) => {
+  return (
+    <div className="card">
+      <button type="button" className="dismiss" onClick={() => setShowPopup(false)}>×</button>
+      <div className="header">
+        <div className="image">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
+            <g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g>
+            <g id="SVGRepo_iconCarrier">
+              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#000000" d="M20 7L9.00004 18L3.99994 13"></path>
+            </g>
+          </svg>
+        </div>
+        <div className="content">
+          <span className="title">Message sent</span>
+          <p className="message">Thank you for contacting us. Our representative will reach out. </p>
+        </div>
+        <div className="actions">
+        <Link to="/">
+        <button type="button" className="history" onClick={() => setShowPopup(false)}>Home</button>
+            </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
 export default Contact;
