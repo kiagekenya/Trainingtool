@@ -107,6 +107,55 @@ app.post("/send-email", uploads.single("image"), (req, res) => {
     }
   });
 });
+
+//contact us logic 
+
+const transporters = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "kiagejay@gmail.com",
+    pass: "ynsd mdzk apft ernd",
+  },
+});
+
+const storagess = multer.memoryStorage();
+const uploadss = multer({ storage: storagess });
+
+app.post("/send-emaiil", uploadss.single("image"), (req, res) => {
+  const { name, email, number, msg } = req.body;
+  const mailOptions = {
+    from: "kiagejay@gmail.com",
+    to: "jacobkiage4@gmail.com",
+    cc: "reubenmoses91@gmail.com",
+    subject: `New inWeb message from ${name}`,
+    text: `Name: ${name}\nEmail: ${email}\nNumber: ${number}\nMessage: ${msg}`,
+    attachments: req.file
+      ? [
+          {
+            filename: req.file.originalname,
+            content: req.file.buffer,
+          },
+        ]
+      : [],
+  };
+
+  transporters.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Error sending email:", error);
+      res.status(500).json({ error: "Failed to send email" });
+    } else {
+      console.log("Email sent:", info.response);
+      res.status(200).json({ message: "Email sent successfully" });
+    }
+  });
+});
+
+
+
+
+
+
+
 // server.js or appropriate backend file
 
 app.get("/api/user", (req, res) => {
