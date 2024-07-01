@@ -101,55 +101,51 @@ const Home = () => {
 
   return (
     <>
-      <div>
-        <header className="header">
-          <section className="flex">
-            <div className="logo">
-              <img src={LOGO} alt="logo" />
-            </div>
-            <form className="search-form">
-              <input
-                type="text"
-                name="search_box"
-                required
-                placeholder="search courses..."
-                maxLength="100"
-                value={searchQuery}
-                onChange={handleSearchChange}
-              />
-              <button type="button" className="fas fa-search"></button>
-            </form>
-            <div className="blob-daddy">
-              <div className="icons">
-                <div
-                  id="menu-btn"
-                  className="fas fa-bars"
-                  onClick={handleSidebarToggle}
-                ></div>
-                <div id="search-btn" className="fas fa-search"></div>
+      <header className="header">
+        <section className="flex">
+          <div className="logo">
+            <img src={LOGO} alt="logo" />
+          </div>
+          <form className="search-form">
+            <input
+              type="text"
+              name="search_box"
+              required
+              placeholder="search courses..."
+              maxLength="100"
+              value={searchQuery}
+              onChange={handleSearchChange}
+            />
+            <button type="button" className="fas fa-search"></button>
+          </form>
+          <div className="icons">
+            <div
+              id="menu-btn"
+              className="fas fa-bars"
+              onClick={handleSidebarToggle}
+            ></div>
+            <div id="search-btn" className="fas fa-search"></div>
 
-                <Link to="/profile">
-                  <div id="user-btn" className="fas fa-user"></div>
-                </Link>
-                <div
-                  id="toggle-btn"
-                  className={darkMode ? "fas fa-moon" : "fas fa-sun"}
-                  onClick={toggleDarkMode}
-                ></div>
-                {/* <LogoutButton /> */}
-              </div>
-            </div>
-            <div className="profile">
-              <img src={Profile} className="image" alt="" />
-              <h3 className="name">Jacob</h3>
-              <p className="role">Guest</p>
-              <Link to="/profile" className="btn">
-                view profile
-              </Link>
-            </div>
-          </section>
-        </header>
-      </div>
+            <Link to="/profile">
+              <div id="user-btn" className="fas fa-user"></div>
+            </Link>
+            <div
+              id="toggle-btn"
+              className={darkMode ? "fas fa-moon" : "fas fa-sun"}
+              onClick={toggleDarkMode}
+            ></div>
+            {/* <LogoutButton /> */}
+          </div>
+          <div className="profile">
+            <img src={Profile} className="image" alt="" />
+            <h3 className="name">Jacob</h3>
+            <p className="role">Guest</p>
+            <Link to="/profile" className="btn">
+              view profile
+            </Link>
+          </div>
+        </section>
+      </header>
 
       <SideBar isSidebarVisible={isSidebarVisible} />
 
