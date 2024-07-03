@@ -17,10 +17,17 @@ const ProfilePage = () => {
   const [error, setError] = useState(null);
   const [userProgress, setUserProgress] = useState([]);
 
+  const [isChangePasswordVisible, setIsChangePasswordVisible] = useState(false);
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+  const [passwordError, setPasswordError] = useState(null);
+  const [passwordSuccess, setPasswordSuccess] = useState(null);
+
   const handleSidebarToggle = () => {
-    console.log("clicked");
     setIsSidebarVisible(!isSidebarVisible);
-    console.log(isSidebarVisible);
   };
 
   useEffect(() => {
@@ -28,7 +35,6 @@ const ProfilePage = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
 
           fetch(`https://geocode.xyz/${latitude},${longitude}?geoit=json`)
             .then((response) => {
@@ -38,7 +44,6 @@ const ProfilePage = () => {
               return response.json();
             })
             .then((data) => {
-              console.log("Geocoding data:", data);
               if (data.city && data.country) {
                 setLocation(`${data.city}, ${data.country}`);
               } else {
@@ -86,6 +91,53 @@ const ProfilePage = () => {
 
     fetchQuizzesAndProgress();
   }, [user.email]);
+
+  const handleChangePasswordToggle = () => {
+    setIsChangePasswordVisible(!isChangePasswordVisible);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPasswordData({ ...passwordData, [e.target.name]: e.target.value });
+  };
+
+  const handlePasswordSubmit = async (e) => {
+    e.preventDefault();
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      setPasswordError("Passwords do not match");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/changePassword", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: user.email,
+          currentPassword: passwordData.currentPassword,
+          newPassword: passwordData.newPassword,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.status === "success") {
+        setPasswordSuccess("Password changed successfully");
+        setPasswordError(null);
+        setPasswordData({
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
+      } else {
+        setPasswordError(data.message);
+        setPasswordSuccess(null);
+      }
+    } catch (error) {
+      setPasswordError("An error occurred while changing the password");
+      setPasswordSuccess(null);
+    }
+  };
 
   return (
     <>
@@ -206,8 +258,44 @@ const ProfilePage = () => {
             <h3>Settings and Privacy</h3>
             <div className="account-settings">
               <h4>Account Settings</h4>
-              <button>Edit Profile</button>
-              <button>Change Password</button>
+              <button onClick={handleChangePasswordToggle}>
+                Change Password
+              </button>
+              {isChangePasswordVisible && (
+                <div className="change-password-form">
+                  <form onSubmit={handlePasswordSubmit}>
+                    <input
+                      type="password"
+                      name="currentPassword"
+                      value={passwordData.currentPassword}
+                      onChange={handlePasswordChange}
+                      placeholder="Current Password"
+                      required
+                    />
+                    <input
+                      type="password"
+                      name="newPassword"
+                      value={passwordData.newPassword}
+                      onChange={handlePasswordChange}
+                      placeholder="New Password"
+                      required
+                    />
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      value={passwordData.confirmPassword}
+                      onChange={handlePasswordChange}
+                      placeholder="Confirm New Password"
+                      required
+                    />
+                    <button type="submit">Submit</button>
+                  </form>
+                  {passwordError && <p className="error">{passwordError}</p>}
+                  {passwordSuccess && (
+                    <p className="success">{passwordSuccess}</p>
+                  )}
+                </div>
+              )}
             </div>
             <LogoutButton />
           </section>
@@ -226,7 +314,7 @@ const ProfilePage = () => {
       </div>
 
       <footer className="footer">
-        &copy; copyright @ 2024| all rights reserved!
+        &copy; copyright @ 2024 | all rights reserved!
       </footer>
     </>
   );

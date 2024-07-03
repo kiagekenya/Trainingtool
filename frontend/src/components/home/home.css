@@ -2022,3 +2022,36 @@ button[type="button"]:disabled {
     transform: translate(-50%, -50%) rotate(360deg);
   }
 }
+
+/* change password */
+
+.change-password-form {
+  margin-top: 1rem;
+}
+
+.change-password-form input {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+}
+
+.change-password-form button {
+  padding: 0.5rem 1rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.change-password-form button:hover {
+  background-color: #45a049;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
+}
