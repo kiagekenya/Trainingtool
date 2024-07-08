@@ -201,6 +201,35 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// Example endpoint in Express.js
+app.post("/api/changePassword", async (req, res) => {
+  const { email, currentPassword, newPassword } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ message: "User not found." });
+    }
+
+    const isMatch = (await currentPassword) == user.password;
+    if (!isMatch) {
+      return res.status(401).json({ message: "Incorrect current password." });
+    }
+
+    // const salt = await bcrypt.genSalt(10);
+    // const hashedPassword = await bcrypt.hash(newPassword, salt);
+    const hashedPassword = newPassword;
+
+    user.password = hashedPassword;
+    await user.save();
+
+    res.json({ status: "success", message: "Password changed successfully." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error." });
+  }
+});
+
 // multer
 // const storage = multer.memoryStorage();
 // const upload = multer({ storage: storage });
