@@ -160,7 +160,6 @@ const QuizPage = () => {
       return text;
     };
   
-    // test
 // Function to replace and style subheadings
 const styleTopics = (text) => {
   topicsToStyle.forEach((topic) => {
@@ -249,7 +248,7 @@ const styleTopics = (text) => {
                   <div>Error: {quizError}</div>
                 ) : (
                   content && (
-                    <div className="notes"> 
+                    <div className="notes">
                       <h2>{content.title}</h2>
                       <p>{renderContentWithImages(content.body, content.images)}</p>
                       <br />
