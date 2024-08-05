@@ -128,6 +128,85 @@ const QuizPage = () => {
     setShowAlertModal(false);
   };
 
+  const renderContentWithImages = (body, images) => {
+    // Define the headings and subheadings you want to style
+    const headingsToStyle = ["i.Upstream", "iii.Downstream", "ii.Midstream", "1.Mature source rock", "2.Migration path", 
+      "3.Reservoir rock", "4.Seal (Cap rock)", "5.Trap", "1.Recovery Factor","2.Estimated Ultimate Recovery (EUR)", "3.Proved reserves",
+    "4.Probable Reserves", "5.Possible Reserves"]; // Add more headings as needed
+    const subheadingsToStyle = ["Step 1: Signing a Lease Agreement", "Step 2: Gathering Exploration Data", "Step 3: Exploratory Drilling",
+       "Step 4: Appraisal and Development Drilling", "Step 5: Completing Wells", "Step 6: Producing", "Step 7: Plugging and Abandoning",
+        "i.Geology", "ii.Geophysics", "iii.Geochemistry", "iv.Petroleum Engineering", "i.Gravity surveys","ii.Magnetic surveys", "iii.Seismic surveys", "iv.Magnetotelluric and Time Domain surveys"
+      , "i.Proved developed oil and gas reserves", "ii.Proved undeveloped reserves"]; // Add more subheadings as needed
+    const topicsToStyle = [ "Upstream Sector Overview", "Primary Disciplines in Petroleum Exploration and Production",
+      "Exploration Methods:", "The Petroleum System", "Overview of an Oil and Gas Reservoir"
+    ];
+
+
+    // Function to replace and style headings
+    const styleHeadings = (text) => {
+      headingsToStyle.forEach((heading) => {
+        const regex = new RegExp(`\\b${heading}\\b`, "g");
+        text = text.replace(regex, `<span class="styled-heading">${heading}</span>`);
+      });
+      return text;
+    };
+  
+    // Function to replace and style subheadings
+    const styleSubheadings = (text) => {
+      subheadingsToStyle.forEach((subheading) => {
+        const regex = new RegExp(`\\b${subheading}\\b`, "g");
+        text = text.replace(regex, `<span class="styled-subheading">${subheading}</span>`);
+      });
+      return text;
+    };
+  
+// Function to replace and style subheadings
+const styleTopics = (text) => {
+  topicsToStyle.forEach((topic) => {
+    const regex = new RegExp(`\\b${topic}\\b`, "g");
+    text = text.replace(regex, `<span class="styled-topics">${topic}</span>`);
+  });
+  return text;
+};
+
+    // Split the content into parts and apply styles
+    const parts = body.split(/(\[images\d+\])/);
+    return parts.map((part, index) => {
+      const match = part.match(/\[images(\d+)\]/);
+      if (match) {
+        const imageIndex = parseInt(match[1], 10) - 1;
+        const image = images[imageIndex];
+  
+        // Apply styles or classes based on imageIndex or image properties
+        const imageClass = `image-style-${imageIndex}`;
+  
+        return (
+          <img
+            key={index}
+            src={image.url}
+            alt={image.alt}
+            className={`content-image ${imageClass}`}
+          />
+        );
+      }
+      // Apply styles to the specified headings and subheadings
+      let styledText = styleHeadings(part);
+      styledText = styleSubheadings(styledText);
+      styledText = styleTopics(styledText);
+  
+      return (
+        <span
+          key={index}
+          dangerouslySetInnerHTML={{
+            __html: styledText.replace(/\n/g, "<br />"),
+          }}
+        />
+      );
+    });
+  };
+  
+  
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -171,13 +250,7 @@ const QuizPage = () => {
                   content && (
                     <div className="notes">
                       <h2>{content.title}</h2>
-                      <br />
-                      <p
-                        dangerouslySetInnerHTML={{
-                          __html: content.body.replace(/\n/g, "<br />"),
-                        }}
-                      ></p>
-                      <br />
+                      <p>{renderContentWithImages(content.body, content.images)}</p>
                       <br />
                       <form id="quizForm">
                         {content.questions &&

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import LOGO from "../../assets/nock j.png";
 import Profile from "../../assets/vecteezy_happy-young-man-avatar-character_35280231.jpg";
-import Intro from "../../assets/intro2.jpg";
+import Intro from "../../assets/intro2.png";
 import Exploration from "../../assets/exploration.jpg";
 import Development from "../../assets/development.jpg";
 import Abandonment from "../../assets/well abandonment.jpg";
@@ -27,7 +27,7 @@ const Courses = () => {
 
   const courses = [
     {
-      title: "Introduction to The Oil and Gas Industry",
+      title: "INTRODUCTION TO THE OIL AND GAS INDUSTRY",
       tutor: "Jacob Kiage",
       date: "21-3-2024",
       topics: 1,

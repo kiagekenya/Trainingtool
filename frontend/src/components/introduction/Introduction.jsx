@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import LOGO from "../../assets/nock j.png";
 import Profile from "../../assets/vecteezy_happy-young-man-avatar-character_35280231.jpg";
-import Intro from "../../assets/intro2.jpg";
+import Intro from "../../assets/intro2.png";
 import "@fortawesome/fontawesome-free/css/all.css";
 import AOS from "aos";
 import "../home/home.css";
@@ -93,13 +93,11 @@ const Introduction = () => {
               </div>
             </div>
             <div className="details">
-              <h3>Introduction to Petroleum Engineering</h3>
+              <h3>INTRODUCTION TO THE OIL AND GAS INDUSTRY</h3>
               <p>
-                petroleum engineering is the branch of engineering that focuses
-                on processes that allow the development and exploitation of
-                crude oil and natural gas fields as well as the technical
-                analysis, computer modeling, and forecasting of their future
-                production performance.
+              The Oil & Gas industry is one of the world’s largest and most important global industries.  Despite the size and importance of the oil and gas business, there is a basic lack of knowledge about the industry. The lack of knowledge is surprising given how important the industry is in the global economy and how the industry touches our daily lives in so many ways. 
+Unfortunately, virtually all books that deal with the business side of the industry are mostly written by technical experts for nontechnical readers. The approach in this training guide is the opposite. This is a non-technical guide that should help readers with or without technical backgrounds better understand the business of oil and gas. 
+
               </p>
             </div>
           </div>

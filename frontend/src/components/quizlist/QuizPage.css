@@ -61,3 +61,101 @@
 .modal-content button {
   margin-top: 20px;
 }
+
+
+
+.styled-heading {
+  font-weight: bold;
+  font-size: 1.5em; /* Adjust the font size as needed */
+  color: #2c5494; /* Change the color if desired */
+}
+
+.styled-subheading {
+  font-weight: bold;
+  color: #2c5494; /* Example color for subheadings */
+  
+}
+
+.styled-topics {
+  font-weight: bold;
+  font-size: 1.5em; /* Adjust the font size as needed */
+  color: black; /* Change the color if desired */
+}
+
+
+
+
+
+.image-style-0 {
+  display: block;
+  margin: 0 auto;
+  width: 600px;
+  height: auto;
+}
+
+.image-style-1 {
+  display: block;
+  margin: 0 auto;
+  width: 600px;
+  height: auto;
+}
+
+.image-style-2 {
+  width: 400px;
+  height: auto;
+}
+
+.image-style-3 {
+  width: 300px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.image-style-4 {
+  display: block;
+  margin: 0 auto;
+  width: 600px;
+  height: auto;
+}
+
+.image-style-5 {
+  display: block;
+  margin: 0 auto;
+  width: 400px;
+  height: auto;
+}
+
+.image-style-6 {
+  display: block;
+  margin: 0 auto;
+  width: 400px;
+  height: auto;
+}
+
+.image-style-7 {
+  display: block;
+  margin: 0 auto;
+  width: 400px;
+  height: auto;
+}
+
+.image-style-8 {
+  display: block;
+ 
+  width: 200px;
+  height: auto;
+}
+
+
+/* Mobile styles */
+@media (max-width: 600px) {
+  .content-image {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+  }
+}
+
+/* Add more styles as needed */
+
