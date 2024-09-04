@@ -160,6 +160,7 @@ const QuizPage = () => {
       return text;
     };
   
+    // test
 // Function to replace and style subheadings
 const styleTopics = (text) => {
   topicsToStyle.forEach((topic) => {
@@ -241,14 +242,14 @@ const styleTopics = (text) => {
               )}
             </button>
             {contentItem._id === selectedQuiz && (
-              <div className="notes">
+              <div>
                 {quizLoading ? (
                   <div>Loading quiz...</div>
                 ) : quizError ? (
                   <div>Error: {quizError}</div>
                 ) : (
                   content && (
-                    <div>
+                    <div className="notes"> 
                       <h2>{content.title}</h2>
                       <p>{renderContentWithImages(content.body, content.images)}</p>
                       <br />
@@ -326,7 +327,7 @@ const styleTopics = (text) => {
           </li>
         ))}
       </ul>
-  
+
       {allQuizzesCompleted && (
         <div className="completion-message">
           <h2>Well Done! All Completed</h2>
@@ -335,7 +336,7 @@ const styleTopics = (text) => {
           </Link>
         </div>
       )}
-  
+
       {showAlertModal && (
         <div className="modal">
           <div className="modal-content">
@@ -347,7 +348,6 @@ const styleTopics = (text) => {
       )}
     </div>
   );
-  
 };
 
 export default QuizPage;
