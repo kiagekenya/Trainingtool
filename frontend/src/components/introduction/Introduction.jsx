@@ -69,7 +69,7 @@ const Introduction = () => {
         </section>
       </header>
 
-      <SideBar />
+      <SideBar isSidebarVisible={isSidebarVisible} />
 
       <section className="playlist-details">
         <h1 className="heading">Module details</h1>
@@ -95,9 +95,18 @@ const Introduction = () => {
             <div className="details">
               <h3>INTRODUCTION TO THE OIL AND GAS INDUSTRY</h3>
               <p>
-              The Oil & Gas industry is one of the world’s largest and most important global industries.  Despite the size and importance of the oil and gas business, there is a basic lack of knowledge about the industry. The lack of knowledge is surprising given how important the industry is in the global economy and how the industry touches our daily lives in so many ways. 
-Unfortunately, virtually all books that deal with the business side of the industry are mostly written by technical experts for nontechnical readers. The approach in this training guide is the opposite. This is a non-technical guide that should help readers with or without technical backgrounds better understand the business of oil and gas. 
-
+                The Oil & Gas industry is one of the world’s largest and most
+                important global industries. Despite the size and importance of
+                the oil and gas business, there is a basic lack of knowledge
+                about the industry. The lack of knowledge is surprising given
+                how important the industry is in the global economy and how the
+                industry touches our daily lives in so many ways. Unfortunately,
+                virtually all books that deal with the business side of the
+                industry are mostly written by technical experts for
+                nontechnical readers. The approach in this training guide is the
+                opposite. This is a non-technical guide that should help readers
+                with or without technical backgrounds better understand the
+                business of oil and gas.
               </p>
             </div>
           </div>
