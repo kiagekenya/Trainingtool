@@ -84,7 +84,7 @@ app.post("/send-email", uploads.single("image"), (req, res) => {
   const mailOptions = {
     from: "kiagejay@gmail.com",
     to: "jacobkiage4@gmail.com",
-    cc: "reubenmoses91@gmail.com",
+    cc: ["reubenmoses91@gmail.com", "mj.mogambi@gmail.com"],
     subject: `New Registration from ${name}`,
     text: `Name: ${name}\nEmail: ${email}\nOrganisation: ${organisation}\nOccupation: ${occupation}`,
     attachments: req.file
