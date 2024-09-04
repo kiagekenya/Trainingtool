@@ -6,7 +6,7 @@ import "./SideBar.css";
 import axios from "axios";
 import { MdEdit } from "react-icons/md";
 
-const SideBar = ({ isSidebarVisible }) => {
+const SideBar = ({ isSidebarVisible, handleSidebarToggle }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [file, setFile] = useState(null);
   const { user, setUser } = useContext(UserContext);
@@ -43,7 +43,7 @@ const SideBar = ({ isSidebarVisible }) => {
   console.log("User data in SideBar:", user);
   return (
     <div className={`sidebar ${isSidebarVisible ? "visible" : ""}`}>
-      <div id="close-btn">
+      <div id="close-btn" onClick={handleSidebarToggle}>
         <i className="fas fa-times"></i>
       </div>
       <div className="profile">
