@@ -143,7 +143,10 @@ const About = () => {
         </section>
       </header>
 
-      <SideBar isSidebarVisible={isSidebarVisible} />
+      <SideBar
+        isSidebarVisible={isSidebarVisible}
+        handleSidebarToggle={handleSidebarToggle}
+      />
 
       <section className="about">
         <div className="row">

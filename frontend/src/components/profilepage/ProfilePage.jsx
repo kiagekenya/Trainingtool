@@ -167,7 +167,10 @@ const ProfilePage = () => {
         </section>
       </header>
 
-      <SideBar isSidebarVisible={isSidebarVisible} />
+      <SideBar
+        isSidebarVisible={isSidebarVisible}
+        handleSidebarToggle={handleSidebarToggle}
+      />
 
       <div className="box-container">
         <div className="profile-page">

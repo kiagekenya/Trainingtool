@@ -299,7 +299,7 @@ section {
 .sidebar #close-btn {
   text-align: right;
   padding: 2rem;
-  /* display: none; */
+  display: none;
 }
 
 .sidebar #close-btn i {
@@ -1579,6 +1579,13 @@ button[type="button"]:disabled {
 
   75% {
     transform: translateY(-100%);
+  }
+}
+
+/* Show the close button on medium screens and smaller */
+@media screen and (max-width: 992px) {
+  .sidebar #close-btn {
+    display: block;
   }
 }
 

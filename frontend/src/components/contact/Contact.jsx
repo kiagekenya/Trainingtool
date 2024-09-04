@@ -20,15 +20,7 @@ const Contact = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showPopup, setShowPopup] = useState(false); // State for pop-up visibility
-  const [loading, setLoading] = useState(false); 
-
-
-
-
-
-
-
-
+  const [loading, setLoading] = useState(false);
 
   const courses = [
     {
@@ -81,7 +73,7 @@ const Contact = () => {
   });
 
   const handleChaange = (e) => {
-    const { name, value,} = e.target;
+    const { name, value } = e.target;
     setFormDaata((prevData) => ({
       ...prevData,
       [name]: value,
@@ -109,13 +101,6 @@ const Contact = () => {
       setLoading(false); // Stop loading
     }
   };
-
-
-
-
-
-
-
 
   useEffect(() => {
     AOS.init({ duration: 2000 });
@@ -201,7 +186,10 @@ const Contact = () => {
         </section>
       </header>
 
-      <SideBar isSidebarVisible={isSidebarVisible} />
+      <SideBar
+        isSidebarVisible={isSidebarVisible}
+        handleSidebarToggle={handleSidebarToggle}
+      />
 
       <section className="contact">
         <div className="row">
@@ -252,8 +240,8 @@ const Contact = () => {
               onChange={handleChaange}
             ></textarea>
             <button type="submit" className="btnprimary" disabled={loading}>
-            {loading ? "Loading..." : "Send message"}
-          </button>
+              {loading ? "Loading..." : "Send message"}
+            </button>
           </form>
         </div>
         {showPopup && <SuccessPopup setShowPopup={setShowPopup} />}
@@ -288,29 +276,56 @@ const Contact = () => {
   );
 };
 
-
 const SuccessPopup = ({ setShowPopup }) => {
   return (
     <div className="card">
-      <button type="button" className="dismiss" onClick={() => setShowPopup(false)}>×</button>
+      <button
+        type="button"
+        className="dismiss"
+        onClick={() => setShowPopup(false)}
+      >
+        ×
+      </button>
       <div className="header">
         <div className="image">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
             <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
-            <g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g>
+            <g
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              id="SVGRepo_tracerCarrier"
+            ></g>
             <g id="SVGRepo_iconCarrier">
-              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#000000" d="M20 7L9.00004 18L3.99994 13"></path>
+              <path
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                stroke-width="1.5"
+                stroke="#000000"
+                d="M20 7L9.00004 18L3.99994 13"
+              ></path>
             </g>
           </svg>
         </div>
         <div className="content">
           <span className="title">Message sent</span>
-          <p className="message">Thank you for contacting us. Our representative will reach out. </p>
+          <p className="message">
+            Thank you for contacting us. Our representative will reach out.{" "}
+          </p>
         </div>
         <div className="actions">
-        <Link to="/">
-        <button type="button" className="history" onClick={() => setShowPopup(false)}>Home</button>
-            </Link>
+          <Link to="/">
+            <button
+              type="button"
+              className="history"
+              onClick={() => setShowPopup(false)}
+            >
+              Home
+            </button>
+          </Link>
         </div>
       </div>
     </div>

@@ -18,13 +18,13 @@ const Home = () => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [activeDropdown, setActiveDropdown] = useState(null); 
+  const [activeDropdown, setActiveDropdown] = useState(null);
 
   const courses = [
     {
       title: "INTRODUCTION TO THE  OIL AND GAS INDUSTRY",
       tutor: "Paul Wanjau",
-      mobile:"0701454548",
+      mobile: "0701454548",
       topics: 3,
       image: Intro,
       link: "/introduction",
@@ -148,7 +148,10 @@ const Home = () => {
         </section>
       </header>
 
-      <SideBar isSidebarVisible={isSidebarVisible} />
+      <SideBar
+        isSidebarVisible={isSidebarVisible}
+        handleSidebarToggle={handleSidebarToggle}
+      />
 
       <section className="courses">
         <h1 className="heading">Our Modules</h1>
@@ -166,9 +169,17 @@ const Home = () => {
                     onClick={() => handleDropdownToggle(index)}
                     style={{ cursor: "pointer", marginRight: "10px" }}
                   ></i>
-                  <div className={`dropdown ${activeDropdown === index ? 'active' : ''}`}>
-                    <p><strong>Tutor:</strong> {course.tutor}</p>
-                    <p><strong>Mobile:</strong> {course.mobile}</p>
+                  <div
+                    className={`dropdown ${
+                      activeDropdown === index ? "active" : ""
+                    }`}
+                  >
+                    <p>
+                      <strong>Tutor:</strong> {course.tutor}
+                    </p>
+                    <p>
+                      <strong>Mobile:</strong> {course.mobile}
+                    </p>
                   </div>
                 </div>
                 <div className="thumb">

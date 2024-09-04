@@ -120,7 +120,10 @@ const Courses = () => {
         </section>
       </header>
 
-      <SideBar isSidebarVisible={isSidebarVisible} />
+      <SideBar
+        isSidebarVisible={isSidebarVisible}
+        handleSidebarToggle={handleSidebarToggle}
+      />
 
       <section className="courses">
         <h1 className="heading">Our Modules</h1>

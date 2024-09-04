@@ -17,9 +17,8 @@ const Introduction = () => {
 
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
-  const handleShow = () => {
+  const handleSidebarToggle = () => {
     setIsSidebarVisible(!isSidebarVisible);
-    console.log("toggled");
   };
 
   // Function to toggle the visibility of the notes
@@ -52,7 +51,7 @@ const Introduction = () => {
             <div
               id="menu-btn"
               className="fas fa-bars"
-              onClick={handleShow}
+              onClick={handleSidebarToggle}
             ></div>
             <div id="search-btn" className="fas fa-search"></div>
             <div id="user-btn" className="fas fa-user"></div>
@@ -69,7 +68,10 @@ const Introduction = () => {
         </section>
       </header>
 
-      <SideBar isSidebarVisible={isSidebarVisible} />
+      <SideBar
+        isSidebarVisible={isSidebarVisible}
+        handleSidebarToggle={handleSidebarToggle}
+      />
 
       <section className="playlist-details">
         <h1 className="heading">Module details</h1>
