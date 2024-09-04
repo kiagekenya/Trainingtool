@@ -1,3 +1,51 @@
+/* QuizPage.css */
+
+/* Add padding to the .quiz container */
+.quiz {
+  padding: 20px; /* Adjust the value as needed */
+}
+
+/* Add padding or margin to the .notes container */
+.notes {
+  padding: 15px; /* Adjust the value as needed */
+  background-color: #f9f9f9; /* Optional: Add background color */
+  border-radius: 8px; /* Optional: Add rounded corners */
+}
+
+/* Optionally, add padding or margin to the .progress-bar-container */
+.progress-bar-container {
+  padding: 10px 0; /* Adjust the value as needed */
+  margin-bottom: 20px; /* Space below the progress bar */
+}
+
+/* Style the quiz buttons */
+.quiz-btn {
+  padding: 10px 15px; /* Adjust the padding */
+  margin-bottom: 10px; /* Space between quiz buttons */
+}
+
+/* Style the modal content */
+.modal-content {
+  padding: 20px; /* Add padding inside the modal */
+}
+
+/* Other necessary styles */
+ul {
+  padding-left: 20px; /* Indent the list items slightly */
+}
+
+.question-block {
+  margin-bottom: 20px; /* Add space between questions */
+}
+
+.option {
+  margin-bottom: 5px; /* Add space between options */
+}
+
+
+
+
+
 .correct {
   color: green;
   font-weight: bold;

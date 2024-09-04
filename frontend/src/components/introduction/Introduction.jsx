@@ -82,14 +82,14 @@ const Introduction = () => {
             </form>
             <div className="thumb">
               <img src={Intro} alt="" />
-              <span>1 topic</span>
+              <span>3 topic</span>
             </div>
           </div>
           <div className="column">
             <div className="tutor">
               <div>
-                <h3>Jacob</h3>
-                <span>21-3-2024</span>
+                <h3>Paul Wanjau</h3>
+                <span>0701454548</span>
               </div>
             </div>
             <div className="details">

@@ -12,51 +12,51 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import SideBar from "../sidBar/SideBar";
-// import LogoutButton from "../logout/LogoutButton";
 
 const Home = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [activeDropdown, setActiveDropdown] = useState(null); 
 
   const courses = [
     {
-      title: "INTRODUCTION TO THE OIL AND GAS INDUSTRY",
-      tutor: "Jacob Kiage",
-      date: "21-3-2024",
-      topics: 1,
+      title: "INTRODUCTION TO THE  OIL AND GAS INDUSTRY",
+      tutor: "Paul Wanjau",
+      mobile:"0701454548",
+      topics: 3,
       image: Intro,
       link: "/introduction",
     },
     {
-      title: "Exploration",
+      title: "Module 2",
       tutor: "Jacob Kiage",
-      date: "21-3-2024",
+      mobile: "0741357536",
       topics: 3,
       image: Exploration,
       link: "/under",
     },
     {
-      title: "Development & Production",
+      title: "Module 3",
       tutor: "Jacob Kiage",
-      date: "21-3-2024",
+      mobile: "0741357536",
       topics: 7,
       image: Development,
       link: "/under",
     },
     {
-      title: "Well Abandonment",
+      title: "Module 4",
       tutor: "Jacob Kiage",
-      date: "21-3-2024",
+      mobile: "0741357536",
       topics: 2,
       image: Abandonment,
       link: "/under",
     },
     {
-      title: "Petroleum Economics",
+      title: "Module 5",
       tutor: "Jacob Kiage",
-      date: "21-3-2024",
+      mobile: "0741357536",
       topics: 4,
       image: Econ,
       link: "/under",
@@ -80,9 +80,7 @@ const Home = () => {
   };
 
   const handleSidebarToggle = () => {
-    console.log("clicked");
     setIsSidebarVisible(!isSidebarVisible);
-    console.log(isSidebarVisible);
   };
 
   const handleSearchChange = (e) => {
@@ -93,6 +91,10 @@ const Home = () => {
       course.title.toLowerCase().includes(query.toLowerCase())
     );
     setSearchResults(filteredCourses);
+  };
+
+  const handleDropdownToggle = (index) => {
+    setActiveDropdown(activeDropdown === index ? null : index); // Toggle dropdown visibility
   };
 
   const preventDefault = (e) => {
@@ -134,7 +136,6 @@ const Home = () => {
               className={darkMode ? "fas fa-moon" : "fas fa-sun"}
               onClick={toggleDarkMode}
             ></div>
-            {/* <LogoutButton /> */}
           </div>
           <div className="profile">
             <img src={Profile} className="image" alt="" />
@@ -160,9 +161,14 @@ const Home = () => {
             (course, index) => (
               <div className="box" key={index} data-aos="zoom-in">
                 <div className="tutor">
-                  <div className="info">
-                    <h3>{course.tutor}</h3>
-                    <span>{course.date}</span>
+                  <i
+                    className="fas fa-info-circle"
+                    onClick={() => handleDropdownToggle(index)}
+                    style={{ cursor: "pointer", marginRight: "10px" }}
+                  ></i>
+                  <div className={`dropdown ${activeDropdown === index ? 'active' : ''}`}>
+                    <p><strong>Tutor:</strong> {course.tutor}</p>
+                    <p><strong>Mobile:</strong> {course.mobile}</p>
                   </div>
                 </div>
                 <div className="thumb">

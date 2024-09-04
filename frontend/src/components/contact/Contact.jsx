@@ -40,7 +40,7 @@ const Contact = () => {
       link: "/introduction",
     },
     {
-      title: "Exploration",
+      title: "Module 2",
       tutor: "Jacob Kiage",
       date: "21-3-2024",
       topics: 3,
@@ -48,7 +48,7 @@ const Contact = () => {
       link: "/under",
     },
     {
-      title: "Development & Production",
+      title: "Module 3",
       tutor: "Jacob Kiage",
       date: "21-3-2024",
       topics: 7,
@@ -56,7 +56,7 @@ const Contact = () => {
       link: "/under",
     },
     {
-      title: "Well Abandonment",
+      title: "Module 4",
       tutor: "Jacob Kiage",
       date: "21-3-2024",
       topics: 2,
@@ -64,7 +64,7 @@ const Contact = () => {
       link: "/under",
     },
     {
-      title: "Petroleum Economics",
+      title: "Module 5",
       tutor: "Jacob Kiage",
       date: "21-3-2024",
       topics: 4,
