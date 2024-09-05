@@ -51,7 +51,7 @@ body {
   background-image: url("../../assets/alex-lvrs-Md6_qA-BMis-unsplash.jpg");
   background-size: cover;
   background-attachment: fixed;
-  padding-left: 30rem;
+  /* padding-left: 30rem; */
 }
 
 body.dark {
@@ -2056,7 +2056,6 @@ button[type="button"]:disabled {
   color: green;
 }
 
-
 /* home.css */
 
 /* Dropdown container */
@@ -2085,7 +2084,6 @@ button[type="button"]:disabled {
   align-items: center;
   position: relative;
 }
-
 
 .box .title {
   line-height: 1.3;
