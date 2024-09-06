@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./home.css";
@@ -19,10 +20,11 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [isMobileSearchVisible, setIsMobileSearchVisible] = useState(false); // New state for mobile search visibility
 
   const courses = [
     {
-      title: "INTRODUCTION TO THE  OIL AND GAS INDUSTRY",
+      title: "INTRODUCTION TO THE OIL AND GAS INDUSTRY",
       tutor: "Paul Wanjau",
       mobile: "0701454548",
       topics: 3,
@@ -94,7 +96,11 @@ const Home = () => {
   };
 
   const handleDropdownToggle = (index) => {
-    setActiveDropdown(activeDropdown === index ? null : index); // Toggle dropdown visibility
+    setActiveDropdown(activeDropdown === index ? null : index);
+  };
+
+  const toggleMobileSearch = () => {
+    setIsMobileSearchVisible(!isMobileSearchVisible); // Toggle mobile search visibility
   };
 
   const preventDefault = (e) => {
@@ -126,8 +132,7 @@ const Home = () => {
               className="fas fa-bars"
               onClick={handleSidebarToggle}
             ></div>
-            <div id="search-btn" className="fas fa-search"></div>
-
+            <div id="search-btn" className="fas fa-search" onClick={toggleMobileSearch}></div> {/* Toggle mobile search */}
             <Link to="/profile">
               <div id="user-btn" className="fas fa-user"></div>
             </Link>
@@ -137,6 +142,7 @@ const Home = () => {
               onClick={toggleDarkMode}
             ></div>
           </div>
+
           <div className="profile">
             <img src={Profile} className="image" alt="" />
             <h3 className="name">Jacob</h3>
@@ -148,6 +154,20 @@ const Home = () => {
         </section>
       </header>
 
+      {isMobileSearchVisible && ( // Conditionally render the mobile search form
+        <div id="search-form-mobile" className="search-form">
+          <input
+            type="text"
+            name="search_box"
+            required
+            placeholder="search courses..."
+            maxLength="100"
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
+        </div>
+      )}
+
       <SideBar
         isSidebarVisible={isSidebarVisible}
         handleSidebarToggle={handleSidebarToggle}
@@ -158,7 +178,6 @@ const Home = () => {
         {searchResults.length === 0 && searchQuery && (
           <p className="searchQuery">No results found for "{searchQuery}"</p>
         )}
-
         <div className="box-container">
           {(searchResults.length > 0 ? searchResults : courses).map(
             (course, index) => (
@@ -200,7 +219,6 @@ const Home = () => {
           </Link>
         </div>
       </section>
-
       <section className="home-grid">
         <h1 className="heading" data-aos="fade-right">
           quick options

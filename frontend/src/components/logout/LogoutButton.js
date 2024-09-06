@@ -15,7 +15,7 @@ const LogoutButton = () => {
   const confirmLogout = async () => {
     await logout();
     closeModal();
-    navigate("/home", { replace: true });
+    navigate("/login", { replace: true });
   };
 
   return (
