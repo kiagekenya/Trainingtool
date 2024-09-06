@@ -21,12 +21,21 @@ const app = express();
 // Middleware setup for google logic
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: "My.SESSION_SECRET",
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }, // Set to true if using HTTPS
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    },
   })
 );
+
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+  next();
+});
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -51,18 +60,23 @@ app.get(
 
 // Logout route
 app.get("/logout", (req, res) => {
-  req.logout((err) => {
+  req.session.destroy((err) => {
     if (err) {
-      return next(err);
+      return res
+        .status(500)
+        .json({ message: "Could not log out, please try again" });
     }
-    req.session.destroy((err) => {
-      if (err) {
-        return next(err);
-      }
-      res.clearCookie("connect.sid");
-      res.redirect("/login"); // Redirect to login page after logout
-    });
+    res.clearCookie("connect.sid");
+    res.json({ message: "Logged out successfully" });
   });
+});
+
+app.get("/api/user", (req, res) => {
+  if (req.session.user) {
+    res.json(req.session.user);
+  } else {
+    res.status(401).json({ message: "Not authenticated" });
+  }
 });
 
 app.use(bodyParser.json());

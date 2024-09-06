@@ -1,17 +1,21 @@
-import React, { useState } from "react";
-import { useLogout } from "../../contexts/LogoutContext";
+// LogoutButton.js
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext";
 import ConfirmLogoutModal from "../ConfirmLogoutModal";
 
 const LogoutButton = () => {
-  const { handleLogout } = useLogout();
+  const { logout } = useContext(UserContext);
+  const navigate = useNavigate();
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
 
-  const confirmLogout = () => {
-    handleLogout();
+  const confirmLogout = async () => {
+    await logout();
     closeModal();
+    navigate("/home", { replace: true });
   };
 
   return (

@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 import "./loginstyles.scss";
+import axios from "axios";
 
 const Login = () => {
   const [userData, setUserData] = useState({
@@ -21,25 +22,16 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch("/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
+      const response = await axios.post("/login", userData, {
+        withCredentials: true,
       });
-      const data = await response.json();
       setLoading(false);
 
-      if (data.status === "success") {
-        setUser({
-          name: data.name,
-          email: data.email,
-          imageUrl: data.imageUrl,
-        });
+      if (response.data.status === "success") {
+        setUser(response.data);
         navigate("/home");
       } else {
-        setError(data.message);
+        setError(response.data.message);
       }
     } catch (error) {
       setLoading(false);
