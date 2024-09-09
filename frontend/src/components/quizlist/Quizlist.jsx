@@ -209,7 +209,10 @@ const styleTopics = (text) => {
   
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="loader">
+    <span className="loader-text">loading</span>
+      <span className="load"></span>
+  </div>;
   }
 
   if (error) {
@@ -244,7 +247,7 @@ const styleTopics = (text) => {
             {contentItem._id === selectedQuiz && (
               <div>
                 {quizLoading ? (
-                  <div>Loading quiz...</div>
+                  <div className="loaderquiz"></div>
                 ) : quizError ? (
                   <div>Error: {quizError}</div>
                 ) : (

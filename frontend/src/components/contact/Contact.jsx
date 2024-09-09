@@ -8,17 +8,14 @@ import ContactImage from "../../assets/contact-img.svg";
 import SideBar from "../sidBar/SideBar";
 import "aos/dist/aos.css";
 import Intro from "../../assets/intro2.png";
-import Exploration from "../../assets/exploration.jpg";
 import Development from "../../assets/development.jpg";
-import Abandonment from "../../assets/well abandonment.jpg";
-import Econ from "../../assets/econ.jpg";
+import Image1 from "../../assets/image1.jpg";
 import AOS from "aos";
+import Search from "../search/Search";
 
 const Contact = () => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
   const [showPopup, setShowPopup] = useState(false); // State for pop-up visibility
   const [loading, setLoading] = useState(false);
 
@@ -36,7 +33,7 @@ const Contact = () => {
       tutor: "Jacob Kiage",
       date: "21-3-2024",
       topics: 3,
-      image: Exploration,
+      image: Image1,
       link: "/under",
     },
     {
@@ -52,7 +49,7 @@ const Contact = () => {
       tutor: "Jacob Kiage",
       date: "21-3-2024",
       topics: 2,
-      image: Abandonment,
+      image: Image1,
       link: "/under",
     },
     {
@@ -60,7 +57,7 @@ const Contact = () => {
       tutor: "Jacob Kiage",
       date: "21-3-2024",
       topics: 4,
-      image: Econ,
+      image: Development,
       link: "/under",
     },
   ];
@@ -124,16 +121,6 @@ const Contact = () => {
     console.log(isSidebarVisible);
   };
 
-  const handleSearchChange = (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-
-    const filteredCourses = courses.filter((course) =>
-      course.title.toLowerCase().includes(query.toLowerCase())
-    );
-    setSearchResults(filteredCourses);
-  };
-
   const preventDefault = (e) => {
     e.preventDefault();
   };
@@ -145,18 +132,7 @@ const Contact = () => {
           <div className="logo">
             <img src={LOGO} alt="logo" />
           </div>
-          <form className="search-form">
-            <input
-              type="text"
-              name="search_box"
-              required
-              placeholder="search courses..."
-              maxLength="100"
-              value={searchQuery}
-              onChange={handleSearchChange}
-            />
-            <button type="button" className="fas fa-search"></button>
-          </form>
+          <Search courses={courses} />
           <div className="icons">
             <div
               id="menu-btn"

@@ -3,9 +3,61 @@ import { Link } from "react-router-dom";
 import LOGO from "../../assets/nock j.png";
 import "@fortawesome/fontawesome-free/css/all.css";
 import Profile from "../../assets/vecteezy_happy-young-man-avatar-character_35280231.jpg";
+import Intro from "../../assets/intro2.png";
+import Development from "../../assets/development.jpg";
+import Image1 from "../../assets/image1.jpg";
 import SideBar from "../sidBar/SideBar";
+import Search from "../search/Search";
+
+
 
 const Teachers = () => {
+
+  const [isMobileSearchVisible, setIsMobileSearchVisible] = useState(false);
+
+
+  const courses = [
+    {
+      title: "INTRODUCTION TO THE OIL AND GAS INDUSTRY",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 1,
+      image: Intro,
+      link: "/introduction",
+    },
+    {
+      title: "Module 2",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 3,
+      image: Image1,
+      link: "/under",
+    },
+    {
+      title: "Module 3",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 7,
+      image: Development,
+      link: "/under",
+    },
+    {
+      title: "Module 4",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 2,
+      image: Image1,
+      link: "/under",
+    },
+    {
+      title: "Module 5",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 4,
+      image: Development,
+      link: "/under",
+    },
+  ];
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const handleSidebarToggle = () => {
     console.log("clicked");
@@ -13,8 +65,22 @@ const Teachers = () => {
     console.log(isSidebarVisible);
   };
 
+  useEffect(() => {
+    if (isMobileSearchVisible) {
+      const searchInput = document.querySelector(".search-container input");
+      if (searchInput) {
+        searchInput.focus();
+      }
+    }
+  }, [isMobileSearchVisible]);
+  
+
+
   const preventDefault = (e) => {
     e.preventDefault();
+  };
+  const toggleMobileSearch = () => {
+    setIsMobileSearchVisible(!isMobileSearchVisible); // Toggle mobile search visibility
   };
 
   return (
@@ -24,23 +90,14 @@ const Teachers = () => {
           <div className="logo">
             <img src={LOGO} alt="logo" />
           </div>
-          <form action="search.html" method="post" className="search-form">
-            <input
-              type="text"
-              name="search_box"
-              required
-              placeholder="search courses..."
-              maxLength="100"
-            />
-            <button type="submit" className="fas fa-search"></button>
-          </form>
+          <Search courses={courses} />
           <div className="icons">
             <div
               id="menu-btn"
               className="fas fa-bars"
               onClick={handleSidebarToggle}
             ></div>
-            <div id="search-btn" className="fas fa-search"></div>
+             <div id="search-btn" className="fas fa-search" onClick={toggleMobileSearch}></div>
             <Link to="/profile">
               <div id="user-btn" className="fas fa-user"></div>
             </Link>
@@ -56,6 +113,10 @@ const Teachers = () => {
           </div>
         </section>
       </header>
+
+      {isMobileSearchVisible && ( // Conditionally render the mobile search form
+       <Search courses={courses} />
+      )}
 
       <SideBar
         isSidebarVisible={isSidebarVisible}

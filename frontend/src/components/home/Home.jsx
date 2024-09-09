@@ -5,10 +5,8 @@ import "./home.css";
 import LOGO from "../../assets/nock j.png";
 import Profile from "../../assets/vecteezy_happy-young-man-avatar-character_35280231.jpg";
 import Intro from "../../assets/intro2.png";
-import Exploration from "../../assets/exploration.jpg";
 import Development from "../../assets/development.jpg";
-import Abandonment from "../../assets/well abandonment.jpg";
-import Econ from "../../assets/econ.jpg";
+import Image1 from "../../assets/image1.jpg";
 import "@fortawesome/fontawesome-free/css/all.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -20,7 +18,7 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const [isMobileSearchVisible, setIsMobileSearchVisible] = useState(false); // New state for mobile search visibility
+  const [isMobileSearchVisible, setIsMobileSearchVisible] = useState(false); 
 
   const courses = [
     {
@@ -36,7 +34,7 @@ const Home = () => {
       tutor: "Jacob Kiage",
       mobile: "0741357536",
       topics: 3,
-      image: Exploration,
+      image: Image1,
       link: "/under",
     },
     {
@@ -52,7 +50,7 @@ const Home = () => {
       tutor: "Jacob Kiage",
       mobile: "0741357536",
       topics: 2,
-      image: Abandonment,
+      image: Image1,
       link: "/under",
     },
     {
@@ -60,7 +58,7 @@ const Home = () => {
       tutor: "Jacob Kiage",
       mobile: "0741357536",
       topics: 4,
-      image: Econ,
+      image: Development,
       link: "/under",
     },
   ];

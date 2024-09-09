@@ -5,10 +5,8 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import Profile from "../../assets/vecteezy_happy-young-man-avatar-character_35280231.jpg";
 import AboutImage from "../../assets/about-img.svg";
 import Intro from "../../assets/intro2.png";
-import Exploration from "../../assets/exploration.jpg";
 import Development from "../../assets/development.jpg";
-import Abandonment from "../../assets/well abandonment.jpg";
-import Econ from "../../assets/econ.jpg";
+import Image1 from "../../assets/image1.jpg";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import SideBar from "../sidBar/SideBar";
@@ -41,7 +39,7 @@ const About = () => {
       tutor: "Jacob Kiage",
       date: "21-3-2024",
       topics: 3,
-      image: Exploration,
+      image: Image1,
       link: "/under",
     },
     {
@@ -57,7 +55,7 @@ const About = () => {
       tutor: "Jacob Kiage",
       date: "21-3-2024",
       topics: 2,
-      image: Abandonment,
+      image: Image1,
       link: "/under",
     },
     {
@@ -65,7 +63,7 @@ const About = () => {
       tutor: "Jacob Kiage",
       date: "21-3-2024",
       topics: 4,
-      image: Econ,
+      image: Development,
       link: "/under",
     },
   ];

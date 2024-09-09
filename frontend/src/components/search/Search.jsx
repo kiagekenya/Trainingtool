@@ -8,17 +8,22 @@ const Search = ({ courses }) => {
   const handleSearchChange = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
-
+  
+    console.log("Search Query:", query); 
+  
     if (query.length > 0) {
       const filteredCourses = courses.filter((course) =>
         course.title.toLowerCase().includes(query.toLowerCase())
       );
       setSearchResults(filteredCourses);
+      console.log("Filtered Courses:", filteredCourses); 
     } else {
       setSearchResults([]);
+      console.log("No results"); 
     }
   };
-
+  
+  
   return (
     <div className="search-container">
       <div className="search-form">

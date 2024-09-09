@@ -3,10 +3,8 @@ import { Link } from "react-router-dom";
 import LOGO from "../../assets/nock j.png";
 import Profile from "../../assets/vecteezy_happy-young-man-avatar-character_35280231.jpg";
 import Intro from "../../assets/intro2.png";
-import Exploration from "../../assets/exploration.jpg";
 import Development from "../../assets/development.jpg";
-import Abandonment from "../../assets/well abandonment.jpg";
-import Econ from "../../assets/econ.jpg";
+import Image1 from "../../assets/image1.jpg";
 import "@fortawesome/fontawesome-free/css/all.css";
 import SideBar from "../sidBar/SideBar";
 
@@ -14,6 +12,7 @@ const Courses = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [activeDropdown, setActiveDropdown] = useState(null);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const handleSidebarToggle = () => {
     console.log("clicked");
@@ -28,24 +27,24 @@ const Courses = () => {
   const courses = [
     {
       title: "INTRODUCTION TO THE OIL AND GAS INDUSTRY",
-      tutor: "Jacob Kiage",
-      date: "21-3-2024",
-      topics: 1,
+      tutor: "Paul Wanjau",
+      mobile: "0701454548",
+      topics: 3,
       image: Intro,
       link: "/introduction",
     },
     {
       title: "Module 2",
       tutor: "Jacob Kiage",
-      date: "21-3-2024",
+      mobile: "0741357536",
       topics: 3,
-      image: Exploration,
+      image: Image1,
       link: "/under",
     },
     {
       title: "Module 3",
       tutor: "Jacob Kiage",
-      date: "21-3-2024",
+      mobile: "0741357536",
       topics: 7,
       image: Development,
       link: "/under",
@@ -53,17 +52,17 @@ const Courses = () => {
     {
       title: "Module 4",
       tutor: "Jacob Kiage",
-      date: "21-3-2024",
+      mobile: "0741357536",
       topics: 2,
-      image: Abandonment,
+      image: Image1,
       link: "/under",
     },
     {
       title: "Module 5",
       tutor: "Jacob Kiage",
-      date: "21-3-2024",
+      mobile: "0741357536",
       topics: 4,
-      image: Econ,
+      image: Development,
       link: "/under",
     },
   ];
@@ -78,6 +77,9 @@ const Courses = () => {
     setSearchResults(filteredCourses);
   };
 
+  const handleDropdownToggle = (index) => {
+    setActiveDropdown(activeDropdown === index ? null : index);
+  };
   return (
     <>
       <header className="header">
@@ -136,9 +138,22 @@ const Courses = () => {
             (course, index) => (
               <div className="box" key={index} data-aos="zoom-in">
                 <div className="tutor">
-                  <div className="info">
-                    <h3>{course.tutor}</h3>
-                    <span>{course.date}</span>
+                  <i
+                    className="fas fa-info-circle"
+                    onClick={() => handleDropdownToggle(index)}
+                    style={{ cursor: "pointer", marginRight: "10px" }}
+                  ></i>
+                  <div
+                    className={`dropdown ${
+                      activeDropdown === index ? "active" : ""
+                    }`}
+                  >
+                    <p>
+                      <strong>Tutor:</strong> {course.tutor}
+                    </p>
+                    <p>
+                      <strong>Mobile:</strong> {course.mobile}
+                    </p>
                   </div>
                 </div>
                 <div className="thumb">
