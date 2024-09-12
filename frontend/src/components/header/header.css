@@ -34,7 +34,8 @@
 
   .navbarr-links a {
     text-decoration: none;
-    color: black; 
+    color: white; 
+    font-weight: bold;
     
     font-size: 20px;
   }

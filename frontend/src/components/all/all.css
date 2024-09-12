@@ -7,7 +7,7 @@
 }
 
 .alll-container {
-  background-image: url("../../assets/image2.jpg");
+  background-image: url("../../assets/image3.jpg");
   background-size: cover;
   background-attachment: fixed;
   position: absolute;
@@ -70,7 +70,7 @@ z-index: -1;
 
 .roww p {
   line-height: 30px;
-  font-size: 18px;
+  font-size: 20px;
   color: white;
 }
 
