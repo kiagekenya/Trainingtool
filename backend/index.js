@@ -415,21 +415,22 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
 });
 
-// Connect to MongoDB
+// Read MongoDB URI from environment variables
+const mongoURI =
+  process.env.MONGO_URI ||
+  "mongodb+srv://rben:zxc@cluster0.z2lt81m.mongodb.net/Training_tool";
+
 mongoose
-  .connect(
-    "mongodb+srv://rben:zxc@cluster0.z2lt81m.mongodb.net/Training_tool",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log(err));
+  .catch((err) => console.log("Error connecting to MongoDB:", err));
 
 const port = process.env.PORT || 4000;
 const server = app.listen(port, () => {
-  console.log(`Server is running on ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
 
 app.use(express.json()); // This is required to parse JSON bodies
