@@ -18,6 +18,14 @@ require("./models/passportConfig");
 // console.log("GOOGLE_CLIENT_SECRET:", process.env.GOOGLE_CLIENT_SECRET);
 const app = express();
 
+app.use(
+  cors({
+    origin: "https://nocklearning.co.ke", // Frontend main domain
+    credentials: true,
+    // Allow cookies/session to be sent
+  })
+);
+
 // Middleware setup for google logic
 app.use(
   session({
@@ -25,6 +33,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
+      domain: ".nocklearning.co.ke",
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
