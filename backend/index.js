@@ -40,6 +40,9 @@ app.use(
     },
   })
 );
+app.get("/api/demo", (req, res) => {
+  res.send("API demo is working");
+});
 
 app.use((req, res, next) => {
   res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
@@ -192,7 +195,7 @@ function isAuthenticated(req, res, next) {
 }
 
 // server.js or wherever your backend routes are defined
-app.post("/login", async (req, res) => {
+app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });

@@ -22,7 +22,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post("/login", userData, {
+      const response = await axios.post("/api/login", userData, {
         withCredentials: true,
       });
       setLoading(false);
