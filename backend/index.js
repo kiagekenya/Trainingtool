@@ -430,7 +430,8 @@ app.get("*", (req, res) => {
 // Read MongoDB URI from environment variables
 const mongoURI =
   process.env.MONGO_URI ||
-  "mongodb+srv://rben:zxc@cluster0.z2lt81m.mongodb.net/Training_tool";
+  "mongodb+srv://doadmin:B53xh0Cm812z4Ee6@training-tool-db-862a20d2.mongo.ondigitalocean.com/admin?tls=true&authSource=admin";
+// "mongodb+srv://rben:zxc@cluster0.z2lt81m.mongodb.net/Training_tool";
 
 mongoose
   .connect(mongoURI, {
@@ -440,7 +441,7 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log("Error connecting to MongoDB:", err));
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 8080;
 const server = app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
