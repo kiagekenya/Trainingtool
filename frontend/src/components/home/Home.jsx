@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./home.css";
@@ -18,7 +17,7 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const [isMobileSearchVisible, setIsMobileSearchVisible] = useState(false); 
+  const [isMobileSearchVisible, setIsMobileSearchVisible] = useState(false);
 
   const courses = [
     {
@@ -130,7 +129,12 @@ const Home = () => {
               className="fas fa-bars"
               onClick={handleSidebarToggle}
             ></div>
-            <div id="search-btn" className="fas fa-search" onClick={toggleMobileSearch}></div> {/* Toggle mobile search */}
+            <div
+              id="search-btn"
+              className="fas fa-search"
+              onClick={toggleMobileSearch}
+            ></div>{" "}
+            {/* Toggle mobile search */}
             <Link to="/profile">
               <div id="user-btn" className="fas fa-user"></div>
             </Link>
@@ -192,7 +196,7 @@ const Home = () => {
                     }`}
                   >
                     <p>
-                      <strong>Tutor:</strong> {course.tutor}
+                      <strong>Tutors:</strong> {course.tutor}
                     </p>
                     <p>
                       <strong>Mobile:</strong> {course.mobile}
