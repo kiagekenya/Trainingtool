@@ -8,11 +8,11 @@ const All = () => {
       <div className="alll-container">
         <div className="containerr">
           <div className="roww">
-            <h1>Welcomes To NockLearning</h1>
+            <h1>Welcome To NOCLearning</h1>
             <br />
             <br />
             <p>
-              Welcome to NockLearning's Oil and Gas Industry Basics program. At
+              Welcome to NOCLearning's Oil and Gas Industry Basics program. At
               NockLearning, we specialize in providing fundamental training and
               orientation for Non-technical Oil & Gas Managers and Directors.
               Explore our platform to kickstart your journey, gain essential

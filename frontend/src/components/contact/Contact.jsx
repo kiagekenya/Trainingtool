@@ -8,8 +8,7 @@ import ContactImage from "../../assets/contact-img.svg";
 import SideBar from "../sidBar/SideBar";
 import "aos/dist/aos.css";
 import Intro from "../../assets/intro2.png";
-import Development from "../../assets/development.jpg";
-import Image1 from "../../assets/image1.jpg";
+import Development from "../../assets/WorldMapOilBandW.jpg";
 import AOS from "aos";
 import Search from "../search/Search";
 
@@ -24,39 +23,39 @@ const Contact = () => {
       title: "INTRODUCTION TO THE OIL AND GAS INDUSTRY",
       tutor: "Jacob Kiage",
       date: "21-3-2024",
-      topics: 1,
+      topics: 3,
       image: Intro,
       link: "/introduction",
     },
     {
-      title: "Module 2",
+      title: "Module 2:Under development",
       tutor: "Jacob Kiage",
       date: "21-3-2024",
-      topics: 3,
-      image: Image1,
-      link: "/under",
-    },
-    {
-      title: "Module 3",
-      tutor: "Jacob Kiage",
-      date: "21-3-2024",
-      topics: 7,
+      topics: 0,
       image: Development,
       link: "/under",
     },
     {
-      title: "Module 4",
+      title: "Module 3:Under development",
       tutor: "Jacob Kiage",
       date: "21-3-2024",
-      topics: 2,
-      image: Image1,
+      topics: 0,
+      image: Development,
       link: "/under",
     },
     {
-      title: "Module 5",
+      title: "Module 4:Under development",
       tutor: "Jacob Kiage",
       date: "21-3-2024",
-      topics: 4,
+      topics: 0,
+      image: Development,
+      link: "/under",
+    },
+    {
+      title: "Module 5:Under development",
+      tutor: "Jacob Kiage",
+      date: "21-3-2024",
+      topics: 0,
       image: Development,
       link: "/under",
     },
@@ -231,8 +230,7 @@ const Contact = () => {
           <div className="box">
             <i className="fas fa-envelope"></i>
             <h3>email address</h3>
-            <Link to="mailto:jacobkiage4@gmail.com">jacobkiage4@gmail.com</Link>
-            <Link to="mailto:kiagejay@gmail.com">kiagejay@gmail.com</Link>
+            <Link to="mailto:info@nocklearning.co.ke">info@nocklearning.co.ke</Link>
           </div>
           <div className="box">
             <i className="fas fa-map-marker-alt"></i>

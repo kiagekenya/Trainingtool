@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import LOGO from "../../assets/nock j.png";
 import Profile from "../../assets/vecteezy_happy-young-man-avatar-character_35280231.jpg";
 import Intro from "../../assets/intro2.png";
-import Development from "../../assets/development.jpg";
-import Image1 from "../../assets/image1.jpg";
+import Development from "../../assets/WorldMapOilBandW.jpg";
 import "@fortawesome/fontawesome-free/css/all.css";
 import SideBar from "../sidBar/SideBar";
 
@@ -34,34 +33,34 @@ const Courses = () => {
       link: "/introduction",
     },
     {
-      title: "Module 2",
+      title: "Module 2: Under development",
       tutor: "Jacob Kiage",
       mobile: "0741357536",
-      topics: 3,
-      image: Image1,
-      link: "/under",
-    },
-    {
-      title: "Module 3",
-      tutor: "Jacob Kiage",
-      mobile: "0741357536",
-      topics: 7,
+      topics: 0,
       image: Development,
       link: "/under",
     },
     {
-      title: "Module 4",
+      title: "Module 3: Under development",
       tutor: "Jacob Kiage",
       mobile: "0741357536",
-      topics: 2,
-      image: Image1,
+      topics: 0,
+      image: Development,
       link: "/under",
     },
     {
-      title: "Module 5",
+      title: "Module 4: Under development",
       tutor: "Jacob Kiage",
       mobile: "0741357536",
-      topics: 4,
+      topics: 0,
+      image:Development,
+      link: "/under",
+    },
+    {
+      title: "Module 5: Under development",
+      tutor: "Jacob Kiage",
+      mobile: "0741357536",
+      topics: 0,
       image: Development,
       link: "/under",
     },
@@ -127,48 +126,52 @@ const Courses = () => {
         handleSidebarToggle={handleSidebarToggle}
       />
 
-      <section className="courses">
-        <h1 className="heading">Our Modules</h1>
-        {searchResults.length === 0 && searchQuery && (
-          <p className="searchQuery">No results found for "{searchQuery}"</p>
-        )}
-
-        <div className="box-container">
-          {(searchResults.length > 0 ? searchResults : courses).map(
-            (course, index) => (
-              <div className="box" key={index} data-aos="zoom-in">
-                <div className="tutor">
-                  <i
-                    className="fas fa-info-circle"
-                    onClick={() => handleDropdownToggle(index)}
-                    style={{ cursor: "pointer", marginRight: "10px" }}
-                  ></i>
-                  <div
-                    className={`dropdown ${
-                      activeDropdown === index ? "active" : ""
-                    }`}
-                  >
-                    <p>
-                      <strong>Tutor:</strong> {course.tutor}
-                    </p>
-                    <p>
-                      <strong>Mobile:</strong> {course.mobile}
-                    </p>
-                  </div>
-                </div>
-                <div className="thumb">
-                  <img src={course.image} alt="" />
-                  <span>{course.topics} topics</span>
-                </div>
-                <h3 className="title">{course.title}</h3>
-                <Link to={course.link} className="inline-btn">
-                  View Module
-                </Link>
-              </div>
-            )
-          )}
+<section className="courses">
+  <h1 className="heading">Our Modules</h1>
+  {searchResults.length === 0 && searchQuery && (
+    <p className="searchQuery">No results found for "{searchQuery}"</p>
+  )}
+  <div className="box-container">
+    {(searchResults.length > 0 ? searchResults : courses).map(
+      (course, index) => (
+        <div className="box" key={index} data-aos="zoom-in">
+          <div className="tutor">
+            <i
+              className="fas fa-info-circle"
+              onClick={() => handleDropdownToggle(index)}
+              style={{ cursor: "pointer", marginRight: "10px" }}
+            ></i>
+            <div
+              className={`dropdown ${
+                activeDropdown === index ? "active" : ""
+              }`}
+            >
+              <p>
+                <strong>Tutors:</strong> {course.tutor}
+              </p>
+              <p>
+                <strong>Mobile:</strong> {course.mobile}
+              </p>
+            </div>
+          </div>
+          <div className="thumb">
+            <img src={course.image} alt="" />
+            {course.topics > 0 && <span>{course.topics} topics</span>}
+          </div>
+          <h3 className="title">{course.title}</h3>
+          <Link to={course.link} className="inline-btn">
+            View Module
+          </Link>
         </div>
-      </section>
+      )
+    )}
+  </div>
+  <div className="more-btn" data-aos="fade-left">
+    <Link to="/courses" className="inline-option-btn">
+      view all courses
+    </Link>
+  </div>
+</section>
 
       <footer className="footer">
         &copy; copyright @ 2024| all rights reserved!

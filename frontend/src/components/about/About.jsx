@@ -5,8 +5,7 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import Profile from "../../assets/vecteezy_happy-young-man-avatar-character_35280231.jpg";
 import AboutImage from "../../assets/about-img.svg";
 import Intro from "../../assets/intro2.png";
-import Development from "../../assets/development.jpg";
-import Image1 from "../../assets/image1.jpg";
+import Development from "../../assets/WorldMapOilBandW.jpg";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import SideBar from "../sidBar/SideBar";
@@ -30,39 +29,39 @@ const About = () => {
       title: "INTRODUCTION TO THE OIL AND GAS INDUSTRY",
       tutor: "Jacob Kiage",
       date: "21-3-2024",
-      topics: 1,
+      topics: 3,
       image: Intro,
       link: "/introduction",
     },
     {
-      title: "Module 2",
+      title: "Module 2:Under development",
       tutor: "Jacob Kiage",
       date: "21-3-2024",
-      topics: 3,
-      image: Image1,
+      topics: 0,
+      image:  Development,
       link: "/under",
     },
     {
-      title: "Module 3",
+      title: "Module 3:Under development",
       tutor: "Jacob Kiage",
       date: "21-3-2024",
-      topics: 7,
+      topics: 0,
       image: Development,
       link: "/under",
     },
     {
-      title: "Module 4",
+      title: "Module 4:Under development",
       tutor: "Jacob Kiage",
       date: "21-3-2024",
-      topics: 2,
-      image: Image1,
+      topics: 0,
+      image: Development,
       link: "/under",
     },
     {
-      title: "Module 5",
+      title: "Module 5:Under development",
       tutor: "Jacob Kiage",
       date: "21-3-2024",
-      topics: 4,
+      topics: 0,
       image: Development,
       link: "/under",
     },
@@ -152,15 +151,11 @@ const About = () => {
             <img src={AboutImage} alt="" />
           </div>
           <div className="content">
-            <h3>why choose us?</h3>
+            <h3>what we offer</h3>
             <p>
-              We pride ourselves on being the premier destination for petroleum
-              education. Our platform offers a comprehensive range of courses
-              designed to equip learners with the knowledge and skills needed to
-              excel in the dynamic field of petroleum engineering. From
-              fundamental principles to advanced techniques, our expertly
-              curated content ensures that non subjects receive top-quality
-              education tailored to their needs.
+            NOCLearning is an application aimed at providing basic information about the oil and gas industry and, specifically, Upstream operations. It provides short courses packaged into modules, allowing for persons having any background to obtain a basic understanding of each topic offered.
+
+An initial "Introduction to the Oil and Gas Industry" module is available at program launch with additional modules to be introduced in the near future.
             </p>
             <Link to="/courses" className="inline-btn">
               our modules
