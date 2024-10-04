@@ -7,7 +7,7 @@
 
 /* Add padding or margin to the .notes container */
 .notes {
-  padding: 15px; /* Adjust the value as needed */
+  padding: 50px; /* Adjust the value as needed */
   background-color: #f9f9f9; /* Optional: Add background color */
   border-radius: 8px; /* Optional: Add rounded corners */
 }
@@ -42,10 +42,6 @@ ul {
   margin-bottom: 5px; /* Add space between options */
 }
 
-
-
-
-
 .correct {
   color: green;
   font-weight: bold;
@@ -69,7 +65,6 @@ ul {
   margin: 20px 0;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
-
 
 .progress-bar {
   height: 30px;
@@ -110,8 +105,6 @@ ul {
   margin-top: 20px;
 }
 
-
-
 .styled-heading {
   font-weight: bold;
   font-size: 1.5em; /* Adjust the font size as needed */
@@ -121,7 +114,6 @@ ul {
 .styled-subheading {
   font-weight: bold;
   color: #2c5494; /* Example color for subheadings */
-  
 }
 
 .styled-topics {
@@ -129,10 +121,6 @@ ul {
   font-size: 1.5em; /* Adjust the font size as needed */
   color: black; /* Change the color if desired */
 }
-
-
-
-
 
 .image-style-0 {
   display: block;
@@ -189,11 +177,10 @@ ul {
 
 .image-style-8 {
   display: block;
- 
+
   width: 200px;
   height: auto;
 }
-
 
 /* Mobile styles */
 @media (max-width: 600px) {
@@ -207,9 +194,7 @@ ul {
 
 /* Add more styles as needed */
 
-
-
-/* From Uiverse.io by alexruix */ 
+/* From Uiverse.io by alexruix */
 .loader {
   width: 80px;
   height: 50px;
@@ -223,10 +208,11 @@ ul {
   margin: 0;
   color: black;
   animation: text_713 3.5s ease both infinite;
-  font-size: .8rem;
+  font-size: 0.8rem;
   letter-spacing: 1px;
   font-weight: bold;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 .load {
@@ -331,16 +317,15 @@ ul {
     width: 16px;
   }
 }
- 
- 
 
-
-/* From Uiverse.io by doniaskima */ 
+/* From Uiverse.io by doniaskima */
 .loaderquiz {
   width: fit-content;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 20px;
-  background: radial-gradient(circle closest-side,#000 94%,#0000) right/calc(200% - 1em) 100%;
+  background: radial-gradient(circle closest-side, #000 94%, #0000)
+    right/calc(200% - 1em) 100%;
   animation: l24 1s infinite alternate linear;
 }
 
@@ -349,13 +334,13 @@ ul {
   line-height: 1em;
   color: #0000;
   background: inherit;
-  background-image: radial-gradient(circle closest-side,#fff 94%,#000);
+  background-image: radial-gradient(circle closest-side, #fff 94%, #000);
   -webkit-background-clip: text;
   background-clip: text;
 }
 
 @keyframes l24 {
   100% {
-    background-position: left
+    background-position: left;
   }
 }
