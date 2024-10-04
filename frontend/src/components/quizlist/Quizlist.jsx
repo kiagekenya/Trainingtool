@@ -27,11 +27,15 @@ const QuizPage = () => {
     const fetchContentsAndUserData = async () => {
       try {
         const contentsResponse = await fetch("/api/contents");
-        if (!contentsResponse.ok) throw new Error("Network response was not ok");
+        if (!contentsResponse.ok)
+          throw new Error("Network response was not ok");
         const contentsData = await contentsResponse.json();
 
-        const userDataResponse = await fetch(`/api/userQuizData?email=${user.email}`);
-        if (!userDataResponse.ok) throw new Error("Failed to fetch user quiz data");
+        const userDataResponse = await fetch(
+          `/api/userQuizData?email=${user.email}`
+        );
+        if (!userDataResponse.ok)
+          throw new Error("Failed to fetch user quiz data");
         const userData = await userDataResponse.json();
 
         setContents(contentsData);
@@ -44,8 +48,10 @@ const QuizPage = () => {
       }
     };
 
-    fetchContentsAndUserData();
-  }, [user.email]);
+    if (user && user.email) {
+      fetchContentsAndUserData();
+    }
+  }, [user]);
 
   useEffect(() => {
     if (selectedQuiz) {
@@ -99,22 +105,35 @@ const QuizPage = () => {
       return;
     }
 
-    fetch(`/api/quiz/${selectedQuiz}/results`, {
+    fetch(`/api/quiz/${selectedQuiz}/results?email=${user.email}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(quizAnswers),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then((data) => {
+        console.log("Received data from server:", data);
         setScore(data.score);
+        setTotalQuestions(data.totalQuestions);
         setAnswerFeedback(data.feedback);
         setShowResults(true);
         setIsSubmitted(true);
-        if (data.score === totalQuestions) {
-          setPassedQuizzes((prevPassedQuizzes) => [...prevPassedQuizzes, selectedQuiz]);
+        if (data.score === data.totalQuestions) {
+          setPassedQuizzes((prevPassedQuizzes) => [
+            ...prevPassedQuizzes,
+            selectedQuiz,
+          ]);
         }
       })
-      .catch((error) => console.error("Error submitting quiz:", error));
+      .catch((error) => {
+        console.error("Error submitting quiz:", error);
+        alert("There was an error submitting your quiz. Please try again.");
+      });
   };
 
   const handleRetakeQuiz = () => {
@@ -130,45 +149,84 @@ const QuizPage = () => {
 
   const renderContentWithImages = (body, images) => {
     // Define the headings and subheadings you want to style
-    const headingsToStyle = ["i.Upstream", "iii.Downstream", "ii.Midstream", "1.Mature source rock", "2.Migration path", 
-      "3.Reservoir rock", "4.Seal (Cap rock)", "5.Trap", "1.Recovery Factor","2.Estimated Ultimate Recovery (EUR)", "3.Proved reserves",
-    "4.Probable Reserves", "5.Possible Reserves"]; // Add more headings as needed
-    const subheadingsToStyle = ["Step 1: Signing a Lease Agreement", "Step 2: Gathering Exploration Data", "Step 3: Exploratory Drilling",
-       "Step 4: Appraisal and Development Drilling", "Step 5: Completing Wells", "Step 6: Producing", "Step 7: Plugging and Abandoning",
-        "i.Geology", "ii.Geophysics", "iii.Geochemistry", "iv.Petroleum Engineering", "i.Gravity surveys","ii.Magnetic surveys", "iii.Seismic surveys", "iv.Magnetotelluric and Time Domain surveys"
-      , "i.Proved developed oil and gas reserves", "ii.Proved undeveloped reserves"]; // Add more subheadings as needed
-    const topicsToStyle = [ "Upstream Sector Overview", "Primary Disciplines in Petroleum Exploration and Production",
-      "Exploration Methods:", "The Petroleum System", "Overview of an Oil and Gas Reservoir"
+    const headingsToStyle = [
+      "i.Upstream",
+      "iii.Downstream",
+      "ii.Midstream",
+      "1.Mature source rock",
+      "2.Migration path",
+      "3.Reservoir rock",
+      "4.Seal (Cap rock)",
+      "5.Trap",
+      "1.Recovery Factor",
+      "2.Estimated Ultimate Recovery (EUR)",
+      "3.Proved reserves",
+      "4.Probable Reserves",
+      "5.Possible Reserves",
+    ]; // Add more headings as needed
+    const subheadingsToStyle = [
+      "Step 1: Signing a Lease Agreement",
+      "Step 2: Gathering Exploration Data",
+      "Step 3: Exploratory Drilling",
+      "Step 4: Appraisal and Development Drilling",
+      "Step 5: Completing Wells",
+      "Step 6: Producing",
+      "Step 7: Plugging and Abandoning",
+      "i.Geology",
+      "ii.Geophysics",
+      "iii.Geochemistry",
+      "iv.Petroleum Engineering",
+      "i.Gravity surveys",
+      "ii.Magnetic surveys",
+      "iii.Seismic surveys",
+      "iv.Magnetotelluric and Time Domain surveys",
+      "i.Proved developed oil and gas reserves",
+      "ii.Proved undeveloped reserves",
+    ]; // Add more subheadings as needed
+    const topicsToStyle = [
+      "Upstream Sector Overview",
+      "Primary Disciplines in Petroleum Exploration and Production",
+      "Exploration Methods:",
+      "The Petroleum System",
+      "Overview of an Oil and Gas Reservoir",
     ];
-
 
     // Function to replace and style headings
     const styleHeadings = (text) => {
       headingsToStyle.forEach((heading) => {
         const regex = new RegExp(`\\b${heading}\\b`, "g");
-        text = text.replace(regex, `<span class="styled-heading">${heading}</span>`);
+        text = text.replace(
+          regex,
+          `<span class="styled-heading">${heading}</span>`
+        );
       });
       return text;
     };
-  
+
     // Function to replace and style subheadings
     const styleSubheadings = (text) => {
       subheadingsToStyle.forEach((subheading) => {
         const regex = new RegExp(`\\b${subheading}\\b`, "g");
-        text = text.replace(regex, `<span class="styled-subheading">${subheading}</span>`);
+        text = text.replace(
+          regex,
+          `<span class="styled-subheading">${subheading}</span>`
+        );
       });
       return text;
     };
-  
+
     // test
-// Function to replace and style subheadings
-const styleTopics = (text) => {
-  topicsToStyle.forEach((topic) => {
-    const regex = new RegExp(`\\b${topic}\\b`, "g");
-    text = text.replace(regex, `<span class="styled-topics">${topic}</span>`);
-  });
-  return text;
-};
+    // Function to replace and style subheadings
+    const styleTopics = (text) => {
+      topicsToStyle.forEach((topic) => {
+        const regex = new RegExp(`\\b${topic}\\b`, "g");
+        text = text.replace(
+          regex,
+          `<span class="styled-topics">${topic}</span>`
+        );
+      });
+      return text;
+    };
 
     // Split the content into parts and apply styles
     const parts = body.split(/(\[images\d+\])/);
@@ -177,10 +235,10 @@ const styleTopics = (text) => {
       if (match) {
         const imageIndex = parseInt(match[1], 10) - 1;
         const image = images[imageIndex];
-  
+
         // Apply styles or classes based on imageIndex or image properties
         const imageClass = `image-style-${imageIndex}`;
-  
+
         return (
           <img
             key={index}
@@ -194,7 +252,7 @@ const styleTopics = (text) => {
       let styledText = styleHeadings(part);
       styledText = styleSubheadings(styledText);
       styledText = styleTopics(styledText);
-  
+
       return (
         <span
           key={index}
@@ -205,14 +263,14 @@ const styleTopics = (text) => {
       );
     });
   };
-  
-  
 
   if (loading) {
-    return <div className="loader">
-    <span className="loader-text">loading</span>
-      <span className="load"></span>
-  </div>;
+    return (
+      <div className="loader">
+        <span className="loader-text">loading</span>
+        <span className="load"></span>
+      </div>
+    );
   }
 
   if (error) {
@@ -225,7 +283,10 @@ const styleTopics = (text) => {
   return (
     <div className="quiz">
       <div className="progress-bar-container">
-        <div className="progress-bar" style={{ width: `${progressPercentage}%` }}>
+        <div
+          className="progress-bar"
+          style={{ width: `${progressPercentage}%` }}
+        >
           <span>{`${Math.round(progressPercentage)}% Completed`}</span>
         </div>
       </div>
@@ -235,7 +296,9 @@ const styleTopics = (text) => {
             <button
               className="quiz-btn"
               onClick={() => toggleQuiz(contentItem._id, index)}
-              disabled={index > 0 && !passedQuizzes.includes(contents[index - 1]._id)}
+              disabled={
+                index > 0 && !passedQuizzes.includes(contents[index - 1]._id)
+              }
             >
               {contentItem.title}
               {passedQuizzes.includes(contentItem._id) && (
@@ -252,9 +315,11 @@ const styleTopics = (text) => {
                   <div>Error: {quizError}</div>
                 ) : (
                   content && (
-                    <div className="notes"> 
+                    <div className="notes">
                       <h2>{content.title}</h2>
-                      <p>{renderContentWithImages(content.body, content.images)}</p>
+                      <p>
+                        {renderContentWithImages(content.body, content.images)}
+                      </p>
                       <br />
                       <form id="quizForm">
                         {content.questions &&
@@ -269,8 +334,12 @@ const styleTopics = (text) => {
                                         type="radio"
                                         name={`question${index}`}
                                         value={optionIndex}
-                                        checked={quizAnswers[index] === optionIndex}
-                                        onChange={() => handleAnswerChange(index, optionIndex)}
+                                        checked={
+                                          quizAnswers[index] === optionIndex
+                                        }
+                                        onChange={() =>
+                                          handleAnswerChange(index, optionIndex)
+                                        }
                                         required
                                         disabled={isSubmitted}
                                       />
@@ -282,12 +351,14 @@ const styleTopics = (text) => {
                               {isSubmitted && (
                                 <div
                                   className={`feedback ${
-                                    quizAnswers[index] === question.correctAnswer
+                                    quizAnswers[index] ===
+                                    question.correctAnswer
                                       ? "correct"
                                       : "incorrect"
                                   }`}
                                 >
-                                  {quizAnswers[index] === question.correctAnswer ? (
+                                  {quizAnswers[index] ===
+                                  question.correctAnswer ? (
                                     <>
                                       <span>&#10004;</span> Correct
                                     </>
@@ -300,8 +371,14 @@ const styleTopics = (text) => {
                               )}
                             </div>
                           ))}
-                        <button type="button" onClick={handleSubmitQuiz} disabled={isSubmitted || isQuizCompleted}>
-                          {isSubmitted || isQuizCompleted ? "Submitted" : "Submit"}
+                        <button
+                          type="button"
+                          onClick={handleSubmitQuiz}
+                          disabled={isSubmitted || isQuizCompleted}
+                        >
+                          {isSubmitted || isQuizCompleted
+                            ? "Submitted"
+                            : "Submit"}
                         </button>
                       </form>
                       {showResults && (

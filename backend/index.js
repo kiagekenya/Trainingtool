@@ -369,8 +369,14 @@ app.get("/api/userQuizData", async (req, res) => {
 // Submit quiz answers
 // server.js or appropriate backend file
 
+// Backend: API endpoint
 app.post("/api/quiz/:id/results", upload.none(), async (req, res) => {
   try {
+    const userEmail = req.query.email;
+    if (!userEmail) {
+      return res.status(400).json({ error: "User email is required" });
+    }
+
     // Retrieve content by ID
     const content = await Content.findById(req.params.id);
     if (!content) {
@@ -382,6 +388,8 @@ app.post("/api/quiz/:id/results", upload.none(), async (req, res) => {
     const correctAnswers = content.questions.map(
       (question) => question.correctAnswer
     );
+    console.log("User answers:", userAnswers);
+    console.log("Correct answers:", correctAnswers);
 
     let score = 0;
     for (let i = 0; i < correctAnswers.length; i++) {
@@ -389,20 +397,19 @@ app.post("/api/quiz/:id/results", upload.none(), async (req, res) => {
         score++;
       }
     }
+    console.log("Score:", score);
 
     // Calculate total questions
     const totalQuestions = correctAnswers.length;
-
-    // Check if user is authenticated
-    if (!req.session.user) {
-      return res.status(401).json({ error: "User not authenticated" });
-    }
+    console.log("Total questions:", totalQuestions);
 
     // Find the user by email
-    const user = await User.findOne({ email: req.session.user.email });
+    const user = await User.findOne({ email: userEmail });
     if (!user) {
+      console.log("User not found in database");
       return res.status(404).json({ error: "User not found" });
     }
+    console.log("User found:", user.email);
 
     // Update user's quiz results
     user.quizResults.push({
@@ -413,8 +420,10 @@ app.post("/api/quiz/:id/results", upload.none(), async (req, res) => {
 
     // Save the updated user document
     await user.save();
+    console.log("Updated user quiz results saved");
 
     // Send back the results
+    console.log("Sending response:", { score, totalQuestions });
     res.json({ score, totalQuestions });
   } catch (error) {
     console.error("Error processing quiz results:", error);
@@ -430,8 +439,8 @@ app.get("*", (req, res) => {
 // Read MongoDB URI from environment variables
 const mongoURI =
   process.env.MONGO_URI ||
-  "mongodb+srv://doadmin:37w10A9MqeJ84h6F@training-tool-db-862a20d2.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=training-tool-db";
-// "mongodb+srv://rben:zxc@cluster0.z2lt81m.mongodb.net/Training_tool";
+  // "mongodb+srv://doadmin:37w10A9MqeJ84h6F@training-tool-db-862a20d2.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=training-tool-db";
+  "mongodb+srv://rben:zxc@cluster0.z2lt81m.mongodb.net/Training_tool";
 
 mongoose
   .connect(mongoURI, {
