@@ -21,7 +21,7 @@ const QuizPage = () => {
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
   const [incorrectQuestions, setIncorrectQuestions] = useState([]);
-
+  const [correctAnswers, setCorrectAnswers] = useState({});
   const [isRetaking, setIsRetaking] = useState(false);
 
   const { user } = useContext(UserContext);
@@ -96,13 +96,15 @@ const QuizPage = () => {
   };
 
   const handleAnswerChange = (questionIndex, optionIndex) => {
-    if (isRetaking && !incorrectQuestions.includes(questionIndex)) {
-      return; // Prevent changing correct answers during retake
+    if (
+      !isRetaking ||
+      (isRetaking && incorrectQuestions.includes(questionIndex))
+    ) {
+      setQuizAnswers((prevAnswers) => ({
+        ...prevAnswers,
+        [questionIndex]: optionIndex,
+      }));
     }
-    setQuizAnswers((prevAnswers) => ({
-      ...prevAnswers,
-      [questionIndex]: optionIndex,
-    }));
   };
 
   const handleSubmitQuiz = () => {
@@ -129,18 +131,19 @@ const QuizPage = () => {
         setAnswerFeedback(data.feedback);
         setShowResults(true);
         setIsSubmitted(true);
-
+        setIsRetaking(false);
         // Identify incorrect questions
-        const wrongQuestions = content.questions.reduce(
-          (acc, question, index) => {
-            if (quizAnswers[index] !== question.correctAnswer) {
-              acc.push(index);
-            }
-            return acc;
-          },
-          []
-        );
+        const wrongQuestions = [];
+        const correctAnswersMap = {};
+        content.questions.forEach((question, index) => {
+          if (quizAnswers[index] === question.correctAnswer) {
+            correctAnswersMap[index] = quizAnswers[index];
+          } else {
+            wrongQuestions.push(index);
+          }
+        });
         setIncorrectQuestions(wrongQuestions);
+        setCorrectAnswers(correctAnswersMap);
 
         if (data.score === data.totalQuestions) {
           setPassedQuizzes((prevPassedQuizzes) => [
@@ -389,25 +392,25 @@ const QuizPage = () => {
                                   </div>
                                 ))}
                               </div>
-                              {isSubmitted && !isRetaking && (
+                              {(isSubmitted || isRetaking) && (
                                 <div
                                   className={`feedback ${
-                                    quizAnswers[index] ===
-                                    question.correctAnswer
+                                    correctAnswers[index] !== undefined
                                       ? "correct"
-                                      : "incorrect"
+                                      : isSubmitted && !isRetaking
+                                      ? "incorrect"
+                                      : ""
                                   }`}
                                 >
-                                  {quizAnswers[index] ===
-                                  question.correctAnswer ? (
+                                  {correctAnswers[index] !== undefined ? (
                                     <>
                                       <span>&#10004;</span> Correct
                                     </>
-                                  ) : (
+                                  ) : isSubmitted && !isRetaking ? (
                                     <>
                                       <span>&#10006;</span> Incorrect
                                     </>
-                                  )}
+                                  ) : null}
                                 </div>
                               )}
                             </div>
