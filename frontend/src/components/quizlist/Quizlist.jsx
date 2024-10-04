@@ -404,11 +404,43 @@ const QuizPage = () => {
                                 >
                                   {correctAnswers[index] !== undefined ? (
                                     <>
-                                      <span>&#10004;</span> Correct
+                                      <span
+                                        style={{
+                                          fontSize: "14px",
+                                          color: "green",
+                                        }}
+                                      >
+                                        &#10004;
+                                      </span>
+                                      <span
+                                        style={{
+                                          fontSize: "18px",
+                                          fontWeight: "bold",
+                                          marginLeft: "10px",
+                                        }}
+                                      >
+                                        Correct
+                                      </span>
                                     </>
                                   ) : isSubmitted && !isRetaking ? (
                                     <>
-                                      <span>&#10006;</span> Incorrect
+                                      <span
+                                        style={{
+                                          fontSize: "14px",
+                                          color: "red",
+                                        }}
+                                      >
+                                        &#10006;
+                                      </span>
+                                      <span
+                                        style={{
+                                          fontSize: "18px",
+                                          fontWeight: "bold",
+                                          marginLeft: "10px",
+                                        }}
+                                      >
+                                        Incorrect
+                                      </span>
                                     </>
                                   ) : null}
                                 </div>
