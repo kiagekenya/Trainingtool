@@ -20,6 +20,9 @@ const QuizPage = () => {
   const [passedQuizzes, setPassedQuizzes] = useState([]);
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
+  const [incorrectQuestions, setIncorrectQuestions] = useState([]);
+
+  const [isRetaking, setIsRetaking] = useState(false);
 
   const { user } = useContext(UserContext);
 
@@ -93,6 +96,9 @@ const QuizPage = () => {
   };
 
   const handleAnswerChange = (questionIndex, optionIndex) => {
+    if (isRetaking && !incorrectQuestions.includes(questionIndex)) {
+      return; // Prevent changing correct answers during retake
+    }
     setQuizAnswers((prevAnswers) => ({
       ...prevAnswers,
       [questionIndex]: optionIndex,
@@ -123,6 +129,19 @@ const QuizPage = () => {
         setAnswerFeedback(data.feedback);
         setShowResults(true);
         setIsSubmitted(true);
+
+        // Identify incorrect questions
+        const wrongQuestions = content.questions.reduce(
+          (acc, question, index) => {
+            if (quizAnswers[index] !== question.correctAnswer) {
+              acc.push(index);
+            }
+            return acc;
+          },
+          []
+        );
+        setIncorrectQuestions(wrongQuestions);
+
         if (data.score === data.totalQuestions) {
           setPassedQuizzes((prevPassedQuizzes) => [
             ...prevPassedQuizzes,
@@ -136,11 +155,29 @@ const QuizPage = () => {
       });
   };
 
-  const handleRetakeQuiz = () => {
-    setQuizAnswers({});
+  const handleRetakeIncorrectQuestions = () => {
+    // Reset answers only for incorrect questions
+    const newQuizAnswers = { ...quizAnswers };
+    incorrectQuestions.forEach((index) => {
+      delete newQuizAnswers[index];
+    });
+    setQuizAnswers(newQuizAnswers);
     setShowResults(false);
     setIsSubmitted(false);
     setAnswerFeedback({});
+    setIncorrectQuestions([]);
+  };
+  const handleRetakeQuiz = () => {
+    setIsRetaking(true);
+    setShowResults(false);
+    setIsSubmitted(false);
+    setAnswerFeedback({});
+    // Reset answers only for incorrect questions
+    const newQuizAnswers = { ...quizAnswers };
+    incorrectQuestions.forEach((index) => {
+      delete newQuizAnswers[index];
+    });
+    setQuizAnswers(newQuizAnswers);
   };
 
   const handleCloseAlertModal = () => {
@@ -341,14 +378,18 @@ const QuizPage = () => {
                                           handleAnswerChange(index, optionIndex)
                                         }
                                         required
-                                        disabled={isSubmitted}
+                                        disabled={
+                                          (isSubmitted && !isRetaking) ||
+                                          (isRetaking &&
+                                            !incorrectQuestions.includes(index))
+                                        }
                                       />
                                       {option}
                                     </label>
                                   </div>
                                 ))}
                               </div>
-                              {isSubmitted && (
+                              {isSubmitted && !isRetaking && (
                                 <div
                                   className={`feedback ${
                                     quizAnswers[index] ===
@@ -374,14 +415,12 @@ const QuizPage = () => {
                         <button
                           type="button"
                           onClick={handleSubmitQuiz}
-                          disabled={isSubmitted || isQuizCompleted}
+                          disabled={isSubmitted && !isRetaking}
                         >
-                          {isSubmitted || isQuizCompleted
-                            ? "Submitted"
-                            : "Submit"}
+                          {isSubmitted && !isRetaking ? "Submitted" : "Submit"}
                         </button>
                       </form>
-                      {showResults && (
+                      {showResults && !isRetaking && (
                         <div>
                           <h3>Results:</h3>
                           <p>
@@ -389,7 +428,7 @@ const QuizPage = () => {
                           </p>
                           {score < totalQuestions && (
                             <button type="button" onClick={handleRetakeQuiz}>
-                              Retake Quiz
+                              Retake Incorrect Questions
                             </button>
                           )}
                           {score === totalQuestions && (
