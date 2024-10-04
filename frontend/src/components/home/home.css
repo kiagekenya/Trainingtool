@@ -529,7 +529,7 @@ section {
 .about .row .content p {
   font-size: 1.7rem;
   line-height: 2;
-  color: var(--light-color);
+  color: var(--black);
   padding: 1rem 0;
 }
 
@@ -1934,6 +1934,7 @@ button[type="button"]:disabled {
 .content {
   margin-top: 0.75rem;
   text-align: center;
+  color: var(--black);
 }
 
 .title {

@@ -468,7 +468,7 @@ section {
 .about .row .content p {
   font-size: 1.7rem;
   line-height: 2;
-  color: var(--light-color);
+  /* color: var(--light-color); */
   padding: 1rem 0;
 }
 

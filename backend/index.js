@@ -110,7 +110,7 @@ app.post("/send-email", uploads.single("image"), (req, res) => {
   const mailOptions = {
     from: "kiagejay@gmail.com",
     to: "jacobkiage4@gmail.com",
-    cc: ["reubenmoses91@gmail.com", "mj.mogambi@gmail.com"],
+    cc: ["reubenmoses91@gmail.com", "pkwanjau@nockenya.co.ke"],
     subject: `New Registration from ${name}`,
     text: `Name: ${name}\nEmail: ${email}\nOrganisation: ${organisation}\nOccupation: ${occupation}`,
     attachments: req.file
@@ -151,8 +151,7 @@ app.post("/send-emaiil", uploadss.single("image"), (req, res) => {
   const { name, email, number, msg } = req.body;
   const mailOptions = {
     from: "kiagejay@gmail.com",
-    to: "jacobkiage4@gmail.com",
-    cc: "reubenmoses91@gmail.com",
+    to: ["reubenmoses91@gmail.com", "pkwanjau@nockenya.co.ke"],
     subject: `New inWeb message from ${name}`,
     text: `Name: ${name}\nEmail: ${email}\nNumber: ${number}\nMessage: ${msg}`,
     attachments: req.file
@@ -439,8 +438,8 @@ app.get("*", (req, res) => {
 // Read MongoDB URI from environment variables
 const mongoURI =
   process.env.MONGO_URI ||
-  // "mongodb+srv://doadmin:37w10A9MqeJ84h6F@training-tool-db-862a20d2.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=training-tool-db";
-  "mongodb+srv://rben:zxc@cluster0.z2lt81m.mongodb.net/Training_tool";
+  "mongodb+srv://doadmin:37w10A9MqeJ84h6F@training-tool-db-862a20d2.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=training-tool-db";
+//"mongodb+srv://rben:zxc@cluster0.z2lt81m.mongodb.net/Training_tool";
 
 mongoose
   .connect(mongoURI, {
