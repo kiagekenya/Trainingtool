@@ -193,6 +193,7 @@ const QuizPage = () => {
       "i.Upstream",
       "iii.Downstream",
       "ii.Midstream",
+      "Upstream Sector Overview",
       "1.Mature source rock",
       "2.Migration path",
       "3.Reservoir rock",
@@ -203,6 +204,7 @@ const QuizPage = () => {
       "3.Proved reserves",
       "4.Probable Reserves",
       "5.Possible Reserves",
+      "Questions",
     ]; // Add more headings as needed
     const subheadingsToStyle = [
       "Step 1: Signing a Lease Agreement",
@@ -224,7 +226,7 @@ const QuizPage = () => {
       "ii.Proved undeveloped reserves",
     ]; // Add more subheadings as needed
     const topicsToStyle = [
-      "Upstream Sector Overview",
+   
       "Primary Disciplines in Petroleum Exploration and Production",
       "Exploration Methods:",
       "The Petroleum System",
@@ -237,7 +239,7 @@ const QuizPage = () => {
         const regex = new RegExp(`\\b${heading}\\b`, "g");
         text = text.replace(
           regex,
-          `<span class="styled-heading">${heading}</span>`
+          `<div class="clearfix-heading"><span class="styled-heading">${heading}</span></div>`
         );
       });
       return text;
@@ -249,7 +251,7 @@ const QuizPage = () => {
         const regex = new RegExp(`\\b${subheading}\\b`, "g");
         text = text.replace(
           regex,
-          `<span class="styled-subheading">${subheading}</span>`
+           `<div class="clearfix-heading"><span class="styled-subheading">${subheading}</span></div>`
         );
       });
       return text;
@@ -262,7 +264,7 @@ const QuizPage = () => {
         const regex = new RegExp(`\\b${topic}\\b`, "g");
         text = text.replace(
           regex,
-          `<span class="styled-topics">${topic}</span>`
+          `<div class="clearfix-heading"><span class="styled-topics">${topic}</span></div>`
         );
       });
       return text;

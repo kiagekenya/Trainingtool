@@ -344,3 +344,77 @@ ul {
     background-position: left;
   }
 }
+
+.clearfix {
+  clear: both; /* Ensure content starts below floated images */
+}
+
+/* Optional: Add padding and margin adjustments */
+.clearfix-heading {
+  margin-top: 20px;
+}
+
+/* Ensure that styled headings don't get mixed up with images */
+.styled-heading {
+  display: block;
+  clear: both;
+  margin-top: 20px; /* Adjust spacing as needed */
+}
+
+/* Float images to the left and add margin */
+.image-style {
+  float: left;
+  margin: 10px 20px 10px 0;
+  max-width: 45%; /* Ensure images don't take too much space */
+}
+
+/* Handle mobile responsiveness */
+@media (max-width: 600px) {
+  .image-style {
+    float: none; /* Remove float on small screens */
+    margin: 0 auto;
+    display: block;
+    width: 100%; /* Images take full width */
+  }
+}
+
+
+/* Apply float to images so text can flow around them */
+.image-style-0,
+.image-style-1,
+.image-style-2,
+.image-style-3,
+.image-style-4,
+.image-style-5,
+.image-style-6,
+.image-style-7,
+.image-style-8 {
+  float: left; /* Float images to the left */
+  margin: 10px 20px 10px 0; /* Add margin to create space between image and text */
+  max-width: 50%; /* Ensure images don't take up too much space */
+}
+
+/* Clear floats if needed to avoid overlap */
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 600px) {
+  .image-style-0,
+  .image-style-1,
+  .image-style-2,
+  .image-style-3,
+  .image-style-4,
+  .image-style-5,
+  .image-style-6,
+  .image-style-7,
+  .image-style-8 {
+    float: none; /* Remove float for smaller screens */
+    display: block; /* Images and text stack vertically */
+    margin: 10px auto; /* Center images */
+    width: 100%; /* Images take full width */
+  }
+}

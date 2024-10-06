@@ -13,7 +13,7 @@ const All = () => {
             <br />
             <p>
               Welcome to NOCLearning's Oil and Gas Industry Basics program. At
-              NockLearning, we specialize in providing fundamental training and
+              NOCLearning, we specialize in providing fundamental training and
               orientation for Non-technical Oil & Gas Managers and Directors.
               Explore our platform to kickstart your journey, gain essential
               insights, and stay updated with the latest developments in this
