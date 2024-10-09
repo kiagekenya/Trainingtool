@@ -438,8 +438,8 @@ app.get("*", (req, res) => {
 // Read MongoDB URI from environment variables
 const mongoURI =
   process.env.MONGO_URI ||
-  // "mongodb+srv://doadmin:37w10A9MqeJ84h6F@training-tool-db-862a20d2.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=training-tool-db";
-  "mongodb+srv://rben:zxc@cluster0.z2lt81m.mongodb.net/Training_tool";
+  "mongodb+srv://doadmin:37w10A9MqeJ84h6F@training-tool-db-862a20d2.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=training-tool-db";
+// "mongodb+srv://rben:zxc@cluster0.z2lt81m.mongodb.net/Training_tool";
 
 mongoose
   .connect(mongoURI, {
