@@ -222,14 +222,18 @@ const QuizPage = () => {
                           onChange={() =>
                             handleAnswerChange(index, optionIndex)
                           }
-                          disabled={isSubmitted && !isRetaking}
+                          disabled={
+                            (isSubmitted && !isRetaking) ||
+                            (isRetaking && !incorrectQuestions.includes(index))
+                          }
                         />
                         {option}
                       </label>
                     </div>
                   ))}
                 </div>
-                {isSubmitted && !isRetaking && (
+                {(isSubmitted ||
+                  (isRetaking && !incorrectQuestions.includes(index))) && (
                   <div
                     className={`feedback ${
                       quizAnswers[index] === question.correctAnswer
@@ -273,7 +277,7 @@ const QuizPage = () => {
               </div>
             ))}
         </form>
-        {!isSubmitted && (
+        {(!isSubmitted || isRetaking) && (
           <button type="button" onClick={handleSubmitQuiz}>
             {isRetaking ? "Resubmit" : "Submit"}
           </button>
@@ -289,7 +293,7 @@ const QuizPage = () => {
                 Retake Quiz
               </button>
             )}
-            <Link to="/introduction">
+            <Link to="/home">
               <button type="button">Home</button>
             </Link>
           </div>
@@ -297,7 +301,6 @@ const QuizPage = () => {
       </div>
     );
   };
-
   const handleRetakeQuiz = () => {
     setIsRetaking(true);
     setShowResults(false);
