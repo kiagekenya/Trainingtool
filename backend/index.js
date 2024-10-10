@@ -346,7 +346,6 @@ app.get("/api/quiz/:id", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch quiz content" });
   }
 });
-
 app.get("/api/userQuizData", async (req, res) => {
   const { email } = req.query;
 
@@ -356,8 +355,22 @@ app.get("/api/userQuizData", async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
+    const completedQuizIds = user.quizResults
+      .filter((result) => result.completed)
+      .map((result) => result.quizId);
+
+    const quizCompletionStatus = user.quizResults.reduce((acc, result) => {
+      acc[result.quizId] = {
+        completed: result.completed,
+        score: result.score,
+        answers: result.answers,
+      };
+      return acc;
+    }, {});
+
     res.json({
-      completedQuizIds: user.quizResults.map((result) => result.quizId),
+      completedQuizIds,
+      quizCompletionStatus,
     });
   } catch (error) {
     console.error("Error fetching user quiz data:", error);
@@ -382,8 +395,7 @@ app.post("/api/quiz/:id/results", upload.none(), async (req, res) => {
       return res.status(404).json({ error: "Content not found" });
     }
 
-    // Process quiz results and calculate score
-    const userAnswers = Object.values(req.body);
+    const userAnswers = req.body;
     const correctAnswers = content.questions.map(
       (question) => question.correctAnswer
     );
@@ -410,12 +422,27 @@ app.post("/api/quiz/:id/results", upload.none(), async (req, res) => {
     }
     console.log("User found:", user.email);
 
-    // Update user's quiz results
-    user.quizResults.push({
-      quizId: content._id,
-      score: score,
-      totalQuestions: totalQuestions,
-    });
+    // Update or add the quiz result
+    const quizResultIndex = user.quizResults.findIndex(
+      (result) => result.quizId === content._id.toString()
+    );
+    if (quizResultIndex > -1) {
+      user.quizResults[quizResultIndex] = {
+        quizId: content._id,
+        score: score,
+        totalQuestions: totalQuestions,
+        completed: true,
+        answers: userAnswers,
+      };
+    } else {
+      user.quizResults.push({
+        quizId: content._id,
+        score: score,
+        totalQuestions: totalQuestions,
+        completed: true,
+        answers: userAnswers,
+      });
+    }
 
     // Save the updated user document
     await user.save();
@@ -438,8 +465,8 @@ app.get("*", (req, res) => {
 // Read MongoDB URI from environment variables
 const mongoURI =
   process.env.MONGO_URI ||
-  "mongodb+srv://doadmin:37w10A9MqeJ84h6F@training-tool-db-862a20d2.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=training-tool-db";
-// "mongodb+srv://rben:zxc@cluster0.z2lt81m.mongodb.net/Training_tool";
+  // "mongodb+srv://doadmin:37w10A9MqeJ84h6F@training-tool-db-862a20d2.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=training-tool-db";
+  "mongodb+srv://rben:zxc@cluster0.z2lt81m.mongodb.net/Training_tool";
 
 mongoose
   .connect(mongoURI, {

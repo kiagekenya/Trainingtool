@@ -33,6 +33,8 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
+      completed: Boolean,
+      answers: Object,
     },
   ],
 });

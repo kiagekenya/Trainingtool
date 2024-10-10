@@ -23,7 +23,7 @@ const QuizPage = () => {
   const [incorrectQuestions, setIncorrectQuestions] = useState([]);
   const [correctAnswers, setCorrectAnswers] = useState({});
   const [isRetaking, setIsRetaking] = useState(false);
-
+  const [quizCompletionStatus, setQuizCompletionStatus] = useState({});
   const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -43,6 +43,7 @@ const QuizPage = () => {
 
         setContents(contentsData);
         setPassedQuizzes(userData.completedQuizIds);
+        setQuizCompletionStatus(userData.quizCompletionStatus);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -64,7 +65,17 @@ const QuizPage = () => {
         .then((data) => {
           setContent(data);
           setTotalQuestions(data.questions.length);
-          setIsQuizCompleted(passedQuizzes.includes(selectedQuiz));
+          const quizStatus = quizCompletionStatus[selectedQuiz];
+          if (quizStatus && quizStatus.completed) {
+            setIsQuizCompleted(true);
+            setScore(quizStatus.score);
+            setQuizAnswers(quizStatus.answers);
+            setShowResults(true);
+            setIsSubmitted(true);
+            identifyIncorrectQuestions(quizStatus.answers, data.questions);
+          } else {
+            resetQuizState();
+          }
           setQuizLoading(false);
         })
         .catch((error) => {
@@ -73,7 +84,27 @@ const QuizPage = () => {
           setQuizLoading(false);
         });
     }
-  }, [selectedQuiz, passedQuizzes]);
+  }, [selectedQuiz, quizCompletionStatus]);
+
+  const resetQuizState = () => {
+    setIsQuizCompleted(false);
+    setScore(0);
+    setQuizAnswers({});
+    setShowResults(false);
+    setIsSubmitted(false);
+    setIncorrectQuestions([]);
+    setIsRetaking(false);
+  };
+
+  const identifyIncorrectQuestions = (answers, questions) => {
+    const incorrect = questions.reduce((acc, question, index) => {
+      if (answers[index] !== question.correctAnswer) {
+        acc.push(index);
+      }
+      return acc;
+    }, []);
+    setIncorrectQuestions(incorrect);
+  };
 
   const toggleQuiz = (id, index) => {
     if (index > 0 && !passedQuizzes.includes(contents[index - 1]._id)) {
@@ -132,18 +163,19 @@ const QuizPage = () => {
         setShowResults(true);
         setIsSubmitted(true);
         setIsRetaking(false);
-        // Identify incorrect questions
-        const wrongQuestions = [];
-        const correctAnswersMap = {};
-        content.questions.forEach((question, index) => {
-          if (quizAnswers[index] === question.correctAnswer) {
-            correctAnswersMap[index] = quizAnswers[index];
-          } else {
-            wrongQuestions.push(index);
-          }
-        });
-        setIncorrectQuestions(wrongQuestions);
-        setCorrectAnswers(correctAnswersMap);
+        setIsQuizCompleted(true);
+
+        identifyIncorrectQuestions(quizAnswers, content.questions);
+
+        // Update local quiz completion status
+        setQuizCompletionStatus((prevStatus) => ({
+          ...prevStatus,
+          [selectedQuiz]: {
+            completed: true,
+            score: data.score,
+            answers: quizAnswers,
+          },
+        }));
 
         if (data.score === data.totalQuestions) {
           setPassedQuizzes((prevPassedQuizzes) => [
@@ -159,17 +191,121 @@ const QuizPage = () => {
   };
 
   const handleRetakeIncorrectQuestions = () => {
+    setIsRetaking(true);
+    setIsSubmitted(false);
+    setShowResults(false);
     // Reset answers only for incorrect questions
     const newQuizAnswers = { ...quizAnswers };
     incorrectQuestions.forEach((index) => {
       delete newQuizAnswers[index];
     });
     setQuizAnswers(newQuizAnswers);
-    setShowResults(false);
-    setIsSubmitted(false);
-    setAnswerFeedback({});
-    setIncorrectQuestions([]);
   };
+
+  const renderQuizContent = () => {
+    return (
+      <div>
+        <form id="quizForm">
+          {content.questions &&
+            content.questions.map((question, index) => (
+              <div key={index} className="question-block">
+                <h2>{question.text}</h2>
+                <div className="options">
+                  {question.options.map((option, optionIndex) => (
+                    <div key={optionIndex} className="option">
+                      <label>
+                        <input
+                          type="radio"
+                          name={`question${index}`}
+                          value={optionIndex}
+                          checked={quizAnswers[index] === optionIndex}
+                          onChange={() =>
+                            handleAnswerChange(index, optionIndex)
+                          }
+                          disabled={
+                            isSubmitted &&
+                            (!isRetaking || !incorrectQuestions.includes(index))
+                          }
+                        />
+                        {option}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+                {isSubmitted && (
+                  <div
+                    className={`feedback ${
+                      quizAnswers[index] === question.correctAnswer
+                        ? "correct"
+                        : "incorrect"
+                    }`}
+                  >
+                    {quizAnswers[index] === question.correctAnswer ? (
+                      <>
+                        <span style={{ fontSize: "14px", color: "green" }}>
+                          &#10004;
+                        </span>
+                        <span
+                          style={{
+                            fontSize: "18px",
+                            fontWeight: "bold",
+                            marginLeft: "10px",
+                          }}
+                        >
+                          Correct
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span style={{ fontSize: "14px", color: "red" }}>
+                          &#10006;
+                        </span>
+                        <span
+                          style={{
+                            fontSize: "18px",
+                            fontWeight: "bold",
+                            marginLeft: "10px",
+                          }}
+                        >
+                          Incorrect
+                        </span>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+        </form>
+        {!isSubmitted && (
+          <button type="button" onClick={handleSubmitQuiz}>
+            Submit
+          </button>
+        )}
+        {isSubmitted && (
+          <div>
+            <h3>Results:</h3>
+            <p>
+              Score: {score} / {totalQuestions}
+            </p>
+            {incorrectQuestions.length > 0 && !isRetaking && (
+              <button type="button" onClick={handleRetakeIncorrectQuestions}>
+                Retake Incorrect Questions
+              </button>
+            )}
+            {isRetaking && (
+              <button type="button" onClick={handleSubmitQuiz}>
+                Resubmit
+              </button>
+            )}
+            <Link to="/introduction">
+              <button type="button">Home</button>
+            </Link>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   const handleRetakeQuiz = () => {
     setIsRetaking(true);
     setShowResults(false);
@@ -226,7 +362,6 @@ const QuizPage = () => {
       "ii.Proved undeveloped reserves",
     ]; // Add more subheadings as needed
     const topicsToStyle = [
-   
       "Primary Disciplines in Petroleum Exploration and Production",
       "Exploration Methods:",
       "The Petroleum System",
@@ -251,7 +386,7 @@ const QuizPage = () => {
         const regex = new RegExp(`\\b${subheading}\\b`, "g");
         text = text.replace(
           regex,
-           `<div class="clearfix-heading"><span class="styled-subheading">${subheading}</span></div>`
+          `<div class="clearfix-heading"><span class="styled-subheading">${subheading}</span></div>`
         );
       });
       return text;
@@ -363,118 +498,7 @@ const QuizPage = () => {
                         {renderContentWithImages(content.body, content.images)}
                       </p>
                       <br />
-                      <form id="quizForm">
-                        {content.questions &&
-                          content.questions.map((question, index) => (
-                            <div key={index} className="question-block">
-                              <h2>{question.text}</h2>
-                              <div className="options">
-                                {question.options.map((option, optionIndex) => (
-                                  <div key={optionIndex} className="option">
-                                    <label>
-                                      <input
-                                        type="radio"
-                                        name={`question${index}`}
-                                        value={optionIndex}
-                                        checked={
-                                          quizAnswers[index] === optionIndex
-                                        }
-                                        onChange={() =>
-                                          handleAnswerChange(index, optionIndex)
-                                        }
-                                        required
-                                        disabled={
-                                          (isSubmitted && !isRetaking) ||
-                                          (isRetaking &&
-                                            !incorrectQuestions.includes(index))
-                                        }
-                                      />
-                                      {option}
-                                    </label>
-                                  </div>
-                                ))}
-                              </div>
-                              {(isSubmitted || isRetaking) && (
-                                <div
-                                  className={`feedback ${
-                                    correctAnswers[index] !== undefined
-                                      ? "correct"
-                                      : isSubmitted && !isRetaking
-                                      ? "incorrect"
-                                      : ""
-                                  }`}
-                                >
-                                  {correctAnswers[index] !== undefined ? (
-                                    <>
-                                      <span
-                                        style={{
-                                          fontSize: "14px",
-                                          color: "green",
-                                        }}
-                                      >
-                                        &#10004;
-                                      </span>
-                                      <span
-                                        style={{
-                                          fontSize: "18px",
-                                          fontWeight: "bold",
-                                          marginLeft: "10px",
-                                        }}
-                                      >
-                                        Correct
-                                      </span>
-                                    </>
-                                  ) : isSubmitted && !isRetaking ? (
-                                    <>
-                                      <span
-                                        style={{
-                                          fontSize: "14px",
-                                          color: "red",
-                                        }}
-                                      >
-                                        &#10006;
-                                      </span>
-                                      <span
-                                        style={{
-                                          fontSize: "18px",
-                                          fontWeight: "bold",
-                                          marginLeft: "10px",
-                                        }}
-                                      >
-                                        Incorrect
-                                      </span>
-                                    </>
-                                  ) : null}
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        <button
-                          type="button"
-                          onClick={handleSubmitQuiz}
-                          disabled={isSubmitted && !isRetaking}
-                        >
-                          {isSubmitted && !isRetaking ? "Submitted" : "Submit"}
-                        </button>
-                      </form>
-                      {showResults && !isRetaking && (
-                        <div>
-                          <h3>Results:</h3>
-                          <p>
-                            Score: {score} / {totalQuestions}
-                          </p>
-                          {score < totalQuestions && (
-                            <button type="button" onClick={handleRetakeQuiz}>
-                              Retake Incorrect Questions
-                            </button>
-                          )}
-                          {score === totalQuestions && (
-                            <Link to="/introduction">
-                              <button type="button">Home</button>
-                            </Link>
-                          )}
-                        </div>
-                      )}
+                      {renderQuizContent()}
                     </div>
                   )
                 )}
