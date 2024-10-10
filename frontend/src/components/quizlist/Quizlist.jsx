@@ -194,7 +194,7 @@ const QuizPage = () => {
     setIsRetaking(true);
     setIsSubmitted(false);
     setShowResults(false);
-    // Reset answers only for incorrect questions
+    // Keep the correct answers and reset only the incorrect ones
     const newQuizAnswers = { ...quizAnswers };
     incorrectQuestions.forEach((index) => {
       delete newQuizAnswers[index];
@@ -232,7 +232,7 @@ const QuizPage = () => {
                     </div>
                   ))}
                 </div>
-                {isSubmitted && (
+                {(isSubmitted || isRetaking) && (
                   <div
                     className={`feedback ${
                       quizAnswers[index] === question.correctAnswer
