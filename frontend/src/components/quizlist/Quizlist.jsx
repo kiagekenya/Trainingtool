@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./QuizPage.css";
 import { UserContext } from "../../contexts/UserContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar as fasStar } from "@fortawesome/free-solid-svg-icons"; // For solid star icon
 
 const QuizPage = () => {
   const [contents, setContents] = useState([]);
@@ -25,6 +27,7 @@ const QuizPage = () => {
   const [isRetaking, setIsRetaking] = useState(false);
   const [quizCompletionStatus, setQuizCompletionStatus] = useState({});
   const { user } = useContext(UserContext);
+  const [QuizzesCompleted, setQuizzesCompleted] = useState(false);
 
   useEffect(() => {
     const fetchContentsAndUserData = async () => {
@@ -44,6 +47,13 @@ const QuizPage = () => {
         setContents(contentsData);
         setPassedQuizzes(userData.completedQuizIds);
         setQuizCompletionStatus(userData.quizCompletionStatus);
+
+        // Check if all quizzes are completed
+        const allCompleted = contentsData.every((content) =>
+          userData.completedQuizIds.includes(content._id)
+        );
+        setQuizzesCompleted(allCompleted); // Use the setter function
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -56,6 +66,7 @@ const QuizPage = () => {
       fetchContentsAndUserData();
     }
   }, [user]);
+  // const [allQuizzesCompleted, setAllQuizzesCompleted] = useState(false); // Fix the state declaration
 
   useEffect(() => {
     if (selectedQuiz) {
@@ -461,9 +472,36 @@ const QuizPage = () => {
       <div className="achievement-badge">
         <h2>🎉 Congratulations! 🎉</h2>
         <p>You have completed all quizzes!</p>
+
         <div className="badge">
-          <img src="/path/to/badge.png" alt="Achievement Badge" />
-          <p>Master of Quizzes</p>
+          {/* <img src="/path/to/badge.png" alt="Achievement Badge" /> */}
+          <p>Master of Quizzes</p>{" "}
+          {/* <FontAwesomeIcon icon={fasStar} style={{ color: "black" }} /> */}
+          <FontAwesomeIcon
+            icon={fasStar}
+            size="xl"
+            style={{ color: "balck" }}
+          />
+          <FontAwesomeIcon
+            icon={fasStar}
+            size="xl"
+            style={{ color: "balck" }}
+          />
+          <FontAwesomeIcon
+            icon={fasStar}
+            size="xl"
+            style={{ color: "balck" }}
+          />
+          <FontAwesomeIcon
+            icon={fasStar}
+            size="xl"
+            style={{ color: "balck" }}
+          />
+          <FontAwesomeIcon
+            icon={fasStar}
+            size="xl"
+            style={{ color: "balck" }}
+          />
         </div>
       </div>
     );
@@ -536,9 +574,8 @@ const QuizPage = () => {
           </li>
         ))}
         {/* Display achievement badge if all quizzes are completed */}
-        {allQuizzesCompleted && <AchievementBadge />}
       </ul>
-
+      {QuizzesCompleted && <AchievementBadge />}
       {allQuizzesCompleted && (
         <div className="completion-message">
           <h2>Well Done! All Completed</h2>
