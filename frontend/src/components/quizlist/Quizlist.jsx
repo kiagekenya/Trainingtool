@@ -283,11 +283,12 @@ const QuizPage = () => {
           </button>
         )}
         {isSubmitted && !isRetaking && (
-          <div>
+          <div className="quiz-results">
             <h3>Results:</h3>
             <p>
               Score: {score} / {totalQuestions}
             </p>
+            {renderCompletionMessage()}
             {incorrectQuestions.length > 0 && (
               <button type="button" onClick={handleRetakeIncorrectQuestions}>
                 Retake Quiz
@@ -434,6 +435,25 @@ const QuizPage = () => {
         />
       );
     });
+  };
+
+  const renderCompletionMessage = () => {
+    return (
+      <>
+        {score === totalQuestions && (
+          <div className="completion-message">
+            <h3>Congratulations!</h3>
+            <p>You've completed this quiz with a perfect score!</p>
+            <div className="badge">
+              <span role="img" aria-label="trophy">
+                🏆
+              </span>
+              <span>Quiz Master</span>
+            </div>
+          </div>
+        )}
+      </>
+    );
   };
 
   if (loading) {
