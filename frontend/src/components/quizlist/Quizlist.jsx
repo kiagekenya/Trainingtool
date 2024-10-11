@@ -456,6 +456,19 @@ const QuizPage = () => {
     );
   };
 
+  const AchievementBadge = () => {
+    return (
+      <div className="achievement-badge">
+        <h2>🎉 Congratulations! 🎉</h2>
+        <p>You have completed all quizzes!</p>
+        <div className="badge">
+          <img src="/path/to/badge.png" alt="Achievement Badge" />
+          <p>Master of Quizzes</p>
+        </div>
+      </div>
+    );
+  };
+
   if (loading) {
     return (
       <div className="loader">
@@ -470,7 +483,8 @@ const QuizPage = () => {
   }
 
   const progressPercentage = (passedQuizzes.length / contents.length) * 100;
-  const allQuizzesCompleted = passedQuizzes.length === contents.length;
+  const allQuizzesCompleted =
+    contents.length > 0 && passedQuizzes.length === contents.length;
 
   return (
     <div className="quiz">
@@ -521,6 +535,8 @@ const QuizPage = () => {
             )}
           </li>
         ))}
+        {/* Display achievement badge if all quizzes are completed */}
+        {allQuizzesCompleted && <AchievementBadge />}
       </ul>
 
       {allQuizzesCompleted && (
