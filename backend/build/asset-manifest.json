@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.dd810e8f.css",
-    "main.js": "/static/js/main.11fbb7b6.js",
+    "main.css": "/static/css/main.073790fa.css",
+    "main.js": "/static/js/main.bfc0330a.js",
     "static/media/alex-lvrs-Md6_qA-BMis-unsplash.jpg": "/static/media/alex-lvrs-Md6_qA-BMis-unsplash.2bb6fc872ee69767580f.jpg",
     "static/media/fa-solid-900.ttf": "/static/media/fa-solid-900.bacd5de623fb563b961a.ttf",
     "static/media/intro2.png": "/static/media/intro2.d6c1da4dbb53f2f2f215.png",
@@ -19,11 +19,11 @@
     "static/media/fa-v4compatibility.ttf": "/static/media/fa-v4compatibility.c8e090db312b0bea2aa2.ttf",
     "static/media/fa-v4compatibility.woff2": "/static/media/fa-v4compatibility.cf7f5903d06b79ad60f1.woff2",
     "index.html": "/index.html",
-    "main.dd810e8f.css.map": "/static/css/main.dd810e8f.css.map",
-    "main.11fbb7b6.js.map": "/static/js/main.11fbb7b6.js.map"
+    "main.073790fa.css.map": "/static/css/main.073790fa.css.map",
+    "main.bfc0330a.js.map": "/static/js/main.bfc0330a.js.map"
   },
   "entrypoints": [
-    "static/css/main.dd810e8f.css",
-    "static/js/main.11fbb7b6.js"
+    "static/css/main.073790fa.css",
+    "static/js/main.bfc0330a.js"
   ]
 }
