@@ -357,16 +357,16 @@ const QuizPage = () => {
       "Step 5: Completing Wells",
       "Step 6: Producing",
       "Step 7: Plugging and Abandoning",
-      "i.Geology",
-      "ii.Geophysics",
-      "iii.Geochemistry",
-      "iv.Petroleum Engineering",
-      "i.Gravity surveys",
-      "ii.Magnetic surveys",
-      "iii.Seismic surveys",
-      "iv.Magnetotelluric and Time Domain surveys",
-      "i.Proved developed oil and gas reserves",
-      "ii.Proved undeveloped reserves",
+      "i. Geology",
+      "ii. Geophysics",
+      "iii. Geochemistry",
+      "iv. Petroleum Engineering",
+      "i. Gravity surveys",
+      "ii. Magnetic surveys",
+      "iii. Seismic surveys",
+      "iv. Magnetotelluric and Time Domain surveys",
+      "i. Proved developed oil and gas reserves",
+      "ii. Proved undeveloped reserves",
     ]; // Add more subheadings as needed
     const topicsToStyle = [
       "Primary Disciplines in Petroleum Exploration and Production",
@@ -454,12 +454,11 @@ const QuizPage = () => {
         {score === totalQuestions && (
           <div className="completion-message">
             <h3>Congratulations!</h3>
-            <p>You've completed this quiz with a perfect score!</p>
+            <p>You've completed this quiz</p>
             <div className="badge">
               <span role="img" aria-label="trophy">
                 🏆
               </span>
-              <span>Quiz Master</span>
             </div>
           </div>
         )}
@@ -475,7 +474,7 @@ const QuizPage = () => {
 
         <div className="badge">
           {/* <img src="/path/to/badge.png" alt="Achievement Badge" /> */}
-          <p>Master of Quizzes</p>{" "}
+
           {/* <FontAwesomeIcon icon={fasStar} style={{ color: "black" }} /> */}
           <FontAwesomeIcon
             icon={fasStar}

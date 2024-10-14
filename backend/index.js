@@ -259,7 +259,7 @@ app.post("/api/changePassword", async (req, res) => {
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 // Serve static files from the uploads directory
-// app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
 
 // Multer configuration for file uploads
 // const storage = multer.diskStorage({
