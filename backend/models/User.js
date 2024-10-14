@@ -17,6 +17,10 @@ const UserSchema = new mongoose.Schema({
   imageUrl: {
     type: String,
   },
+  image: {
+    data: Buffer,
+    contentType: String,
+  },
 
   quizResults: [
     {

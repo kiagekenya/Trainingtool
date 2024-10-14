@@ -256,45 +256,74 @@ app.post("/api/changePassword", async (req, res) => {
 });
 
 // multer
-// const storage = multer.memoryStorage();
-// const upload = multer({ storage: storage });
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 // Serve static files from the uploads directory
-app.use("/uploads", express.static("uploads"));
+// app.use("/uploads", express.static("uploads"));
 
 // Multer configuration for file uploads
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "uploads/");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, Date.now() + "-" + file.originalname);
+//   },
+// });
 
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
 
+// Upload profile image endpoint
 app.post("/upload-profile-image", upload.single("image"), async (req, res) => {
   const { email } = req.body;
-  const imageUrl = req.file ? req.file.path.replace(/\\/g, "/") : null;
+
+  if (!req.file) {
+    return res.status(400).json({ message: "No file uploaded" });
+  }
 
   try {
-    const user = await User.findOneAndUpdate(
-      { email },
-      { imageUrl },
-      { new: true }
-    );
+    const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // Update the user's profile image
+    user.image = {
+      data: req.file.buffer, // Store the image as a Buffer
+      contentType: req.file.mimetype, // Store the image MIME type
+    };
+
+    await user.save();
+
     res.json({
       status: "success",
-      message: "Profile image updated successfully",
-      imageUrl: user.imageUrl,
+      message: "Image uploaded successfully",
+      imageUrl: `/profile-image/${email}`,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error uploading profile image:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.get("/profile-image/:email", async (req, res) => {
+  const { email } = req.params;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user || !user.image || !user.image.data) {
+      return res.status(404).json({ message: "Image not found" });
+    }
+
+    // Set the appropriate content type for the image
+    res.set("Content-Type", user.image.contentType);
+
+    // Send the image data as the response
+    res.send(user.image.data);
+  } catch (error) {
+    console.error("Error fetching profile image:", error);
     res.status(500).json({ message: "Server error" });
   }
 });

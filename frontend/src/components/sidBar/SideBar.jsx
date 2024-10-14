@@ -9,18 +9,20 @@ import { MdEdit } from "react-icons/md";
 const SideBar = ({ isSidebarVisible, handleSidebarToggle }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [file, setFile] = useState(null);
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext); // Get the user context
 
+  // Handle file input change
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
+  // Handle file upload and save to backend
   const handleFileUpload = async () => {
     if (!file) return;
 
     const formData = new FormData();
-    formData.append("image", file);
-    formData.append("email", user.email);
+    formData.append("image", file); // Append image file
+    formData.append("email", user.email); // Append user email
 
     try {
       const response = await axios.post("/upload-profile-image", formData, {
@@ -28,8 +30,9 @@ const SideBar = ({ isSidebarVisible, handleSidebarToggle }) => {
       });
 
       if (response.data.status === "success") {
+        // Update the user object with the new image URL from the backend
         setUser({ ...user, imageUrl: response.data.imageUrl });
-        setIsEditing(false);
+        setIsEditing(false); // Stop editing mode
       } else {
         console.error(response.data.message);
       }
@@ -38,15 +41,16 @@ const SideBar = ({ isSidebarVisible, handleSidebarToggle }) => {
     }
   };
 
-  const imageUrl = user?.imageUrl ? `/${user.imageUrl}` : Profile;
+  // Determine the image URL: either from MongoDB or the default profile image
+  const imageUrl = user?.imageUrl ? `/profile-image/${user.email}` : Profile;
 
-  console.log("User data in SideBar:", user);
   return (
     <div className={`sidebar ${isSidebarVisible ? "visible" : ""}`}>
       <div id="close-btn" onClick={handleSidebarToggle}>
         <i className="fas fa-times"></i>
       </div>
       <div className="profile">
+        {/* Display the profile image */}
         <img src={imageUrl} className="image" alt="Profile" />
         {isEditing ? (
           <div className="file-upload-widget">
@@ -68,10 +72,12 @@ const SideBar = ({ isSidebarVisible, handleSidebarToggle }) => {
             </div>
           </div>
         ) : (
+          // Edit button to trigger image editing/upload
           <button onClick={() => setIsEditing(true)} className="edit-button">
             <MdEdit />
           </button>
         )}
+        {/* Display the user's name or 'Guest' if no user data */}
         <h3 className="name">{user ? user.name : "Guest"}</h3>
         <Link to="/profile" className="btn">
           View Profile
