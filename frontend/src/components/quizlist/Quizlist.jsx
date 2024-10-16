@@ -308,7 +308,7 @@ const QuizPage = () => {
               </div>
             ))}{" "}
           {(!isSubmitted || isRetaking) && (
-            <button type="submit" onClick={handleSubmitQuiz}>
+            <button type="button" onClick={handleSubmitQuiz}>
               {isRetaking ? "Resubmit" : "Submit"}
             </button>
           )}
