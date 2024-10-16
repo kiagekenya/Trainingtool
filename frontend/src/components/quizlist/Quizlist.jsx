@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./QuizPage.css";
 import { UserContext } from "../../contexts/UserContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -28,6 +28,7 @@ const QuizPage = () => {
   const [quizCompletionStatus, setQuizCompletionStatus] = useState({});
   const { user } = useContext(UserContext);
   const [QuizzesCompleted, setQuizzesCompleted] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchContentsAndUserData = async () => {
@@ -307,7 +308,7 @@ const QuizPage = () => {
               </div>
             ))}{" "}
           {(!isSubmitted || isRetaking) && (
-            <button type="button" onClick={handleSubmitQuiz}>
+            <button type="submit" onClick={handleSubmitQuiz}>
               {isRetaking ? "Resubmit" : "Submit"}
             </button>
           )}
@@ -325,9 +326,9 @@ const QuizPage = () => {
                 Retake Quiz
               </button>
             )}
-            <Link to="/home">
-              <button type="button">Home</button>
-            </Link>
+            <button type="button" onClick={handleHomeClick}>
+              Home
+            </button>
           </div>
         )}
       </div>
@@ -526,6 +527,11 @@ const QuizPage = () => {
     );
   };
 
+  const handleHomeClick = () => {
+    navigate("/home");
+    window.scrollTo(0, 0);
+  };
+
   if (loading) {
     return (
       <div className="loader">
@@ -598,9 +604,9 @@ const QuizPage = () => {
       {allQuizzesCompleted && (
         <div className="completion-message">
           <h2>Well Done! All Completed</h2>
-          <Link to="/home">
-            <button className="home-button">Home</button>
-          </Link>
+          <button type="button" onClick={handleHomeClick}>
+            Home
+          </button>
         </div>
       )}
 

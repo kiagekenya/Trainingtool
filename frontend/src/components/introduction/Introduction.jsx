@@ -165,9 +165,6 @@ const Introduction = () => {
         <div className="box-container">
           <form onSubmit={handleSubmit}>
             <QuizPage />
-            <button type="submit" id="submitButton">
-              Submit
-            </button>
           </form>
         </div>
       </section>
