@@ -149,7 +149,10 @@ const QuizPage = () => {
     }
   };
 
-  const handleSubmitQuiz = () => {
+  const handleSubmitQuiz = (event) => {
+    // Prevent the default form submission behavior
+    event.preventDefault();
+
     if (Object.keys(quizAnswers).length !== totalQuestions) {
       alert("Please answer all questions before submitting.");
       return;
@@ -193,6 +196,10 @@ const QuizPage = () => {
             ...prevPassedQuizzes,
             selectedQuiz,
           ]);
+        } // Scroll to the results section
+        const resultsElement = document.querySelector(".quiz-results");
+        if (resultsElement) {
+          resultsElement.scrollIntoView({ behavior: "smooth" });
         }
       })
       .catch((error) => {
@@ -213,10 +220,22 @@ const QuizPage = () => {
     setQuizAnswers(newQuizAnswers);
   };
 
+  const resultsElement = document.querySelector(".quiz-results");
+  if (resultsElement) {
+    resultsElement.scrollIntoView({ behavior: "smooth" });
+  }
+  useEffect(() => {
+    if (isSubmitted) {
+      const resultsElement = document.querySelector(".quiz-results");
+      if (resultsElement) {
+        resultsElement.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [isSubmitted]);
   const renderQuizContent = () => {
     return (
       <div>
-        <form id="quizForm">
+        <form id="quizForm" onSubmit={handleSubmitQuiz}>
           {content.questions &&
             content.questions.map((question, index) => (
               <div key={index} className="question-block">
@@ -286,13 +305,14 @@ const QuizPage = () => {
                   </div>
                 )}
               </div>
-            ))}
+            ))}{" "}
+          {(!isSubmitted || isRetaking) && (
+            <button type="button" onClick={handleSubmitQuiz}>
+              {isRetaking ? "Resubmit" : "Submit"}
+            </button>
+          )}
         </form>
-        {(!isSubmitted || isRetaking) && (
-          <button type="button" onClick={handleSubmitQuiz}>
-            {isRetaking ? "Resubmit" : "Submit"}
-          </button>
-        )}
+
         {isSubmitted && !isRetaking && (
           <div className="quiz-results">
             <h3>Results:</h3>

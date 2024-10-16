@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import LOGO from "../../assets/nock j.png";
 import Profile from "../../assets/vecteezy_happy-young-man-avatar-character_35280231.jpg";
@@ -16,6 +16,7 @@ import QuizPage from "../quizlist/Quizlist";
 import SideBar from "../sidBar/SideBar";
 
 const Introduction = () => {
+  const questionsSectionRef = useRef(null);
 
   const courses = [
     {
@@ -60,9 +61,6 @@ const Introduction = () => {
     },
   ];
 
-
-
-
   const [showNotes, setShowNotes] = useState(false);
 
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
@@ -71,9 +69,15 @@ const Introduction = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
 
-  // Function to toggle the visibility of the notes
-  const toggleNotes = () => {
-    setShowNotes(!showNotes);
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent the default form submission behavior
+
+    // Handle form submission logic here
+
+    // Scroll to the questions section after submission
+    if (questionsSectionRef.current) {
+      questionsSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   useEffect(() => {
@@ -156,10 +160,15 @@ const Introduction = () => {
         </div>
       </section>
 
-      <section className="playlist-videos">
+      <section className="playlist-videos" ref={questionsSectionRef}>
         <h1 className="heading">Topics...</h1>
         <div className="box-container">
-          <QuizPage />
+          <form onSubmit={handleSubmit}>
+            <QuizPage />
+            <button type="submit" id="submitButton">
+              Submit
+            </button>
+          </form>
         </div>
       </section>
 
