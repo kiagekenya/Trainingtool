@@ -139,6 +139,9 @@ const ProfilePage = () => {
     }
   };
 
+  // Determine the image URL: either from MongoDB or the default profile image
+  const imageUrl = user?.imageUrl ? `/profile-image/${user.email}` : Profile;
+
   return (
     <>
       <header className="header">
@@ -176,17 +179,7 @@ const ProfilePage = () => {
         <div className="profile-page">
           {/* Header Section */}
           <header className="header-section">
-            <img
-              src={
-                user?.imageUrl ? (
-                  `/${user.imageUrl}`
-                ) : (
-                  <img src={Profile} className="image" alt="" />
-                )
-              }
-              className="image"
-              alt=""
-            />
+            <img src={imageUrl} className="image" alt="Profile" />
             <h1>{user ? user.name : "Guest"}</h1>
             <p className="bio">"Lifelong learner."</p>
           </header>
