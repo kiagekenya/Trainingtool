@@ -120,7 +120,7 @@ This project is licensed under the [MIT License](LICENSE).
 ## Contact
 
 Feel free to reach out for any queries or suggestions:
-- **LinkedIn**: [Your LinkedIn Profile](https://www.linkedin.com/in/jacobkiage/)
+- **LinkedIn**: https://www.linkedin.com/in/jacobkiage/
 
 
 
