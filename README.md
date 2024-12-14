@@ -121,6 +121,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 Feel free to reach out for any queries or suggestions:
 - **LinkedIn**: [Your LinkedIn Profile](https://www.linkedin.com/in/jacobkiage/)
-- **Email**: [Your Email Address]
 
-Happy coding! 🚀
+
+
