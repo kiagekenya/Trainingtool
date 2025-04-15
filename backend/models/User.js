@@ -21,7 +21,10 @@ const UserSchema = new mongoose.Schema({
     data: Buffer,
     contentType: String,
   },
-
+  phone: {
+    type: String,
+  },
+  occupation: { type: String },
   quizResults: [
     {
       quizId: {

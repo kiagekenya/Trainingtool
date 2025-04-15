@@ -83,14 +83,6 @@ app.get("/logout", (req, res) => {
   });
 });
 
-app.get("/api/user", (req, res) => {
-  if (req.session.user) {
-    res.json(req.session.user);
-  } else {
-    res.status(401).json({ message: "Not authenticated" });
-  }
-});
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -219,9 +211,27 @@ app.post("/api/login", async (req, res) => {
       name: user.name,
       email: user.email,
       imageUrl: user.imageUrl,
+      phone: user.phone,
+      occupation: user.occupation,
     });
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+//fetching the entire user data
+app.get("/api/user", async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ message: "Not authenticated" });
+  }
+
+  try {
+    const user = await User.findOne({ email: req.session.user.email });
+    console.log("Fetched user:", user); // 🔍 See everything in console
+    res.json(user);
+  } catch (err) {
+    console.error("Error fetching user from DB:", err);
     res.status(500).json({ message: "Server error" });
   }
 });
@@ -494,8 +504,8 @@ app.get("*", (req, res) => {
 // Read MongoDB URI from environment variables
 const mongoURI =
   process.env.MONGO_URI ||
-  "mongodb+srv://doadmin:37w10A9MqeJ84h6F@training-tool-db-862a20d2.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=training-tool-db";
-// "mongodb+srv://rben:zxc@cluster0.z2lt81m.mongodb.net/Training_tool";
+  // "mongodb+srv://doadmin:37w10A9MqeJ84h6F@training-tool-db-862a20d2.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=training-tool-db";
+  "mongodb+srv://rben:zxc@cluster0.z2lt81m.mongodb.net/Training_tool";
 
 mongoose
   .connect(mongoURI, {

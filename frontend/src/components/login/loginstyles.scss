@@ -133,3 +133,38 @@ $borderW: 2px;
   font-size: 15px;
   text-align: center;
 }
+
+.password-wrapper {
+  position: relative;
+  margin-bottom: 20px;
+
+  input {
+    width: 100%;
+    padding: 10px 40px 10px 10px;
+    font-size: 16px;
+    border: 2px solid $cyan;
+    border-radius: 5px;
+    outline: none;
+    font-family: $openSans;
+    transition: border-color 0.3s ease;
+
+    &:focus {
+      border-color: darken($cyan, 10%);
+    }
+  }
+
+  .password-toggle-icon {
+    position: absolute;
+    top: 40%;
+    right: 12px;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: $cyan;
+    cursor: pointer;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: darken($cyan, 10%);
+    }
+  }
+}

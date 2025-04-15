@@ -30,6 +30,8 @@ const ProfilePage = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
 
+  console.log("user data", user);
+
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -191,7 +193,11 @@ const ProfilePage = () => {
               <strong>Location:</strong> {location}
             </p>
             <p>
-              <strong>Occupation:</strong> Petroleum Engineer
+              <strong>Occupation:</strong> {user ? user.occupation : "Guest"}
+            </p>
+            <p>
+              <strong> Phone Number : </strong>
+              {user ? user.phone : ""}
             </p>
             <p>
               <strong>Contact Information:</strong>

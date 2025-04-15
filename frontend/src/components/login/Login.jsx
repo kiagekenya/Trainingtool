@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 import "./loginstyles.scss";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
   const [userData, setUserData] = useState({
@@ -13,6 +15,11 @@ const Login = () => {
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -52,14 +59,23 @@ const Login = () => {
             placeholder="Email"
             required
           />
-          <input
-            type="password"
-            name="password"
-            value={userData.password}
-            onChange={handleChange}
-            placeholder="Password"
-            required
-          />
+          <div className="password-wrapper">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              value={userData.password}
+              onChange={handleChange}
+              placeholder="Password"
+              required
+            />
+            <FontAwesomeIcon
+              icon={showPassword ? faEyeSlash : faEye}
+              className="password-toggle-icon"
+              onClick={togglePasswordVisibility}
+              title={showPassword ? "Hide Password" : "Show Password"}
+            />
+          </div>
+
           <button type="submit" className="blob-btn" disabled={loading}>
             {loading ? "Logging in..." : "Login"}
             <span className="blob-btn__inner">
