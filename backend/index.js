@@ -502,11 +502,10 @@ app.get("*", (req, res) => {
 });
 
 // Read MongoDB URI from environment variables
-const mongoURI =
-  process.env.MONGO_URI ||
-  // "mongodb+srv://doadmin:37w10A9MqeJ84h6F@training-tool-db-862a20d2.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=training-tool-db";
-  "mongodb+srv://rben:zxc@cluster0.z2lt81m.mongodb.net/Training_tool";
-
+const mongoURI = process.env.DB_URI || "F** You HA!HA!HA";
+// const mongoURI = process.env.dev_URI || "F** You HA!HA!HA";
+// dev_URI;
+console.log(mongoURI);
 mongoose
   .connect(mongoURI, {
     useNewUrlParser: true,
