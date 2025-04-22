@@ -500,7 +500,6 @@ app.use(express.static(path.join(__dirname, "/build")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "/build", "index.html"));
 });
-Z;
 // Read MongoDB URI from environment variables
 const mongoURI = process.env.DB_URI || "F** You HA!HA!HA";
 // const mongoURI = process.env.dev_URI || "F** You HA!HA!HA";
