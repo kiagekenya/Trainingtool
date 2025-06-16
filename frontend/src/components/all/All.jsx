@@ -32,7 +32,7 @@ const All = () => {
                   </svg>
                 </div>
                 {/* redepoy */}
-                <h3>Competency Assessment.</h3>
+                <h3>Competency Assessment</h3>
                 <p>
                   Evaluate and track your professional skills with our
                   interactive competency mapping tool.
