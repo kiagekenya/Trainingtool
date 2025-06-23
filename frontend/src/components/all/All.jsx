@@ -31,7 +31,7 @@ const All = () => {
                     <circle cx="12" cy="12" r="2" fill="#94d500" />
                   </svg>
                 </div>
-                {/* redepoy */}
+                {/* redepoy...... */}
                 <h3>Competency Assessment</h3>
                 <p>
                   Evaluate and track your professional skills with our
