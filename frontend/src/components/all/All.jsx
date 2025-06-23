@@ -16,6 +16,23 @@ const All = () => {
 
             <div className="options-container">
               <div className="option-card">
+                <div className="option-icon learning-icon">
+                  <i className="fas fa-book-open"></i>
+                </div>
+                <h3>Learning Portal</h3>
+                <p>
+                  Access our comprehensive learning resources for Oil & Gas
+                  professionals at all levels.
+                </p>
+                <Link to="/login">
+                  <button className="primary-btnn">
+                    Go to Learning{" "}
+                    <i className="fa fa-long-arrow-alt-right"></i>
+                  </button>
+                </Link>
+              </div>
+
+              <div className="option-card">
                 <div className="option-icon competency-icon">
                   <svg
                     width="80"
@@ -47,23 +64,6 @@ const All = () => {
                   Go to Competency{" "}
                   <i className="fa fa-long-arrow-alt-right"></i>
                 </button>
-              </div>
-
-              <div className="option-card">
-                <div className="option-icon learning-icon">
-                  <i className="fas fa-book-open"></i>
-                </div>
-                <h3>Learning Portal</h3>
-                <p>
-                  Access our comprehensive learning resources for Oil & Gas
-                  professionals at all levels.
-                </p>
-                <Link to="/login">
-                  <button className="primary-btnn">
-                    Go to Learning{" "}
-                    <i className="fa fa-long-arrow-alt-right"></i>
-                  </button>
-                </Link>
               </div>
             </div>
           </div>
