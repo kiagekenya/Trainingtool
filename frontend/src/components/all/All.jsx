@@ -58,7 +58,7 @@ const All = () => {
                   className="primary-btnn"
                   onClick={() =>
                     (window.location.href =
-                      "https://nockcompetency.co.ke")
+                      "nockcompetency-qad9e.ondigitalocean.app")
                   }
                 >
                   Go to Competency{" "}
