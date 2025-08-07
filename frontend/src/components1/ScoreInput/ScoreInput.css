@@ -1,0 +1,130 @@
+/* Compact Modern Input Form Styles */
+.modern-input-form {
+    background-color: white;
+    border-radius: 12px;
+    padding: 0.4rem; /* Reduced from 1.5rem */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .modern-input-form:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  .form-title {
+    color: #000;
+    font-size: 1.1rem; /* Reduced from 1.2rem */
+    margin-bottom: 0.7rem; /* Reduced from 1.5rem */
+    padding-bottom: 0.5rem; /* Reduced from 0.75rem */
+    border-bottom: 1px solid #eee;
+    position: relative;
+  }
+  
+  .form-title::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 40px; /* Reduced from 50px */
+    height: 2px;
+    background-color: #9cca0d;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.6rem; /* Reduced from 1.5rem */
+  }
+  
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem; /* Reduced from 0.5rem */
+     border: 1px solid #ccc;
+  border-radius: 1px;
+  padding: 1px
+  }
+  
+  .form-field label {
+    font-size: 1.rem; /* Reduced from 0.9rem */
+    color: #555;
+    font-weight: 500;
+  }
+  
+  .input-container {
+    position: relative;
+  }
+  
+  .score-input {
+    width: 100%;
+    padding: 0.5rem 0.8rem; /* Reduced from 0.75rem 1rem */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.85rem; /* Slightly reduced */
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+    -moz-appearance: textfield;
+    height: 15px; /* Added fixed height */
+  }
+  
+  .score-input::-webkit-outer-spin-button,
+  .score-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  .score-input:focus {
+    outline: none;
+    border-color: #9cca0d;
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(156, 202, 13, 0.2);
+  }
+  
+  .input-decoration {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 35px; /* Reduced from 40px */
+    height: 100%;
+    background-color: #f0f0f0;
+    border-radius: 0 8px 8px 0;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-weight: bold;
+    font-size: 0.7rem; /* Added for better proportion */
+  }
+  
+  .score-indicator {
+    display: flex;
+    gap: 0.3rem; /* Reduced from 0.4rem */
+    margin-top: 0.3rem; /* Reduced from 0.5rem */
+  }
+  
+  .indicator-dot {
+    width: 10px; /* Reduced from 12px */
+    height: 10px; /* Reduced from 12px */
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    transition: all 0.3s ease;
+  }
+  
+  .indicator-dot.active {
+    background-color: #e2483a;
+    transform: scale(1.1); /* Reduced from 1.2 */
+  }
+  
+  /* Animation for when score changes */
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); } /* Reduced from 1.1 */
+    100% { transform: scale(1); }
+  }
+  
+  .score-input:focus ~ .input-decoration {
+    background-color: #9cca0d;
+    color: white;
+  }

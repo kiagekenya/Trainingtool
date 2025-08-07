@@ -1,0 +1,198 @@
+/* Base Styles */
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: black;
+  padding: 1rem;
+}
+
+.signup-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 450px;
+  position: relative;
+  overflow: hidden;
+}
+
+.signup-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.signup-header h2 {
+  color: #000;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.accent-line {
+  height: 4px;
+  width: 60px;
+  background: linear-gradient(to right, #9cca0d, #e2483a);
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+/* Form Styles */
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inpput-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 1rem 1rem 0.5rem;
+  border: none;
+  border-bottom: 2px solid #e0e0e0;
+  font-size: 1rem;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-bottom-color: #9cca0d;
+}
+
+.input-label {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  color: #777;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.form-input:focus + .input-label,
+.form-input:not(:placeholder-shown) + .input-label {
+  top: -0.5rem;
+  left: 0;
+  font-size: 0.8rem;
+  color: #9cca0d;
+}
+
+.input-highlight {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background-color: #e2483a;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus ~ .input-highlight {
+  width: 100%;
+}
+
+/* Select Styles */
+.select-group {
+  margin-top: 0.8rem;
+}
+
+.select-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.role-select {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.role-select:focus {
+  outline: none;
+  border-color: #9cca0d;
+  box-shadow: 0 0 0 2px rgba(156, 202, 13, 0.2);
+}
+
+/* Button Styles */
+.signup-button {
+  background: linear-gradient(to right, #9cca0d, #8ab80b);
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(156, 202, 13, 0.3);
+}
+
+.signup-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(156, 202, 13, 0.4);
+}
+
+.signup-button:active {
+  transform: translateY(0);
+}
+
+.button-icon {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.signup-button:hover .button-icon {
+  transform: translateX(3px);
+}
+
+/* Link Styles */
+.login-redirect {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: #666;
+}
+
+.login-link {
+  color: #e2483a;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.login-link:hover {
+  color: #c53a2d;
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .signup-card {
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+  
+  .signup-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .form-input {
+    padding: 0.8rem 0.8rem 0.4rem;
+  }
+}
